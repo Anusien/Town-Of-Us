@@ -40,6 +40,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption UndertakerOn;
         public static CustomNumberOption AssassinOn;
         public static CustomNumberOption UnderdogOn;
+        public static CustomNumberOption FramerOn;
 
 
         /*
@@ -167,6 +168,9 @@ namespace TownOfUs.CustomOption
         private static CustomHeaderOption Undertaker;
         public static CustomNumberOption DragCooldown;
 
+        private static CustomHeaderOption Framer;
+        public static CustomNumberOption FramerResurfaceTime;
+
         private static CustomHeaderOption Assassin;
         public static CustomNumberOption AssassinKills;
         public static CustomToggleOption AssassinGuessNeutrals;
@@ -240,8 +244,9 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             UndertakerOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Undertaker</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            
             UnderdogOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Underdog</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            FramerOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Framer</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             Modifiers = new CustomHeaderOption(num++, "Modifiers");
@@ -452,6 +457,9 @@ namespace TownOfUs.CustomOption
 
             Undertaker = new CustomHeaderOption(num++, "<color=#FF0000FF>Undertaker</color>");
             DragCooldown = new CustomNumberOption(num++, "Drag Cooldown", 25, 10, 40, 2.5f, CooldownFormat);
+
+            Framer = new CustomHeaderOption(num++, "<color=#FF0000FF>Framer</color>");
+            FramerResurfaceTime = new CustomNumberOption(num++, "Resurface Time", 5, 1, 10, 1f, CooldownFormat);
 
             Assassin = new CustomHeaderOption(num++, "<color=#FF0000FF>Assassin</color>");
             AssassinKills = new CustomNumberOption(num++, "Number of Assassin Kills", 1, 1, 5, 1);

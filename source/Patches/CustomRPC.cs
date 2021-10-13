@@ -27,6 +27,7 @@ namespace TownOfUs
         SetUndertaker,
         SetAssassin,
         SetUnderdog,
+        SetFramer,
 
         SetTorch,
         SetDiseased,
@@ -78,6 +79,8 @@ namespace TownOfUs
         Drag,
         Drop,
         AssassinKill,
+        FramerDisappear,
+        FramerReappear,
 
         SetGlitch,
         BypassKill,

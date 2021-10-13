@@ -5,6 +5,8 @@ using HarmonyLib;
 using Hazel;
 using Reactor;
 using Reactor.Extensions;
+using Reactor.Networking;
+using SteamKit2.Internal;
 using TownOfUs.CrewmateRoles.AltruistMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.CrewmateRoles.SwapperMod;
@@ -288,6 +290,11 @@ namespace TownOfUs
                     case CustomRPC.SetMorphling:
                         readByte = reader.ReadByte();
                         new Morphling(Utils.PlayerById(readByte));
+                        break;
+
+                    case CustomRPC.SetFramer:
+                        readByte = reader.ReadByte();
+                        new Framer(Utils.PlayerById(readByte));
                         break;
 
                     case CustomRPC.LoveWin:
@@ -698,6 +705,24 @@ namespace TownOfUs
                     case CustomRPC.AddMayorVoteBank:
                         Role.GetRole<Mayor>(Utils.PlayerById(reader.ReadByte())).VoteBank += reader.ReadInt32();
                         break;
+
+                    case CustomRPC.FramerDisappear:
+                    {
+                        byte bodyId = reader.ReadByte();
+                        DeadBody body = Object.FindObjectsOfType<DeadBody>()
+                            .FirstOrDefault(b => b.ParentId == bodyId);
+                        body.enabled = false;
+                        break;
+                    }
+
+                    case CustomRPC.FramerReappear:
+                    {
+                        byte bodyId = reader.ReadByte();
+                        DeadBody body = Object.FindObjectsOfType<DeadBody>()
+                            .FirstOrDefault(b => b.ParentId == bodyId);
+                        body.enabled = true;
+                        break;
+                    }
                 }
             }
         }
@@ -801,6 +826,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.JanitorOn))
                     ImpostorRoles.Add((typeof(Janitor), CustomRPC.SetJanitor, CustomGameOptions.JanitorOn));
+
+                if (Check(CustomGameOptions.FramerOn))
+                    ImpostorRoles.Add((typeof(Framer), CustomRPC.SetFramer, CustomGameOptions.FramerOn));
                 #endregion
                 #region Crewmate Modifiers
                 if (Check(CustomGameOptions.TorchOn))

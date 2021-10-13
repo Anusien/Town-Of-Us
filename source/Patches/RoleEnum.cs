@@ -29,6 +29,7 @@ namespace TownOfUs
         Undertaker,
         Assassin,
         Underdog,
+        Framer,
 
         Glitch,
 
