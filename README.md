@@ -4,8 +4,11 @@
 
 An Among Us mod that adds a bunch of roles, modifiers and game settings
 
-
-
+- [Changelog](#releases)
+- [Roles](#roles)
+- [Installation](#installation)
+- [Help](#bug--suggestions--issues)
+- [Credits](#credits--resources)
 
 **Crewmate Roles**
 - [Mayor](#mayor)
@@ -53,34 +56,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 
 -----------------------
 # Releases
-Make sure you're on the [latest release](https://github.com/Anusien/Town-Of-Us/releases/latest).
-
-| Among Us - Version| Mod Version | Link |
-|----------|-------------|-----------------|
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.4 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.3.4/TOU_234.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.3 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.3.3/TOU_233.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.2 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.3.2/TOU_232.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.1 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.3.1/TOU_231.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.0 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.3.0-a/TOU_230.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.2.2 | [Download](https://github.com/Anusien/Town-Of-Us/releases/download/v2.2.2a/TOU_222.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.2.1 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.2.1/TOU_221.zip) |
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.2.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.2.0/TOU_220.zip) |
-| 2021.6.15s & 2021.6.15e | v2.1.4 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.1.4/TOU_214.zip) |
-| 2021.6.15s & 2021.6.15e | v2.1.3 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.1.3/TownOfUs213_1.zip) |
-| 2021.6.15s & 2021.6.15e | v2.1.2 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.1.2/TownOfUs212_1.zip) |
-| 2021.6.15s & 2021.6.15e | v2.1.1 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.1.1/TownOfUs211_1.zip) |
-| 2021.5.10s | v2.0.4 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.0.4/TownOfUs-v2.0.4.zip) |
-| 2021.5.10s | v2.0.3 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.0.3/TownOfUs-v2.0.3.zip) |
-| 2021.4.12s & 2021.4.14s | v2.0.2 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.0.2/TownOfUs-v2.0.2.zip) |
-| 2021.4.12s | v2.0.1 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.0.1/TownOfUs-v2.0.1.zip) |
-| 2021.3.31.3s | v2.0.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.0.0/TownOfUs-v2.0.0.zip) |
-| 2021.3.5s | v1.2.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.2.0/TownOfUs-v1.2.0.zip) |
-| 2021.3.5s | v1.1.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.1.0/TownOfUs-v1.1.0-2021.3.5s.zip) |
-| 2020.12.19s | v1.1.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.1.0/TownOfUs-v1.1.0-2020.12.9s.zip) |
-| 2020.12.19s | v1.0.3 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.3/TownOfUs-v1.0.3.zip) |
-| 2020.12.19s | v1.0.2 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.2/TownOfUs-v1.0.2.zip) |
-| 2020.12.19s | v1.0.1 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.1/TownOfUs-v1.0.1.zip) |
-| 2020.12.19s | v1.0.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.0/TownOfUs-v1.0.0.zip) |
+Make sure you're on the [latest release](https://github.com/Anusien/Town-Of-Us/releases/latest). This version has compatibility with Among Us versions _2021.6.30s_, _2021.6.30e_, and _2021.7.20e_.
 
 <details>
   <summary> Changelog </summary>
@@ -386,78 +362,6 @@ Make sure you're on the [latest release](https://github.com/Anusien/Town-Of-Us/r
 </ul>
 </details>
 
-
------------------------
-# Installation
-## Requirements 
-- Among Us
-- Steam or Epic Games
-
-## Installation Guide (Steam)
-**1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
-\
-**2. Go to your Steam library.**\
-\
-**3. Right-click Among Us > click `Manage` > click `Browse local files`.**\
-\
-**4. In the File Explorer, delete the entire `Among Us` folder.**\
-\
-**5. Go back to your Steam library.**\
-\
-**6. Right-Click Among Us > click `Properties...` > click `LOCAL FILES`.**\
-\
-**7. Click on `VERIFY INTEGRITY OF GAME FILES...`.**\
-\
-**8. Wait for Steam to download a clean version of Among Us.**\
-\
-**9. Duplicate the new Among Us Folder.**\
-\
-**10. Rename it to `Among Us - ToU`.**\
-\
-**11. Double-click on the zip file you downloaded.**\
-\
-**12. Drag all the files from the zip file in the new ToU folder.**\
-\
-**13. Finally, launch `Among Us.exe` from that folder.**\
-\
-A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
-<br/>
-
-## Installation Guide (Epic Games)
-**1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
-\
-**2. Go to your Epic Games library.**\
-\
-**3. Find Among Us and click on the 3 dots `...` > click `Uninstall`.**\
-\
-**4. Confirm you want to Uninstall Among Us.**\
-\
-**5. In the Epic library, click on Among Us to install.**\
-\
-**6. Copy the Folder Path.**\
-\
-**7. Uncheck Auto-Update.**\
-\
-**8. Click on Install.**\
-\
-**9. Click Yes on the Windows popup.**\
-\
-**10. Paste the folder path in Windows search bar.**\
-\
-**11. Click on Enter.**\
-\
-**12. Copy or move the contents of the Town Of Us zip file into the AmongUs folder.**\
-\
-**13. Finally, launch Among Us from Epic Games library.**\
-\
-A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
-<br/>
-
-![Install](https://i.imgur.com/pvBAyZN.png)
-<br/>
-## Issues
-If you have issues installing Town of Us, you can join our [Discord](https://discord.gg/polus) to receive help.
-
 -----------------------
 # Roles
 # Crewmate Roles
@@ -465,7 +369,7 @@ If you have issues installing Town of Us, you can join our [Discord](https://dis
 ### **Team: Crewmates**
 The Mayor is a Crewmate that can vote multiple times.\
 The Mayor has a Vote Bank, which is the number of times they can vote.\
-They have the option to abstain their vote during a meeting, adding that vote to the Vote Bank.\
+They have the option to abstain their vote during a meeting, adding that vote to the Vote Bank and causing it to be missing from the results. \
 As long as not everyone has voted, the Mayor can use as many votes from their Vote Bank as they please.
 
 ### Game Options
@@ -482,8 +386,9 @@ The Lovers are two players who are linked together.\
 One of the Lovers is always a Crewmate. The other gets picked randomly between Crewmates and Impostors.\
 They gain the primary objective to stay alive together.\
 If they are both among the last 3 players, they win.\
-In order to so, they gain access to a private chat, only visible by them in between meetings.\
 However, they can also win with their respective team, hence why the Lovers do not know the role of the other lover.\
+In order to do so, they gain access to a private chat, only visible by them in between meetings.\
+Lovers do not have access to private chat during a meeting; their messages will show to everyone.\
 By default the second Lover will be an Impostor 25% of the time but only if there are 2 or more Impostors in the game.
 
 ### Game Options
@@ -559,7 +464,7 @@ Every footprint disappears after a set amount of time.
 The Time Lord is a Crewmate that can rewind time and reverse the positions of all players.\
 If enabled, any players killed during this time will be revived.\
 Nothing but movements and kills are affected.\
-If enabled, the Time Lord can't use Vitals to make things more balanced.
+If enabled, the Time Lord can't use Vitals to balance the role.
 
 ### Game Options
 | Name | Description | Type | Default |
@@ -991,10 +896,77 @@ A rainbow color has also been added. Anyone who equips this color will constantl
 Custom hats have been added, made by some very talented artists. These are mostly hats for streamers.
 
 
-
 -----------------------
-# Bug / Suggestions
-If you have any bugs or any need to contact me, join the [Discord server](https://discord.gg/polus) or create a ticket on GitHub.
+# Installation
+## Requirements
+- Among Us
+- Steam or Epic Games
+
+## Installation Guide (Steam)
+**1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
+\
+**2. Go to your Steam library.**\
+\
+**3. Right-click Among Us > click `Manage` > click `Browse local files`.**\
+\
+**4. In the File Explorer, delete the entire `Among Us` folder.**\
+\
+**5. Go back to your Steam library.**\
+\
+**6. Right-Click Among Us > click `Properties...` > click `LOCAL FILES`.**\
+\
+**7. Click on `VERIFY INTEGRITY OF GAME FILES...`.**\
+\
+**8. Wait for Steam to download a clean version of Among Us.**\
+\
+**9. Duplicate the new Among Us Folder.**\
+\
+**10. Rename it to `Among Us - ToU`.**\
+\
+**11. Double-click on the zip file you downloaded.**\
+\
+**12. Drag all the files from the zip file in the new ToU folder.**\
+\
+**13. Finally, launch `Among Us.exe` from that folder.**\
+\
+A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+<br/>
+
+## Installation Guide (Epic Games)
+**1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
+\
+**2. Go to your Epic Games library.**\
+\
+**3. Find Among Us and click on the 3 dots `...` > click `Uninstall`.**\
+\
+**4. Confirm you want to Uninstall Among Us.**\
+\
+**5. In the Epic library, click on Among Us to install.**\
+\
+**6. Copy the Folder Path.**\
+\
+**7. Uncheck Auto-Update.**\
+\
+**8. Click on Install.**\
+\
+**9. Click Yes on the Windows popup.**\
+\
+**10. Paste the folder path in Windows search bar.**\
+\
+**11. Click on Enter.**\
+\
+**12. Copy or move the contents of the Town Of Us zip file into the AmongUs folder.**\
+\
+**13. Finally, launch Among Us from Epic Games library.**\
+\
+A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+<br/>
+
+![Install](https://i.imgur.com/pvBAyZN.png)
+<br/>
+-----------------------
+# Bug / Suggestions / Issues
+If you have any bugs or any need to contact me, join the [Discord server](https://discord.gg/polus) or create an [issue](https://github.com/anusien/Town-Of-Us/issues/new) on GitHub.
 
 -----------------------
 # Credits & Resources
@@ -1007,11 +979,12 @@ If you have any bugs or any need to contact me, join the [Discord server](https:
 [TorchMod](https://github.com/tomozbot/TorchMod) - For the inspiration of the Torch Mod.\
 [XtraCube](https://github.com/XtraCube) - For the RainbowMod.\
 [PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Button Art.\
-[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Child and Spy roles.
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Child and Spy roles.\
+[Contributors](https://github.com/anusien/Town-Of-Us/graphs/contributors) - Thanks to everyone who has made contributions and updates to the mod. 
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
 v1.0.3 uses [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) directly.\
-v1.1.0 uses a modified version of Essentials that can be found [here](https://github.com/slushiegoose/Reactor-Essentials).\
+v1.1.0 uses a modified version of Essentials that can be found [here](https://github.com/slushiegoose/Reactor-Essentials). \
 v1.2.0 has Essentials embedded and can be found [here](https://github.com/slushiegoose/Town-Of-Us/tree/master/source/Patches/CustomOption).
 
 #
