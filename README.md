@@ -1,6 +1,4 @@
- ### Note. The official Town of Us mod was deprecated in favour of Polus.gg. Information on Polus.gg is available at their [steam page](https://store.steampowered.com/app/1653240/Polusgg/) and their [discord](https://discord.gg/polus).
-
-![LOGO](./Images/TOU-logo.png)
+ ![LOGO](./Images/TOU-logo.png)
 
 An Among Us mod that adds a bunch of roles, modifiers and game settings
 
@@ -112,7 +110,7 @@ Make sure you're on the [latest release](https://github.com/Anusien/Town-Of-Us/r
 
  <li>
  <details>
-  <summary> v2.2.2: First release post-Polus.gg! </summary> 
+  <summary> v2.2.2: First independent release! </summary> 
   <ul>
    <li> Fix the instant Game Over screen when there aren't enough Impostor roles. </li>
    <li> Fix for the Undertaker failing to drop a body. </li>
@@ -966,7 +964,7 @@ A first launch may take up to 5 minutes, so be patient if it doesn't launch imme
 <br/>
 -----------------------
 # Bug / Suggestions / Issues
-If you have any bugs or any need to contact me, join the [Discord server](https://discord.gg/polus) or create an [issue](https://github.com/anusien/Town-Of-Us/issues/new) on GitHub.
+If you have any bugs or any need to contact me, join the [Discord server](https://discord.gg/cfj7NR9S2N) or create an [issue](https://github.com/anusien/Town-Of-Us/issues/new) on GitHub.
 
 -----------------------
 # Credits & Resources
