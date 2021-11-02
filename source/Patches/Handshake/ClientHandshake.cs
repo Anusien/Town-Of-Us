@@ -19,7 +19,9 @@ namespace TownOfUs.Handshake
             public static void Postfix(AmongUsClient __instance)
             {
                 if (AmongUsClient.Instance.AmHost)
-                    return;
+                {
+                    HandshakedClients.Clear();
+                }
 
                 // If I am client, send handshake
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"AmongUsClient.OnGameJoined.Postfix - Am client, sending handshake");
@@ -73,7 +75,7 @@ namespace TownOfUs.Handshake
         }
 
         // Handle legacy clients that don't send handshakes
-        private static HashSet<int> HandshakedClients = new HashSet<int>();
+        private static readonly HashSet<int> HandshakedClients = new HashSet<int>();
         private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
         {
             PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake(innerNetClient, clientId = {clientId})");
