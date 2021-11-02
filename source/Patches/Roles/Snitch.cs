@@ -6,11 +6,11 @@ namespace TownOfUs.Roles
 {
     public class Snitch : Role
     {
-        public List<ArrowBehaviour> ImpArrows = new List<ArrowBehaviour>();
+        public readonly List<ArrowBehaviour> ImpArrows = new List<ArrowBehaviour>();
 
-        public List<ArrowBehaviour> SnitchArrows = new List<ArrowBehaviour>();
+        public readonly List<ArrowBehaviour> SnitchArrows = new List<ArrowBehaviour>();
 
-        public List<PlayerControl> SnitchTargets = new List<PlayerControl>();
+        public readonly List<PlayerControl> SnitchTargets = new List<PlayerControl>();
 
         public int TasksLeft = int.MaxValue;
 

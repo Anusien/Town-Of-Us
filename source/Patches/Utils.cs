@@ -23,9 +23,7 @@ namespace TownOfUs
     {
         internal static bool ShowDeadBodies = false;
 
-        public static Dictionary<PlayerControl, Color> oldColors = new Dictionary<PlayerControl, Color>();
-
-        public static List<WinningPlayerData> potentialWinners = new List<WinningPlayerData>();
+        public static readonly List<WinningPlayerData> PotentialWinners = new List<WinningPlayerData>();
 
         public static void SetSkin(PlayerControl Player, uint skin)
         {

@@ -354,7 +354,7 @@ namespace TownOfUs
                         Utils.ShowDeadBodies = false;
                         Murder.KilledPlayers.Clear();
                         Role.NobodyWins = false;
-                        RecordRewind.points.Clear();
+                        RecordRewind.Points.Clear();
                         KillButtonTarget.DontRevive = byte.MaxValue;
                         break;
 
@@ -728,7 +728,7 @@ namespace TownOfUs
                 CrewmateModifiers.Clear();
                 GlobalModifiers.Clear();
 
-                RecordRewind.points.Clear();
+                RecordRewind.Points.Clear();
                 Murder.KilledPlayers.Clear();
                 KillButtonTarget.DontRevive = byte.MaxValue;
 

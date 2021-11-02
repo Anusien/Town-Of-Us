@@ -251,16 +251,16 @@ namespace TownOfUs.Roles
 
         public static class AbilityCoroutine
         {
-            public static Dictionary<byte, DateTime> tickDictionary = new Dictionary<byte, DateTime>();
+            public static readonly Dictionary<byte, DateTime> TickDictionary = new Dictionary<byte, DateTime>();
 
             public static IEnumerator Hack(Glitch __instance, PlayerControl hackPlayer)
             {
                 GameObject[] lockImg = { null, null, null, null };
                 ImportantTextTask hackText;
 
-                if (tickDictionary.ContainsKey(hackPlayer.PlayerId))
+                if (TickDictionary.ContainsKey(hackPlayer.PlayerId))
                 {
-                    tickDictionary[hackPlayer.PlayerId] = DateTime.UtcNow;
+                    TickDictionary[hackPlayer.PlayerId] = DateTime.UtcNow;
                     yield break;
                 }
 
@@ -269,7 +269,7 @@ namespace TownOfUs.Roles
                 hackText.Text =
                     $"{__instance.ColorString}Hacked {hackPlayer.Data.PlayerName} ({CustomGameOptions.HackDuration}s)</color>";
                 hackText.Index = hackPlayer.PlayerId;
-                tickDictionary.Add(hackPlayer.PlayerId, DateTime.UtcNow);
+                TickDictionary.Add(hackPlayer.PlayerId, DateTime.UtcNow);
                 PlayerControl.LocalPlayer.myTasks.Insert(0, hackText);
 
                 while (true)
@@ -362,7 +362,7 @@ namespace TownOfUs.Roles
                         }
                     }
 
-                    var totalHacktime = (DateTime.UtcNow - tickDictionary[hackPlayer.PlayerId]).TotalMilliseconds /
+                    var totalHacktime = (DateTime.UtcNow - TickDictionary[hackPlayer.PlayerId]).TotalMilliseconds /
                                         1000;
                     hackText.Text =
                         $"{__instance.ColorString}Hacked {hackPlayer.Data.PlayerName} ({CustomGameOptions.HackDuration - Math.Round(totalHacktime)}s)</color>";
@@ -390,7 +390,7 @@ namespace TownOfUs.Roles
                                 }
                         }
 
-                        tickDictionary.Remove(hackPlayer.PlayerId);
+                        TickDictionary.Remove(hackPlayer.PlayerId);
                         PlayerControl.LocalPlayer.myTasks.Remove(hackText);
                         yield break;
                     }
