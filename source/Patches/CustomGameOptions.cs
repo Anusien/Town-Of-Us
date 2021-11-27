@@ -51,7 +51,7 @@ namespace TownOfUs
         public static int ButtonBarryOn => (int) Generate.ButtonBarryOn.Get();
         public static int VanillaGame => (int) Generate.VanillaGame.Get();
         public static bool BothLoversDie => Generate.BothLoversDie.Get();
-        public static int LovingImpostorOn => (int) Generate.LovingImpostorOn.Get();
+        public static bool LovingImpostorOn => Generate.LovingImpostorOn.Get();
         public static bool ShowSheriff => Generate.ShowSheriff.Get();
         public static bool SheriffKillOther => Generate.SheriffKillOther.Get();
         public static bool SheriffKillsJester => Generate.SheriffKillsJester.Get();
@@ -173,7 +173,7 @@ namespace TownOfUs
                 }
                 else if (faction == Faction.Impostors)
                 {
-                    if (On(LoversOn) && On(LovingImpostorOn)) enabledRoles.Add(RoleEnum.LoverImpostor);
+                    if (On(LoversOn) && LovingImpostorOn) enabledRoles.Add(RoleEnum.LoverImpostor);
                     if (On(MinerOn)) enabledRoles.Add(RoleEnum.Miner);
                     if (On(SwooperOn)) enabledRoles.Add(RoleEnum.Swooper);
                     if (On(MorphlingOn)) enabledRoles.Add(RoleEnum.Morphling);

@@ -61,15 +61,15 @@ namespace TownOfUs.Roles
 
         public static void Gen(List<PlayerControl> crewmates, List<PlayerControl> impostors)
         {
-            var lovingImpostorEnabled = Random.RandomRangeInt(1, 101) <= CustomGameOptions.LovingImpostorOn;
+            bool lovingImpostorEnabled = CustomGameOptions.LovingImpostorOn && Random.RandomRangeInt(0, 3) == 0;
 
-            var canMakeCrewCrewLovers = crewmates.Count >= 2;
-            var canMakeCrewImpostorLovers = crewmates.Count >= 1 && impostors.Count >= 2 && lovingImpostorEnabled;
+            bool canMakeCrewCrewLovers = crewmates.Count >= 2;
+            bool canMakeCrewImpostorLovers = crewmates.Count >= 1 && impostors.Count >= 1 && lovingImpostorEnabled;
             if (!canMakeCrewCrewLovers && !canMakeCrewImpostorLovers) {
                 return;
             }
 
-            var lovingImpostor = canMakeCrewImpostorLovers;
+            bool lovingImpostor = canMakeCrewImpostorLovers;
 
             var num = Random.RandomRangeInt(0, crewmates.Count);
             var player1 = crewmates[num];

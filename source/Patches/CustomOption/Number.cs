@@ -29,7 +29,7 @@ namespace TownOfUs.CustomOption
             return (float) Value;
         }
 
-       
+
         protected internal void Increase()
         {
             var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift)
