@@ -61,10 +61,7 @@ namespace TownOfUs
         {
             if (CamouflageUnCamouflage.IsCamoed) return;
 
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Seer))
-            {
-                Player.nameText.text = MorphedPlayer.Data.PlayerName;
-            }
+            Player.nameText.text = MorphedPlayer.Data.PlayerName;
 
             var targetAppearance = MorphedPlayer.GetDefaultAppearance();
 
@@ -444,7 +441,7 @@ namespace TownOfUs
                 };
 
                 Murder.KilledPlayers.Add(deadBody);
-                
+
                 if (!killer.AmOwner) return;
 
                 if (target.Is(ModifierEnum.Diseased) && killer.Is(RoleEnum.Glitch))
@@ -513,37 +510,6 @@ namespace TownOfUs
         public static void EndGame(GameOverReason reason = GameOverReason.ImpostorByVote, bool showAds = false)
         {
             ShipStatus.RpcEndGame(reason, showAds);
-        }
-
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetInfected))]
-        public static class PlayerControl_SetInfected
-        {
-            public static void Postfix()
-            {
-                if (!RpcHandling.Check(20)) return;
-
-                if (PlayerControl.LocalPlayer.name == "Sykkuno")
-                {
-                    var edison = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Edis0n" || x.name == "Edison");
-                    if (edison != null)
-                    {
-                        edison.name = "babe";
-                        edison.nameText.text = "babe";
-                    }
-                }
-
-                if (PlayerControl.LocalPlayer.name == "fuslie PhD")
-                {
-                    var sykkuno = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Sykkuno");
-                    if (sykkuno != null)
-                    {
-                        sykkuno.name = "babe's babe";
-                        sykkuno.nameText.text = "babe's babe";
-                    }
-                }
-            }
         }
     }
 }
