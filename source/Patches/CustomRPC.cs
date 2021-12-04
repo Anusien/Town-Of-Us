@@ -31,6 +31,7 @@ namespace TownOfUs
         SetUnderdog,
         SetTeleporter,
         SetConcealer,
+        SetAnalyst,
 
         SetTorch,
         SetDiseased,
@@ -52,6 +53,7 @@ namespace TownOfUs
         GlitchWin,
         ArsonistWin,
         PhantomWin,
+        AnalystWin,
         JesterLose,
         ExecutionerLose,
         ShifterLose,
@@ -59,6 +61,7 @@ namespace TownOfUs
         ArsonistLose,
         NobodyWins,
         PhantomLose,
+        AnalystLose,
 
         JanitorClean,
         FixLights,
