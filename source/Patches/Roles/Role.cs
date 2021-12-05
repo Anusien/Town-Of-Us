@@ -465,6 +465,7 @@ namespace TownOfUs.Roles
         }
 
         [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+        
         public static class LobbyBehaviour_Start
         {
             private static void Postfix(LobbyBehaviour __instance)
@@ -511,6 +512,45 @@ namespace TownOfUs.Roles
         {
             private static Vector3 oldScale = Vector3.zero;
             private static Vector3 oldPosition = Vector3.zero;
+
+            //add the colorType List from DeadBody.cs of MedicMod folder to use here
+            public static String GetColorType(PlayerControl player)
+            {
+                var colors = new Dictionary<int, string>
+                {
+                    {0, "darker"},// red
+                    {1, "darker"},// blue
+                    {2, "darker"},// green
+                    {3, "lighter"},// pink
+                    {4, "lighter"},// orange
+                    {5, "lighter"},// yellow
+                    {6, "darker"},// black
+                    {7, "lighter"},// white
+                    {8, "darker"},// purple
+                    {9, "darker"},// brown
+                    {10, "lighter"},// cyan
+                    {11, "lighter"},// lime
+                    {12, "darker"},// maroon
+                    {13, "lighter"},// rose
+                    {14, "lighter"},// banana
+                    {15, "darker"},// gray
+                    {16, "darker"},// tan
+                    {17, "lighter"},// coral
+                    {18, "darker"},// watermelon
+                    {19, "darker"},// chocolate
+                    {20, "lighter"},// sky blue
+                    {21, "darker"},// beige
+                    {22, "lighter"},// hot pink
+                    {23, "lighter"},// turquoise
+                    {24, "lighter"},// lilac
+                    {25, "darker"},// rainbow
+                    {26, "lighter"},// azure
+                    {27, "darker"},// Panda
+                };
+
+                var colorType = colors[player.Data.ColorId];
+                return colorType;
+            }
 
             private static void UpdateMeeting(MeetingHud __instance)
             {
@@ -561,6 +601,13 @@ namespace TownOfUs.Roles
                                 player.NameText.color = Color.white;
                                 player.NameText.text = player.name;
                             }
+
+                            //Change the player name color for darker color to the medic in meeting with the GetColorType Method
+                            if (localPlayer.Is(RoleEnum.Medic) &&
+                                GetColorType(playerChar) == "darker" &&
+                                __instance.state != MeetingHud.VoteStates.Proceeding &&
+                                __instance.state != MeetingHud.VoteStates.Results)
+                                    player.NameText.color = Color.black;
                         }
 
                         try

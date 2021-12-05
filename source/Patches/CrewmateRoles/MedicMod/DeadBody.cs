@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
 {
@@ -33,37 +34,8 @@ namespace TownOfUs.CrewmateRoles.MedicMod
                 return
                     $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 
-            var colors = new Dictionary<int, string>
-            {
-                {0, "darker"},// red
-                {1, "darker"},// blue
-                {2, "darker"},// green
-                {3, "lighter"},// pink
-                {4, "lighter"},// orange
-                {5, "lighter"},// yellow
-                {6, "darker"},// black
-                {7, "lighter"},// white
-                {8, "darker"},// purple
-                {9, "darker"},// brown
-                {10, "lighter"},// cyan
-                {11, "lighter"},// lime
-                {12, "darker"},// maroon
-                {13, "lighter"},// rose
-                {14, "lighter"},// banana
-                {15, "lighter"},// gray
-                {16, "darker"},// tan
-                {17, "lighter"},// coral
-                {18, "darker"},// watermelon
-                {19, "darker"},// chocolate
-                {20, "lighter"},// sky blue
-                {21, "darker"},// beige
-                {22, "lighter"},// hot pink
-                {23, "lighter"},// turquoise
-                {24, "lighter"},// lilac
-                {25, "lighter"},// rainbow
-                {26, "lighter"},// azure
-            };
-            var typeOfColor = colors[br.Killer.Data.ColorId];
+            //deplace the colortype list into Role.cs and call back here
+            var typeOfColor = Role.HudManager_Update.GetColorType(br.Killer);
             return
                 $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
         }
