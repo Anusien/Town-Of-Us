@@ -14,7 +14,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
     {
         public static void Postfix(AirshipExileController __instance) => SetPhantom.ExileControllerPostfix(__instance);
     }
-    
+
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
     public class SetPhantom
     {
@@ -33,7 +33,6 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 Role.RoleDictionary.Remove(PlayerControl.LocalPlayer.PlayerId);
                 var role = new Phantom(PlayerControl.LocalPlayer);
                 role.RegenTask();
-                Lights.SetLights();
 
                 RemoveTasks(PlayerControl.LocalPlayer);
                 PlayerControl.LocalPlayer.MyPhysics.ResetMoveState();
@@ -48,9 +47,10 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             }
 
             if (Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) return;
-            var startingVent =
+            Vent startingVent =
                 ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(startingVent.transform.position);
+            Vector3 destination = Utils.GetCoordinatesToSendPlayerToVent(startingVent);
+            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(destination);
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
         }
 
@@ -68,7 +68,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                     var normalPlayerTask = task.Cast<NormalPlayerTask>();
 
                     var updateArrow = normalPlayerTask.taskStep > 0;
-                    
+
                     normalPlayerTask.taskStep = 0;
                     normalPlayerTask.Initialize();
                     if (normalPlayerTask.TaskType == TaskTypes.PickUpTowels)
@@ -78,7 +78,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
 
                     if (updateArrow)
                         normalPlayerTask.UpdateArrow();
-                    
+
                     var taskInfo = player.Data.FindTaskById(task.Id);
                     taskInfo.Complete = false;
                 }

@@ -11,19 +11,25 @@ namespace TownOfUs.Roles
         private KillButtonManager _igniteButton;
         public bool ArsonistWins;
         public PlayerControl ClosestPlayer;
-        public List<byte> DousedPlayers = new List<byte>();
+        public readonly List<byte> DousedPlayers = new List<byte>();
         public bool IgniteUsed;
         public DateTime LastDoused;
 
 
-        public Arsonist(PlayerControl player) : base(player)
+        public Arsonist(PlayerControl player) : base(player, RoleEnum.Arsonist)
         {
-            Name = "Arsonist";
             ImpostorText = () => "Douse players and ignite the light";
             TaskText = () => "Douse players and ignite to kill everyone\nFake Tasks:";
-            Color = new Color(1f, 0.3f, 0f);
-            RoleType = RoleEnum.Arsonist;
-            Faction = Faction.Neutral;
+        }
+
+        protected override void DoOnGameStart()
+        {
+            LastDoused = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastDoused = DateTime.UtcNow;
         }
 
         public KillButtonManager IgniteButton

@@ -8,12 +8,25 @@ namespace TownOfUs
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     public class AmongUsClient_OnGameEnd
     {
+        // create a secondary potential winner list for impostor can win alone
+        public static List<WinningPlayerData> ImpsAlive = new List<WinningPlayerData>();
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] GameOverReason reason,
             [HarmonyArgument(0)] bool showAd)
         {
             Utils.potentialWinners.Clear();
             foreach (var player in PlayerControl.AllPlayerControls)
+            {
                 Utils.potentialWinners.Add(new WinningPlayerData(player.Data));
+            
+                // create a secondary potential winner list for impostor can win alone
+                if (CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.ImpostorsWinAlone &&
+                reason != GameOverReason.HumansByTask &&
+                reason != GameOverReason.HumansByVote &&
+                Role.GetRole(player).Faction == Faction.Impostors &&
+                !player.Data.IsDead &&
+                !player.Data.Disconnected)
+                    ImpsAlive.Add(new WinningPlayerData(player.Data));
+            }
         }
     }
 
@@ -92,6 +105,15 @@ namespace TownOfUs
                 var winners = Utils.potentialWinners.Where(x => x.Name == phantom.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
+                return;
+            }
+            
+            //patch the wining screen if the list for impostor win alone = 1
+            if (AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
+                return;
             }
         }
     }

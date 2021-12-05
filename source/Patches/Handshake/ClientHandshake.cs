@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -13,9 +12,6 @@ namespace TownOfUs.Handshake
     public static class ClientHandshake
     {
         private const byte TOU_ROOT_HANDSHAKE_TAG = 69;
-        
-        // TODO: super sus but whatever - "2.2.0"
-        private const int TOU_VERSION = 220;
 
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
         public static class AmongUsClient_OnGameJoined
@@ -33,7 +29,7 @@ namespace TownOfUs.Handshake
                 messageWriter.WritePacked(__instance.HostId);
                 messageWriter.StartMessage(TOU_ROOT_HANDSHAKE_TAG);
                 messageWriter.Write(AmongUsClient.Instance.ClientId);
-                messageWriter.Write(TOU_VERSION);
+                messageWriter.Write(TownOfUs.GetVersion());
                 messageWriter.EndMessage();
                 messageWriter.EndMessage();
                 __instance.SendOrDisconnect(messageWriter);
@@ -54,20 +50,20 @@ namespace TownOfUs.Handshake
                     if (handshakeReader.Tag == TOU_ROOT_HANDSHAKE_TAG)
                     {
                         PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Host recieved TOU handshake");
-                        
+
                         var clientId = handshakeReader.ReadInt32();
-                        var touVersion = handshakeReader.ReadInt32();
-                        
+                        var touVersion = handshakeReader.ReadString();
+
                         // List<int> HandshakedClients - exists to disconnect legacy clients that don't send handshake
                         PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with TOU version {touVersion} to List<int>HandshakedClients");
                         HandshakedClients.Add(clientId);
 
-                        if (touVersion != TOU_VERSION)
+                        if (!TownOfUs.GetVersion().Equals(touVersion))
                         {
-                            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched TOU version {touVersion}. (Ours is {TOU_VERSION})");
+                            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched TOU version {touVersion}. (Ours is {TownOfUs.GetVersion()})");
                             __instance.SendCustomDisconnect(clientId);
                         }
-                        
+
                         return false;
                     }
                 }
@@ -75,7 +71,7 @@ namespace TownOfUs.Handshake
                 return true;
             }
         }
-        
+
         // Handle legacy clients that don't send handshakes
         private static HashSet<int> HandshakedClients = new HashSet<int>();
         private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
@@ -95,7 +91,7 @@ namespace TownOfUs.Handshake
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients contained clientId {clientId}");
             }
         }
-        
+
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
         public static class AmongUsClient_OnPlayerJoined
         {
@@ -108,7 +104,7 @@ namespace TownOfUs.Handshake
                 }
             }
         }
-        
+
         private static void SendCustomDisconnect(this InnerNetClient innerNetClient, int clientId)
         {
             var messageWriter = MessageWriter.Get(SendOption.Reliable);
@@ -117,7 +113,7 @@ namespace TownOfUs.Handshake
             messageWriter.WritePacked(clientId);
             messageWriter.Write(false);
             messageWriter.Write(8);
-            messageWriter.Write($"The host has a different version of Town Of Us ({TOU_VERSION})");
+            messageWriter.Write($"The host has a different version of Town Of Us ({TownOfUs.GetVersion()})");
             messageWriter.EndMessage();
             innerNetClient.SendOrDisconnect(messageWriter);
             messageWriter.Recycle();

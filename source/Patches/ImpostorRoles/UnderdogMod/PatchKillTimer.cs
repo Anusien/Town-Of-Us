@@ -7,6 +7,7 @@ namespace TownOfUs.ImpostorRoles.UnderdogMod
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetKillTimer))]
     public static class PatchKillTimer
     {
+        [HarmonyPriority(Priority.Last)]
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] float time)
         {
             var role = Role.GetRole(__instance);

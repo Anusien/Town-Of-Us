@@ -22,7 +22,6 @@ namespace TownOfUs.ImpostorRoles.SwooperMod
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte) CustomRPC.Swoop, SendOption.Reliable, -1);
-                var position = PlayerControl.LocalPlayer.transform.position;
                 writer.Write(PlayerControl.LocalPlayer.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;

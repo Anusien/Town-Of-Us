@@ -10,7 +10,6 @@ using HarmonyLib;
 using Reactor;
 using Reactor.Extensions;
 using TownOfUs.CustomOption;
-using TownOfUs.Patches.CustomHats;
 using TownOfUs.RainbowMod;
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
@@ -19,12 +18,14 @@ using UnityEngine.SceneManagement;
 
 namespace TownOfUs
 {
-    [BepInPlugin(Id, "Town Of Us", "2.2.1")]
+    [BepInPlugin(Id, "Town Of Us", MajorVersion)]
     [BepInDependency(ReactorPlugin.Id)]
     public class TownOfUs : BasePlugin
     {
-        public const string Id = "com.slushiegoose.townofus";
-        
+        public const string MajorVersion = "2.2.2";
+        public static string GetVersion() => typeof(TownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        private const string Id = "com.slushiegoose.townofus";
+
         public static Sprite JanitorClean;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;

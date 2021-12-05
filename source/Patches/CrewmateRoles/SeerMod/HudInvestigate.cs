@@ -38,7 +38,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
 
                 var notInvestigated = PlayerControl.AllPlayerControls
                     .ToArray()
-                    .Where(x => !role.Investigated.Contains(x.PlayerId))
+                    .Where(x => !role.Investigated.ContainsKey(x.PlayerId))
                     .ToList();
 
                 Utils.SetTarget(ref role.ClosestPlayer, investigateButton, float.NaN, notInvestigated);

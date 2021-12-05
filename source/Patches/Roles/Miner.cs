@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles
 {
@@ -12,18 +13,28 @@ namespace TownOfUs.Roles
         public DateTime LastMined;
 
 
-        public Miner(PlayerControl player) : base(player)
+        public Miner(PlayerControl player) : base(player, RoleEnum.Miner)
         {
-            Name = "Miner";
             ImpostorText = () => "From the top, make it drop, that's a vent";
             TaskText = () => "From the top, make it drop, that's a vent";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Miner;
-            Faction = Faction.Impostors;
+            LastMined = DateTime.UtcNow;
         }
 
         public bool CanPlace { get; set; }
-        public Vector2 VentSize { get; set; }
+        public Vector2 VentSize { get; private set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastMined = DateTime.UtcNow;
+            var vents = Object.FindObjectsOfType<Vent>();
+            VentSize =
+                Vector2.Scale(vents[0].GetComponent<BoxCollider2D>().size, vents[0].transform.localScale) * 0.75f;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastMined = DateTime.UtcNow;
+        }
 
         public KillButtonManager MineButton
         {

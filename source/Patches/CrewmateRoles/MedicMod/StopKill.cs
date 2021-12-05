@@ -50,23 +50,15 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             {
                 if (__instance.isActiveAndEnabled && !__instance.isCoolingDown)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                    writer.Write(target.getMedic().Player.PlayerId);
-                    writer.Write(target.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.BreakShield(target);
 
                     System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
                     if (CustomGameOptions.ShieldBreaks)
                         PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
-
-                    BreakShield(target.getMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
-
 
                 return false;
             }
-
 
             return true;
         }

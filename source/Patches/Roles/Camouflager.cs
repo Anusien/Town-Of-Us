@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace TownOfUs.Roles
@@ -11,14 +11,20 @@ namespace TownOfUs.Roles
         public DateTime LastCamouflaged;
         public float TimeRemaining;
 
-        public Camouflager(PlayerControl player) : base(player)
+        public Camouflager(PlayerControl player) : base(player, RoleEnum.Camouflager)
         {
-            Name = "Camouflager";
             ImpostorText = () => "Camouflage and turn everyone grey";
             TaskText = () => "Camouflage and get secret kills";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Camouflager;
-            Faction = Faction.Impostors;
+        }
+
+        protected override void DoOnGameStart()
+        {
+            LastCamouflaged = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastCamouflaged = DateTime.UtcNow;
         }
 
         public bool Camouflaged => TimeRemaining > 0f;

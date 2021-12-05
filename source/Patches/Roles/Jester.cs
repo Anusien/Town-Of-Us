@@ -1,4 +1,4 @@
-using Il2CppSystem.Collections.Generic;
+﻿using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
 namespace TownOfUs.Roles
@@ -8,14 +8,10 @@ namespace TownOfUs.Roles
         public bool VotedOut;
 
 
-        public Jester(PlayerControl player) : base(player)
+        public Jester(PlayerControl player) : base(player, RoleEnum.Jester)
         {
-            Name = "Jester";
             ImpostorText = () => "Get voted out";
             TaskText = () => "Get voted out!\nFake Tasks:";
-            Color = new Color(1f, 0.75f, 0.8f, 1f);
-            RoleType = RoleEnum.Jester;
-            Faction = Faction.Neutral;
         }
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)

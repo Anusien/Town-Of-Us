@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfUs.Roles;
 using UnityEngine;
 
 namespace TownOfUs
@@ -14,19 +15,21 @@ namespace TownOfUs
                 __instance.CompletedTasks = 0;
                 for (var i = 0; i < __instance.AllPlayers.Count; i++)
                 {
-                    var playerInfo = __instance.AllPlayers.ToArray()[i];
-                    if (!playerInfo.Disconnected && playerInfo.Tasks != null && playerInfo.Object &&
-                        (PlayerControl.GameOptions.GhostsDoTasks || !playerInfo.IsDead) && !playerInfo.IsImpostor &&
-                        !(
-                            playerInfo._object.Is(RoleEnum.Jester) || playerInfo._object.Is(RoleEnum.Shifter) ||
-                            playerInfo._object.Is(RoleEnum.Glitch) || playerInfo._object.Is(RoleEnum.Executioner) ||
-                            playerInfo._object.Is(RoleEnum.Arsonist) || playerInfo._object.Is(RoleEnum.Phantom)
-                        ))
+                    GameData.PlayerInfo playerInfo = __instance.AllPlayers.ToArray()[i];
+                    if (
+                        !playerInfo.Disconnected
+                        && playerInfo.Tasks != null
+                        && playerInfo.Object
+                        && (PlayerControl.GameOptions.GhostsDoTasks || !playerInfo.IsDead)
+                        && Role.GetRole(playerInfo.Object).Faction == Faction.Crewmates
+                    )
+                    {
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
                             __instance.TotalTasks++;
                             if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks++;
                         }
+                    }
                 }
 
                 return false;
@@ -40,14 +43,12 @@ namespace TownOfUs
             {
                 var playerControl = playerInfo.Object;
 
-                var flag = playerControl.Is(RoleEnum.Glitch)
-                           || playerControl.Is(RoleEnum.Jester)
-                           || playerControl.Is(RoleEnum.Shifter)
-                           || playerControl.Is(RoleEnum.Executioner)
-                           || playerControl.Is(RoleEnum.Arsonist);
-
                 // If the console is not a sabotage repair console
-                if (flag && !__instance.AllowImpostor)
+                if (
+                       Role.GetRole(playerControl).Faction == Faction.Neutral
+                       && !playerControl.Is(RoleEnum.Phantom)
+                       && !__instance.AllowImpostor
+                )
                 {
                     __result = float.MaxValue;
                     return false;

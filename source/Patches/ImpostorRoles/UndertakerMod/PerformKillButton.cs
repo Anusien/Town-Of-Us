@@ -48,7 +48,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                     var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                         (byte) CustomRPC.Drop, SendOption.Reliable, -1);
                     writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    var position = PlayerControl.LocalPlayer.GetTruePosition();
+                    Vector2 position = PlayerControl.LocalPlayer.GetTruePosition();
                     writer.Write(position);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 

@@ -19,8 +19,6 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
-            var flag7 = PlayerControl.AllPlayerControls.Count > 1;
-            if (!flag7) return;
             var flag8 = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff);
             if (flag8)
             {
@@ -35,7 +33,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                 {
                     KillButton.gameObject.SetActive(!MeetingHud.Instance);
                     KillButton.isActive = !MeetingHud.Instance;
-                    KillButton.SetCoolDown(role.SheriffKillTimer(), PlayerControl.GameOptions.KillCooldown + 15f);
+                    KillButton.SetCoolDown(role.SheriffKillTimer(), CustomGameOptions.SheriffKillCd);
 
                     Utils.SetTarget(ref role.ClosestPlayer, KillButton);
                 }

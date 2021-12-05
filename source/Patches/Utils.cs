@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Reactor.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
@@ -29,6 +30,31 @@ namespace TownOfUs
         public static void SetSkin(PlayerControl Player, uint skin)
         {
             Player.MyPhysics.SetSkin(skin);
+        }
+
+
+        public static void MakeInvisible(PlayerControl player, bool showBlur)
+        {
+            Color color = Color.clear;
+            if (showBlur)
+            {
+                color.a = 0.1f;
+            }
+
+            player.MyRend.color = color;
+
+            player.HatRenderer.SetHat(0, 0);
+            player.nameText.text = "";
+            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
+                .AllSkins.ToArray()[0].ProdId)
+                player.MyPhysics.SetSkin(0);
+            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
+            player.CurrentPet =
+                Object.Instantiate(
+                    DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[0]);
+            player.CurrentPet.transform.position = player.transform.position;
+            player.CurrentPet.Source = player;
+            player.CurrentPet.Visible = player.Visible;
         }
 
         public static void Morph(PlayerControl Player, PlayerControl MorphedPlayer, bool resetAnim = false)
@@ -74,33 +100,39 @@ namespace TownOfUs
             }*/
         }
 
-        public static void Unmorph(PlayerControl Player)
+        public static void MakeVisible(PlayerControl player)
         {
-            var appearance = Player.GetDefaultAppearance();
+            Unmorph(player);
+            player.MyRend.color = Color.white;
+        }
 
-            Player.nameText.text = Player.Data.PlayerName;
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, Player.myRend);
-            Player.HatRenderer.SetHat(appearance.HatId, appearance.ColorId);
-            Player.nameText.transform.localPosition = new Vector3(
+        public static void Unmorph(PlayerControl player)
+        {
+            var appearance = player.GetDefaultAppearance();
+
+            player.nameText.text = player.Data.PlayerName;
+            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.myRend);
+            player.HatRenderer.SetHat(appearance.HatId, appearance.ColorId);
+            player.nameText.transform.localPosition = new Vector3(
                 0f,
                 appearance.HatId == 0U ? 1.5f : 2.0f,
                 -0.5f
             );
 
-            if (Player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
+            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
                 .AllSkins.ToArray()[(int)appearance.SkinId].ProdId)
-                SetSkin(Player, appearance.SkinId);
+                SetSkin(player, appearance.SkinId);
 
-            if (Player.CurrentPet != null) Object.Destroy(Player.CurrentPet.gameObject);
+            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
 
-            Player.CurrentPet =
+            player.CurrentPet =
                 Object.Instantiate(
                     DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[(int)appearance.PetId]);
-            Player.CurrentPet.transform.position = Player.transform.position;
-            Player.CurrentPet.Source = Player;
-            Player.CurrentPet.Visible = Player.Visible;
+            player.CurrentPet.transform.position = player.transform.position;
+            player.CurrentPet.Source = player;
+            player.CurrentPet.Visible = player.Visible;
 
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, Player.CurrentPet.rend);
+            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.CurrentPet.rend);
 
             /*if (!Player.inVent)
             {
@@ -220,6 +252,28 @@ namespace TownOfUs
             }) as Medic;
         }
 
+        /*
+         * TODO
+         * Can we make a clean encapsulation of this that checks for shield, breaks it, and also resets cooldowns
+         * if the setting is on? That would be another step toward reducing boilerplate and making new roles easier.
+         */
+        public static void BreakShield(PlayerControl target)
+        {
+            if (!target.isShielded())
+            {
+                return;
+            }
+
+            byte medicIc = target.getMedic().Player.PlayerId;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte) CustomRPC.AttemptSound, SendOption.Reliable, -1);
+            writer.Write(medicIc);
+            writer.Write(target.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            StopKill.BreakShield(medicIc, target.PlayerId, CustomGameOptions.ShieldBreaks);
+        }
+
         public static PlayerControl getClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers)
         {
             var num = double.MaxValue;
@@ -228,6 +282,8 @@ namespace TownOfUs
             foreach (var player in AllPlayers)
             {
                 if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled) continue;
+                if (CustomGameOptions.LoverKill && refPlayer.isLover() && player.isLover()) continue; // no target lover for lover if loving impostor can't kill his lover is activated
+                if (CustomGameOptions.KillVent && player.inVent) continue; // no target player in vent if can't kill player in vent is activated
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -243,10 +299,24 @@ namespace TownOfUs
             return result;
         }
 
+        public static bool IsSabotageActive()
+        {
+            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+            if (system == null)
+            {
+                return false;
+            }
+            var specials = system.specials.ToArray();
+            var dummyActive = system.dummy.IsActive;
+            var sabActive = specials.Any(s => s.IsActive);
+            return sabActive && !dummyActive;
+        }
+
         public static PlayerControl getClosestPlayer(PlayerControl refplayer)
         {
             return getClosestPlayer(refplayer, PlayerControl.AllPlayerControls.ToArray().ToList());
         }
+
         public static void SetTarget(
             ref PlayerControl closestPlayer,
             KillButtonManager button,
@@ -294,6 +364,30 @@ namespace TownOfUs
             writer.Write(killer.PlayerId);
             writer.Write(target.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static float GetCooldownTimeRemaining(Func<DateTime> getLastExecuted, Func<float> getCooldown)
+        {
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - getLastExecuted();
+            var num = getCooldown() * 1000f;
+            if (num - (float) timeSpan.TotalMilliseconds < 0f)
+            {
+                return 0;
+            }
+            return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        /* There's a bug on Polus; the bottom of the vent in Admin (in the library) is right next to the bottom wall
+         * of the room. This means that attempting to send the player there often ends up with them stuck in the wall,
+         * unable to move. We need to instead use coordinates that put them in the middle of the vent instead.
+         */
+        public static Vector3 GetCoordinatesToSendPlayerToVent(Vent vent)
+        {
+            Vector2 size = vent.GetComponent<BoxCollider2D>().size;
+            Vector3 destination = vent.transform.position;
+            destination.y += size.y / 2;
+            return destination;
         }
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)

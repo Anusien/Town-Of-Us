@@ -18,32 +18,30 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             var role = Role.GetRole<Sheriff>(PlayerControl.LocalPlayer);
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            var flag2 = role.SheriffKillTimer() == 0f;
-            if (!flag2) return false;
+            if (role.SheriffKillTimer() != 0f) return false;
             if (!__instance.enabled || role.ClosestPlayer == null) return false;
             var distBetweenPlayers = Utils.getDistBetweenPlayers(PlayerControl.LocalPlayer, role.ClosestPlayer);
             var flag3 = distBetweenPlayers < GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
             if (!flag3) return false;
             if (role.ClosestPlayer.isShielded())
             {
-                var medic = role.ClosestPlayer.getMedic().Player.PlayerId;
-                var writer1 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                writer1.Write(medic);
-                writer1.Write(role.ClosestPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer1);
+                Utils.BreakShield(role.ClosestPlayer);
 
-                if (CustomGameOptions.ShieldBreaks) role.LastKilled = DateTime.UtcNow;
-
-                StopKill.BreakShield(medic, role.ClosestPlayer.PlayerId, CustomGameOptions.ShieldBreaks);
+                if (CustomGameOptions.ShieldBreaks)
+                {
+                    role.LastKilled = DateTime.UtcNow;
+                }
 
                 return false;
             }
 
             var flag4 = role.ClosestPlayer.Data.IsImpostor ||
                         role.ClosestPlayer.Is(RoleEnum.Jester) && CustomGameOptions.SheriffKillsJester ||
+                        role.ClosestPlayer.Is(RoleEnum.Shifter) && CustomGameOptions.SheriffKillsShifter ||
                         role.ClosestPlayer.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
-                        role.ClosestPlayer.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist;
+                        role.ClosestPlayer.Is(RoleEnum.Executioner) && CustomGameOptions.SheriffKillsExecutioner ||
+                        role.ClosestPlayer.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist
+                ;
             if (!flag4)
             {
                 if (CustomGameOptions.SheriffKillOther)

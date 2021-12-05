@@ -1,21 +1,28 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Sheriff : Role
     {
-        public Sheriff(PlayerControl player) : base(player)
+        public Sheriff(PlayerControl player) : base(player, RoleEnum.Sheriff)
         {
-            Name = "Sheriff";
             ImpostorText = () => "Shoot the <color=#FF0000FF>Impostor</color>";
             TaskText = () => "Kill off the impostor but don't kill crewmates.";
-            Color = Color.yellow;
-            RoleType = RoleEnum.Sheriff;
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastKilled { get; set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastKilled = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastKilled = DateTime.UtcNow;
+        }
 
         public float SheriffKillTimer()
         {

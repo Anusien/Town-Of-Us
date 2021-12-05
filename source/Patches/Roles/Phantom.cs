@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownOfUs.Roles
 {
@@ -8,14 +8,10 @@ namespace TownOfUs.Roles
         public bool CompletedTasks;
         public bool Faded;
 
-        public Phantom(PlayerControl player) : base(player)
+        public Phantom(PlayerControl player) : base(player, RoleEnum.Phantom)
         {
-            Name = "Phantom";
             ImpostorText = () => "";
             TaskText = () => "Complete all your tasks without being caught!";
-            Color = new Color(0.4f, 0.16f, 0.38f, 1f);
-            RoleType = RoleEnum.Phantom;
-            Faction = Faction.Neutral;
         }
 
         public void Loses()

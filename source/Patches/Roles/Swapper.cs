@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace TownOfUs.Roles
@@ -10,13 +10,10 @@ namespace TownOfUs.Roles
         public readonly List<bool> ListOfActives = new List<bool>();
 
 
-        public Swapper(PlayerControl player) : base(player)
+        public Swapper(PlayerControl player) : base(player, RoleEnum.Swapper)
         {
-            Name = "Swapper";
             ImpostorText = () => "Swap the votes of two people";
             TaskText = () => "Swap two people's votes and wreak havoc!";
-            Color = new Color(0.4f, 0.9f, 0.4f, 1f);
-            RoleType = RoleEnum.Swapper;
         }
     }
 }

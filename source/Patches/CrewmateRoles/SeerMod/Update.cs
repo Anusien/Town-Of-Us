@@ -21,12 +21,12 @@ namespace TownOfUs.CrewmateRoles.SeerMod
             return player.name + str;
         }
 
-        private static void UpdateMeeting(MeetingHud __instance)
+        private static void RevealSeerInMeeting(MeetingHud __instance)
         {
             foreach (var role in Role.GetRoles(RoleEnum.Seer))
             {
                 var seerRole = (Seer) role;
-                if (!seerRole.Investigated.Contains(PlayerControl.LocalPlayer.PlayerId)) continue;
+                if (!seerRole.Investigated.ContainsKey(PlayerControl.LocalPlayer.PlayerId)) continue;
                 if (!seerRole.CheckSeeReveal(PlayerControl.LocalPlayer)) continue;
                 var state = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == seerRole.Player.PlayerId);
                 state.NameText.color = seerRole.Color;
@@ -34,11 +34,12 @@ namespace TownOfUs.CrewmateRoles.SeerMod
             }
         }
 
-        private static void UpdateMeeting(MeetingHud __instance, Seer seer)
+        // Assumes the local player is the Seer
+        private static void RevealSightsInMeeting(MeetingHud __instance, Seer seer)
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.Contains(player.PlayerId)) continue;
+                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
                 foreach (var state in __instance.playerStates)
                 {
                     if (player.PlayerId != state.TargetPlayerId) continue;
@@ -73,30 +74,35 @@ namespace TownOfUs.CrewmateRoles.SeerMod
 
         [HarmonyPriority(Priority.Last)]
         private static void Postfix(HudManager __instance)
-
         {
-            if (PlayerControl.AllPlayerControls.Count <= 1) return;
-            if (PlayerControl.LocalPlayer == null) return;
-            if (PlayerControl.LocalPlayer.Data == null) return;
+            if (
+                PlayerControl.AllPlayerControls.Count <= 1
+                || PlayerControl.LocalPlayer == null
+                || PlayerControl.LocalPlayer.Data == null
+                || (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            )
+            {
+                return;
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Seer))
             {
                 var seerRole = (Seer) role;
-                if (!seerRole.Investigated.Contains(PlayerControl.LocalPlayer.PlayerId)) continue;
+                if (!seerRole.Investigated.ContainsKey(PlayerControl.LocalPlayer.PlayerId)) continue;
                 if (!seerRole.CheckSeeReveal(PlayerControl.LocalPlayer)) continue;
 
                 seerRole.Player.nameText.color = seerRole.Color;
                 seerRole.Player.nameText.text = NameText(seerRole.Player, " (Seer)");
             }
 
-            if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance);
+            if (MeetingHud.Instance != null) RevealSeerInMeeting(MeetingHud.Instance);
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Seer)) return;
             var seer = Role.GetRole<Seer>(PlayerControl.LocalPlayer);
-            if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance, seer);
+            if (MeetingHud.Instance != null) RevealSightsInMeeting(MeetingHud.Instance, seer);
 
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.Contains(player.PlayerId)) continue;
+                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
                 var roleType = Utils.GetRole(player);
                 player.nameText.transform.localPosition = new Vector3(0f, 2f, -0.5f);
                 switch (roleType)

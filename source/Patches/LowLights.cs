@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ namespace TownOfUs
                 return false;
             }
 
-            var switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
             if (player.IsImpostor || player._object.Is(RoleEnum.Glitch))
             {
                 __result = __instance.MaxLightRadius * PlayerControl.GameOptions.ImpostorLightMod;
@@ -26,15 +26,20 @@ namespace TownOfUs
                 return false;
             }
 
-            var t = switchSystem.Value / 255f;
-            if (player._object.Is(ModifierEnum.Torch)) t = 1;
-            __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
+            SwitchSystem switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+            float lightPercentage = switchSystem.Value / 255f;
+            if (player._object.Is(ModifierEnum.Torch)) lightPercentage = 1;
+            __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, lightPercentage) *
                        PlayerControl.GameOptions.CrewLightMod;
 
             if (player.Object.Is(ModifierEnum.ButtonBarry))
                 if (Modifier.GetModifier<ButtonBarry>(PlayerControl.LocalPlayer).ButtonUsed)
                     __result *= 0.5f;
 
+            if (player.Object.Is(RoleEnum.Covert) && Role.GetRole<Covert>(PlayerControl.LocalPlayer).IsCovert)
+            {
+                __result *= 0.5f;
+            }
             return false;
         }
     }

@@ -10,21 +10,21 @@ public class RainbowUtils
 
 
     public static Color Rainbow => new HSBColor(PP(0, 1, 0.3f), 1, 1).ToColor();
-    public static Color RainbowShadow => Shadow(Rainbow);
+    private static Color RainbowShadow => Shadow(Rainbow);
 
-    public static Color Galaxy => new HSBColor(PP(0.5f, 0.87f, 0.4f), 1, 1).ToColor();
+    private static Color Galaxy => new HSBColor(PP(0.5f, 0.87f, 0.4f), 1, 1).ToColor();
     public static Color GalaxyShadow => Shadow(Galaxy);
 
-    public static Color Fire => new HSBColor(PP(0f, 0.17f, 0.4f), 1, 1).ToColor();
+    private static Color Fire => new HSBColor(PP(0f, 0.17f, 0.4f), 1, 1).ToColor();
     public static Color FireShadow => Shadow(Fire);
 
 
-    public static float PP(float min, float max, float mul)
+    private static float PP(float min, float max, float mul)
     {
         return min + Mathf.PingPong(Time.time * mul, max - min);
     }
 
-    public static Color Shadow(Color color)
+    private static Color Shadow(Color color)
     {
         return new Color(color.r - 0.3f, color.g - 0.3f, color.b - 0.3f);
     }
@@ -40,7 +40,7 @@ public class RainbowUtils
     {
         try
         {
-            return (int)Palette.ColorNames[id] == 999997;
+            return id >= 0 && (int)Palette.ColorNames[id] == 999997;
         } catch
         {
             return false;

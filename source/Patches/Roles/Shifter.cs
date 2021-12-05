@@ -1,22 +1,28 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Shifter : Role
     {
-        public Shifter(PlayerControl player) : base(player)
+        public Shifter(PlayerControl player) : base(player, RoleEnum.Shifter)
         {
-            Name = "Shifter";
             ImpostorText = () => "Shift around different roles";
             TaskText = () => "Steal other people's roles.\nFake Tasks:";
-            Color = new Color(0.6f, 0.6f, 0.6f, 1f);
-            RoleType = RoleEnum.Shifter;
-            Faction = Faction.Neutral;
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastShifted { get; set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastShifted = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastShifted = DateTime.UtcNow;
+        }
 
         public void Loses()
         {

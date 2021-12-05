@@ -5,7 +5,7 @@ namespace TownOfUs.CustomOption
 {
     public class CustomOption
     {
-        public static List<CustomOption> AllOptions = new List<CustomOption>();
+        public static readonly List<CustomOption> AllOptions = new List<CustomOption>();
         public readonly int ID;
 
         public Func<object, string> Format;

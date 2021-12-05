@@ -11,7 +11,6 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
         private const float PeriodInterval = 0.25f;
         private static float _time;
 
-        public static bool GameStarted = false;
         private static float Interval => CustomGameOptions.FootprintInterval;
         private static bool Vent => CustomGameOptions.VentFootprintVisible;
 
@@ -23,7 +22,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
 
         public static void Postfix(PlayerControl __instance)
         {
-            if (!GameStarted || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
+            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
             // New Footprint
             var investigator = Role.GetRole<Investigator>(PlayerControl.LocalPlayer);
             _time += Time.deltaTime;

@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Hazel;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Linq;
 using Reactor.Extensions;
 using TMPro;
 using TownOfUs.ImpostorRoles.CamouflageMod;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -20,19 +21,20 @@ namespace TownOfUs.Roles
 
         public static bool NobodyWins;
 
-        public List<KillButtonManager> ExtraButtons = new List<KillButtonManager>();
+        public readonly List<KillButtonManager> ExtraButtons = new List<KillButtonManager>();
 
         protected Func<string> ImpostorText;
         protected Func<string> TaskText;
 
-        protected Role(PlayerControl player)
+        protected Role(PlayerControl player, RoleEnum roleEnum)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
+            RoleType = roleEnum;
+            RoleDetailsAttribute = RoleDetailsAttribute.GetRoleDetails(roleEnum);
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
-        protected internal string Name { get; set; }
 
         private PlayerControl _player { get; set; }
 
@@ -48,14 +50,14 @@ namespace TownOfUs.Roles
             }
         }
 
-        protected float Scale { get; set; } = 1f;
-        protected internal Color Color { get; set; }
-        protected internal RoleEnum RoleType { get; set; }
+        public string Name => RoleDetailsAttribute.Name;
+        public Color Color => RoleDetailsAttribute.ColorObject;
+        protected internal RoleEnum RoleType { get; }
+        private RoleDetailsAttribute RoleDetailsAttribute { get; }
 
         protected internal bool Hidden { get; set; } = false;
 
-        //public static Faction Faction;
-        protected internal Faction Faction { get; set; } = Faction.Crewmates;
+        protected internal Faction Faction => RoleDetailsAttribute.Faction;
 
         protected internal Color FactionColor
         {
@@ -71,8 +73,7 @@ namespace TownOfUs.Roles
             }
         }
 
-        public static uint NetId => PlayerControl.LocalPlayer.NetId;
-        public string PlayerName { get; set; }
+        public string PlayerName { get; private set; }
 
         public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
 
@@ -94,8 +95,6 @@ namespace TownOfUs.Roles
             return HashCode.Combine(Player, (int)RoleType);
         }
 
-        //public static T Gen<T>()
-
         internal virtual bool Criteria()
         {
             Player.nameText.transform.localPosition = new Vector3(
@@ -105,11 +104,35 @@ namespace TownOfUs.Roles
             );
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
             if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor &&
-                CustomGameOptions.ImpostorSeeRoles) return true;
+                CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.ImpostorSeeRoles) return true;
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
+        /*
+         * Hook. Override this method to run before the cutscene showing the player who's on their team.
+         * I'm not really sure why anybody does this at the moment.
+         */
         protected virtual void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        {
+        }
+
+        /*
+         * Hook. to simplify creating setting up initial cooldowns and things. Called some time at the start of the
+         * game to initialize the player's role.
+         * WARNING: This method could be called more than once right now.
+         * We don't do these things in the constructor because some constructors will be instantiated more than once.
+         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
+         */
+        protected virtual void DoOnGameStart()
+        {
+        }
+
+        /*
+         * Hook. to simplify resetting cooldowns and things. Called at the end of the meeting to initialize the
+         * player's role.
+         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
+         */
+        protected virtual void DoOnMeetingEnd()
         {
         }
 
@@ -120,6 +143,7 @@ namespace TownOfUs.Roles
 
         internal static bool NobodyEndCriteria(ShipStatus __instance)
         {
+            // TODO
             bool CheckNoImpsNoCrews()
             {
                 var alives = PlayerControl.AllPlayerControls.ToArray()
@@ -265,8 +289,6 @@ namespace TownOfUs.Roles
         {
             public static TextMeshPro ModifierText;
 
-            public static float Scale;
-
             [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
             public static class IntroCutscene_BeginCrewmate
             {
@@ -280,8 +302,6 @@ namespace TownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
-
-                    Lights.SetLights();
                 }
             }
 
@@ -298,15 +318,12 @@ namespace TownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
-                    Lights.SetLights();
                 }
             }
 
             [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__14), nameof(IntroCutscene._CoBegin_d__14.MoveNext))]
             public static class IntroCutscene_CoBegin__d_MoveNext
             {
-                public static float TestScale;
-
                 public static void Prefix(IntroCutscene._CoBegin_d__14 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
@@ -325,13 +342,7 @@ namespace TownOfUs.Roles
                         __instance.__4__this.ImpostorText.text = role.ImpostorText();
                         __instance.__4__this.ImpostorText.gameObject.SetActive(true);
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
-                        //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
-                        //                        __instance.__this.Title.scale = TestScale / role.Scale;
                     }
-                    /*else if (!__instance.isImpostor)
-                    {
-                        __instance.__this.ImpostorText.text = "Haha imagine being a boring old crewmate";
-                    }*/
 
                     if (ModifierText != null)
                     {
@@ -339,11 +350,27 @@ namespace TownOfUs.Roles
                         ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
                         ModifierText.color = modifier.Color;
 
-                        //
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 2.0f, 0f);
                         ModifierText.gameObject.SetActive(true);
                     }
+
+                    foreach (Role r in AllRoles)
+                    {
+                        r.DoOnGameStart();
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
+        public static class PostMeeting
+        {
+            public static void Postfix()
+            {
+                foreach (Role r in AllRoles)
+                {
+                    r.DoOnMeetingEnd();
                 }
             }
         }
@@ -450,7 +477,6 @@ namespace TownOfUs.Roles
 
                 RoleDictionary.Clear();
                 Modifier.ModifierDictionary.Clear();
-                Lights.SetLights(Color.white);
             }
         }
 
@@ -521,6 +547,22 @@ namespace TownOfUs.Roles
                     }
                     else
                     {
+                        //Remove red color for impostors in meeting if anonymous impostor
+                        var playerChar = PlayerControl.AllPlayerControls.ToArray()
+                        .FirstOrDefault(x => x.PlayerId == player.TargetPlayerId);
+                        var localPlayer = PlayerControl.LocalPlayer;
+                        if (!localPlayer.Data.IsDead && localPlayer != player && player != null && playerChar.Data != null)
+                        {
+                            if ((CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.AnonymousImpostors ||
+                                CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.ImpostorsWinAlone) &&
+                                localPlayer.Data.IsImpostor &&
+                                playerChar.Data.IsImpostor)
+                            {
+                                player.NameText.color = Color.white;
+                                player.NameText.text = player.name;
+                            }
+                        }
+
                         try
                         {
                             player.NameText.text = role.Player.name;
@@ -543,10 +585,20 @@ namespace TownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    if (!(player.Data != null && player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor))
+                    //flag for anonymous impostors options TODO: rework the flag
+                    var flag = (CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.AnonymousImpostors ||
+                        CustomGameOptions.ImpostorsKnowTeam == AnonymousEnum.ImpostorsWinAlone) &&
+                        !PlayerControl.LocalPlayer.Data.IsDead &&
+                        PlayerControl.LocalPlayer.Data.IsImpostor &&
+                        PlayerControl.LocalPlayer != player &&
+                        player.Data.IsImpostor;
+
+                    if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || flag)) //remove red color for impostors in game
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;
+                        foreach (var bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
+                            if (flag) bubble.Cast<ChatBubble>().NameText.color = Color.white; //remove red color for impostors in chat
                     }
 
                     var role = GetRole(player);

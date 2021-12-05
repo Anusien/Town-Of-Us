@@ -8,6 +8,9 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
     {
         private static void UpdateMeeting(MeetingHud __instance)
         {
+            if (!CustomGameOptions.SnitchSeesInMeetings)
+                return;
+
             foreach (var state in __instance.playerStates)
             {
                 if (Utils.PlayerById(state.TargetPlayerId).Data.IsImpostor) state.NameText.color = Palette.ImpostorRed;

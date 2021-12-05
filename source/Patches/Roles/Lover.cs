@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using TownOfUs.ImpostorRoles.CamouflageMod;
@@ -8,24 +8,18 @@ namespace TownOfUs.Roles
 {
     public class Lover : Role
     {
-        public Lover(PlayerControl player, int num, bool loverImpostor) : base(player)
+        public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player, impostor ? RoleEnum.LoverImpostor : RoleEnum.Lover)
         {
-            var imp = num == 2 && loverImpostor;
-            Name = imp ? "Loving Impostor" : "Lover";
-            Color = new Color(1f, 0.4f, 0.8f, 1f);
             ImpostorText = () =>
                 "You are in " + ColorString + "Love</color> with " + ColorString + OtherLover.Player.name;
             TaskText = () => $"Stay alive with your love {OtherLover.Player.name} \n and win together";
-            RoleType = imp ? RoleEnum.LoverImpostor : RoleEnum.Lover;
-            Num = num;
-            LoverImpostor = loverImpostor;
-            Scale = imp ? 2.3f : 1f;
-            Faction = imp ? Faction.Impostors : Faction.Crewmates;
+            LoverImpostor = eitherLoverImpostor;
         }
 
         public Lover OtherLover { get; set; }
         public bool LoveCoupleWins { get; set; }
-        public int Num { get; set; }
+
+        // Returns true if either lover is an impostor
         public bool LoverImpostor { get; set; }
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
@@ -67,24 +61,21 @@ namespace TownOfUs.Roles
 
         public static void Gen(List<PlayerControl> crewmates, List<PlayerControl> impostors)
         {
-            //System.Console.WriteLine("LOVER2");
-            if (crewmates.Count <= 0) return;
-            if (crewmates.Count <= 1 && impostors.Count < 1) return;
+            var lovingImpostorEnabled = Random.RandomRangeInt(1, 101) <= CustomGameOptions.LovingImpostorOn;
 
-            //System.Console.WriteLine("LOVER3");
-            var b = Random.RandomRangeInt(0, 3);
+            var canMakeCrewCrewLovers = crewmates.Count >= 2;
+            var canMakeCrewImpostorLovers = crewmates.Count >= 1 && impostors.Count >= 2 && lovingImpostorEnabled;
+            if (!canMakeCrewCrewLovers && !canMakeCrewImpostorLovers) {
+                return;
+            }
 
-            if ((b == 0) & (impostors.Count < 1)) b = 1;
+            var lovingImpostor = canMakeCrewImpostorLovers;
 
-            if ((b != 0) & (crewmates.Count <= 1)) b = 0;
-
-            //System.Console.WriteLine("LOVER4");
-            var flag2 = b == 0;
             var num = Random.RandomRangeInt(0, crewmates.Count);
             var player1 = crewmates[num];
             crewmates.Remove(player1);
             PlayerControl player2;
-            if (flag2)
+            if (lovingImpostor)
             {
                 var num2 = Random.RandomRangeInt(0, impostors.Count);
                 player2 = impostors[num2];
@@ -101,9 +92,10 @@ namespace TownOfUs.Roles
                 (byte) CustomRPC.SetCouple, SendOption.Reliable, -1);
             writer.Write(player1.PlayerId);
             writer.Write(player2.PlayerId);
-            writer.Write(b);
-            var lover1 = new Lover(player1, 1, b == 0);
-            var lover2 = new Lover(player2, 2, b == 0);
+            writer.Write(lovingImpostor);
+
+            var lover1 = new Lover(player1, false, lovingImpostor);
+            var lover2 = new Lover(player2, lovingImpostor, lovingImpostor);
 
             lover1.OtherLover = lover2;
             lover2.OtherLover = lover1;

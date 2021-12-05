@@ -2,7 +2,7 @@ namespace TownOfUs
 {
     public enum CustomRPC
     {
-        SetJester = 43,
+        SetJester = 60,
         SetCouple,
         SetMayor,
         SetSheriff,
@@ -24,9 +24,13 @@ namespace TownOfUs
         SetJanitor,
         SetArsonist,
         SetAltruist,
+        SetProphet,
+        SetCovert,
         SetUndertaker,
         SetAssassin,
         SetUnderdog,
+        SetTeleporter,
+        SetConcealer,
 
         SetTorch,
         SetDiseased,
@@ -78,6 +82,9 @@ namespace TownOfUs
         Drag,
         Drop,
         AssassinKill,
+        Teleport,
+        Conceal,
+        GoCovert,
 
         SetGlitch,
         BypassKill,
@@ -91,7 +98,7 @@ namespace TownOfUs
         Start,
         SyncCustomSettings,
         FixAnimation,
-        
+
         AddMayorVoteBank
     }
 }

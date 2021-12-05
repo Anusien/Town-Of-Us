@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TownOfUs.CrewmateRoles.SeerMod;
 using UnityEngine;
@@ -7,19 +7,27 @@ namespace TownOfUs.Roles
 {
     public class Seer : Role
     {
-        public List<byte> Investigated = new List<byte>();
+        public readonly Dictionary<byte, bool> Investigated = new Dictionary<byte, bool>();
 
-        public Seer(PlayerControl player) : base(player)
+        public Seer(PlayerControl player) : base(player, RoleEnum.Seer)
         {
-            Name = "Seer";
             ImpostorText = () => "Investigate roles";
             TaskText = () => "Investigate roles and find the Impostor";
-            Color = new Color(1f, 0.8f, 0.5f, 1f);
-            RoleType = RoleEnum.Seer;
+            LastInvestigated = DateTime.UtcNow;
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastInvestigated { get; set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastInvestigated = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastInvestigated = DateTime.UtcNow;
+        }
 
         public float SeerTimer()
         {

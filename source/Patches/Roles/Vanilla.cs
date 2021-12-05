@@ -1,28 +1,20 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Impostor : Role
     {
-        public Impostor(PlayerControl player) : base(player)
+        public Impostor(PlayerControl player) : base(player, RoleEnum.Impostor)
         {
-            Name = "Impostor";
             Hidden = true;
-            Faction = Faction.Impostors;
-            RoleType = RoleEnum.Impostor;
-            Color = Palette.ImpostorRed;
         }
     }
 
     public class Crewmate : Role
     {
-        public Crewmate(PlayerControl player) : base(player)
+        public Crewmate(PlayerControl player) : base(player, RoleEnum.Crewmate)
         {
-            Name = "Crewmate";
             Hidden = true;
-            Faction = Faction.Crewmates;
-            RoleType = RoleEnum.Crewmate;
-            Color = Color.white;
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Text;
 using HarmonyLib;
 using Reactor.Extensions;
 using TownOfUs.CustomOption;
-using TownOfUs.Extensions;
 using UnityEngine;
 
 namespace TownOfUs
@@ -103,8 +102,6 @@ namespace TownOfUs
             private static void Postfix()
             {
                 if (Input.GetKeyInt(KeyCode.Tab)) AllOptions = !AllOptions;
-
-                //                HudManager.Instance.GameSettings.scale = 0.5f;
             }
         }
 
@@ -113,7 +110,7 @@ namespace TownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 70f;
+                __instance.GetComponentInParent<Scroller>().YBounds.max = 84;
             }
         }
     }

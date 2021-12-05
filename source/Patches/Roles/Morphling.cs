@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using TownOfUs.Extensions;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -16,14 +16,10 @@ namespace TownOfUs.Roles
         public PlayerControl SampledPlayer;
         public float TimeRemaining;
 
-        public Morphling(PlayerControl player) : base(player)
+        public Morphling(PlayerControl player) : base(player, RoleEnum.Morphling)
         {
-            Name = "Morphling";
             ImpostorText = () => "Transform into crewmates";
             TaskText = () => "Morph into crewmates to be disguised";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Morphling;
-            Faction = Faction.Impostors;
         }
 
         public KillButtonManager MorphButton
@@ -35,6 +31,18 @@ namespace TownOfUs.Roles
                 ExtraButtons.Clear();
                 ExtraButtons.Add(value);
             }
+        }
+
+        protected override void DoOnGameStart()
+        {
+            LastMorphed = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            MorphButton.renderer.sprite = TownOfUs.SampleSprite;
+            SampledPlayer = null;
+            LastMorphed = DateTime.UtcNow;
         }
 
         public bool Morphed => TimeRemaining > 0f;
