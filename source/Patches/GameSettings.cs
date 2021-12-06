@@ -110,7 +110,17 @@ namespace TownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 84;
+                /*Automatically calculate the Ybounds.max
+                    for the 2021.11.9 the value was (__instance.Children.Length - 8.5f) / 2;
+                    One option = 0.5
+                    2 options = 1
+                    the 7th first options are not calculate because don't need scroll
+                    the margin = 0.2
+                    __instance.children = options number
+                    we calculate the options number - 7th first options
+                    we divide the result by 2
+                    and we add the margin 0.2*/
+                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2 + 0.2f;
             }
         }
     }
