@@ -530,6 +530,12 @@ namespace TownOfUs
                     case CustomRPC.SetCamouflager:
                         new Camouflager(Utils.PlayerById(reader.ReadByte()));
                         break;
+                    case CustomRPC.VotedLover:
+                        var lover = Utils.PlayerById(reader.ReadByte());
+                        var loverRole = Role.GetRole<Lover>(lover);
+                        loverRole.Voted = true;
+                        loverRole.OtherLover.Voted = true;
+                        break;
                     case CustomRPC.Camouflage:
                         var camouflager = Utils.PlayerById(reader.ReadByte());
                         var camouflagerRole = Role.GetRole<Camouflager>(camouflager);

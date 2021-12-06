@@ -489,6 +489,20 @@ namespace TownOfUs.Roles
             {
                 if (ExileController.Instance == null || ExileController.Instance.exiled == null) return;
 
+                //Display role of lover if voted and option activated to prevent other players, anyway when lover die after his lover was voted players know role so wee can show in ejection screen
+                var info = ExileController.Instance.exiled;
+                var role = GetRole(info.Object);
+                if (role == null) return;
+                var roleName = "";
+                if ((role.RoleType == RoleEnum.Lover || role.RoleType == RoleEnum.LoverImpostor) && CustomGameOptions.VotedLover)
+                {
+                    var lover = GetRole<Lover>(info.Object);
+                    var lover2 = lover.OtherLover.Player;
+                    roleName = $"The Lover with {lover2.Data.PlayerName}";
+                    __result = $"{info.PlayerName} was {roleName}.";
+                    return;
+                }
+
                 switch (name)
                 {
                     case StringNames.ExileTextPN:
@@ -496,10 +510,8 @@ namespace TownOfUs.Roles
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
-                            var info = ExileController.Instance.exiled;
-                            var role = GetRole(info.Object);
-                            if (role == null) return;
-                            var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
+                            // I've move part of code above
+                            roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
                             return;
                         }

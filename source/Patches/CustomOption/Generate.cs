@@ -77,6 +77,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption BothLoversDie;
         public static CustomNumberOption LovingImpostorOn;
         public static CustomToggleOption LoverKill;
+        public static CustomToggleOption VotedLover;
 
         private static CustomHeaderOption Sheriff;
         public static CustomToggleOption ShowSheriff;
@@ -332,6 +333,7 @@ namespace TownOfUs.CustomOption
             LovingImpostorOn = new CustomNumberOption(num++, "Allow Loving Impostor",25f, 0f, 100f, 10f,
                 PercentFormat);
             LoverKill = new CustomToggleOption(num++, "Loving Impostor Can't Kill His Lover", false);
+            VotedLover = new CustomToggleOption(num++, "Can't Report Voted Lover", false);
 
             Sheriff =
                 new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Sheriff).GetColoredName()}");

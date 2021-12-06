@@ -73,6 +73,7 @@ namespace TownOfUs
         RewindRevive,
         Morph,
         Camouflage,
+        VotedLover,
         Mine,
         Swoop,
         Douse,

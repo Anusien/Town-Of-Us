@@ -449,7 +449,16 @@ namespace TownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
+                //Perform Kill Without Body for the voted lover, when the Lycan was add i add the check here in the if is for that the weird ()
+                //TODO: better way to perform kill without body
+                if (
+                    (killer.Is(RoleEnum.Lover) ||
+                    killer.Is(RoleEnum.LoverImpostor) &&
+                    Role.GetRole<Lover>(killer).Voted) &&
+                    CustomGameOptions.VotedLover)
+                        target.Data.IsDead = true;
+                else
+                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 var deadBody = new DeadPlayer
                 {
                     PlayerId = target.PlayerId,
