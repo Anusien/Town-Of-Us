@@ -49,6 +49,7 @@ namespace TownOfUs
 
 
         LoveWin,
+        VotedLover,
         GlitchWin,
         ArsonistWin,
         PhantomWin,

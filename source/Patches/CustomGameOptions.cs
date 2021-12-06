@@ -51,6 +51,7 @@ namespace TownOfUs
         public static int VanillaGame => (int) Generate.VanillaGame.Get();
         public static bool BothLoversDie => Generate.BothLoversDie.Get();
         public static int LovingImpostorOn => (int) Generate.LovingImpostorOn.Get();
+        public static bool VotedLover => Generate.VotedLover.Get();
         public static bool ShowSheriff => Generate.ShowSheriff.Get();
         public static bool SheriffKillOther => Generate.SheriffKillOther.Get();
         public static bool SheriffKillsJester => Generate.SheriffKillsJester.Get();

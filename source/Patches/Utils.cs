@@ -447,7 +447,17 @@ namespace TownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
+                // perform kill without body.
+                //TODO: find a better way to perform this kill
+                if (
+                    CustomGameOptions.VotedLover &&
+                    (killer.Is(RoleEnum.Lover) ||
+                    killer.Is(RoleEnum.LoverImpostor)) &&
+                    Role.GetRole<Lover>(killer).Voted
+                )
+                    target.Data.IsDead = true;
+                else
+                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 var deadBody = new DeadPlayer
                 {
                     PlayerId = target.PlayerId,

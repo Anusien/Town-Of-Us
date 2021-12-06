@@ -294,7 +294,13 @@ namespace TownOfUs
                         var winnerlover = Utils.PlayerById(reader.ReadByte());
                         Role.GetRole<Lover>(winnerlover).Win();
                         break;
-
+                    //RPC Turn Voted indicator for the 2 lover for more security, just 1 is very necessary. the one who dies after the meeting, but I'm not sure which one is this among the 2.
+                    case CustomRPC.VotedLover:
+                        var lover = Utils.PlayerById(reader.ReadByte());
+                        var loverRole = Role.GetRole<Lover>(lover);
+                        loverRole.Voted = true;
+                        loverRole.OtherLover.Voted = true;
+                        break;
 
                     case CustomRPC.JesterLose:
                         foreach (var role in Role.AllRoles)

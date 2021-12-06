@@ -21,6 +21,9 @@ namespace TownOfUs.Roles
 
         // Returns true if either lover is an impostor
         public bool LoverImpostor { get; set; }
+        
+        //add a VotedLover Indicator
+        public bool Voted = false;
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
         {

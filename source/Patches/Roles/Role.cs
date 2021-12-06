@@ -488,6 +488,21 @@ namespace TownOfUs.Roles
             {
                 if (ExileController.Instance == null || ExileController.Instance.exiled == null) return;
 
+                // If Lover was Voted and option was activated we display the role and the other lover in the ejection text to prevent other players to replace the body appaerant
+                //anyway we would have understood that they were lovers when the otherlover dies if the option is not activated
+                var info = ExileController.Instance.exiled;
+                var role = GetRole(info.Object);
+                if (role == null) return;
+                var roleName = "";
+                if ((role.RoleType == RoleEnum.Lover || role.RoleType == RoleEnum.LoverImpostor) && CustomGameOptions.VotedLover)
+                {
+                    var lover = GetRole<Lover>(info.Object);
+                    var lover2 = lover.OtherLover.Player;
+                    roleName = $"The Lover with {lover2.Data.PlayerName}";
+                    __result = $"{info.PlayerName} was {roleName}.";
+                    return;
+                }
+
                 switch (name)
                 {
                     case StringNames.ExileTextPN:
@@ -495,10 +510,9 @@ namespace TownOfUs.Roles
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
-                            var info = ExileController.Instance.exiled;
-                            var role = GetRole(info.Object);
+                            // we move the info and role definition above, may be not need the if(role == null) return; we have already check before
                             if (role == null) return;
-                            var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
+                            roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
                             return;
                         }
