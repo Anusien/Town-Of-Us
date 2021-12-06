@@ -79,6 +79,8 @@ namespace TownOfUs
                     if (option.Name == "Custom Game Settings" && !AllOptions) break;
                     if (option.Type == CustomOptionType.Button) continue;
                     if (option.Type == CustomOptionType.Header) builder.AppendLine($"\n{option.Name}");
+                    // no display the title of option for "anonymous impostors"
+                    else if (option.Name == "Anon Imp") builder.AppendLine($"{option}\n");
                     else if (option.Indent) builder.AppendLine($"     {option.Name}: {option}");
                     else builder.AppendLine($"{option.Name}: {option}");
                 }
@@ -110,7 +112,9 @@ namespace TownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 84;
+                /*Automatically calculate the Ybounds.max
+                    for the 2021.11.9 the value was (__instance.Children.Length - 8.5f) / 2;*/
+                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2 + 0.2f;;
             }
         }
     }
