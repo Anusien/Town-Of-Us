@@ -36,7 +36,7 @@ namespace TownOfUs
                 return false;
 
 
-            if (player.Is(RoleEnum.Engineer))
+            if (player.Is(RoleEnum.Engineer) || (player.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent))
                 playerInfo.IsImpostor = true;
             
             return true;

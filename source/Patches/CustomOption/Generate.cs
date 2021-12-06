@@ -143,6 +143,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption CovertCooldown;
         public static CustomNumberOption CovertDuration;
 
+        public static CustomHeaderOption Jester;
+        public static CustomToggleOption JesterVent;
+        
         private static CustomHeaderOption TheGlitch;
         public static CustomNumberOption MimicCooldownOption;
         public static CustomNumberOption MimicDurationOption;
@@ -433,6 +436,10 @@ namespace TownOfUs.CustomOption
 
 
             #region NeutralConfiguration
+            Jester =
+                new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Jester).GetColoredName()}");
+            JesterVent =
+                new CustomToggleOption(num++, "Jester Can Vent", false);
             Shifter =
                 new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Shifter).GetColoredName()}");
             ShifterCd =
