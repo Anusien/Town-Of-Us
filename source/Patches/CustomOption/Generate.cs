@@ -87,6 +87,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
 
+        public static CustomHeaderOption Jester;
+        public static CustomToggleOption JesterVent;
+
         private static CustomHeaderOption Shifter;
         public static CustomNumberOption ShifterCd;
         public static CustomStringOption WhoShifts;
@@ -429,6 +432,11 @@ namespace TownOfUs.CustomOption
 
 
             #region NeutralConfiguration
+            Jester =
+                new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Jester).GetColoredName()}");
+            JesterVent =
+                new CustomToggleOption(num++, "Jester Can Vent", false);
+
             Shifter =
                 new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Shifter).GetColoredName()}");
             ShifterCd =

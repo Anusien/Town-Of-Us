@@ -93,6 +93,7 @@ namespace TownOfUs
         public static float CovertCooldown => Generate.CovertCooldown.Get();
         public static float CovertDuration => Generate.CovertDuration.Get();
         public static bool NeutralRed => Generate.NeutralRed.Get();
+        public static bool JesterVent => Generate.JesterVent.Get();
         public static float MimicCooldown => Generate.MimicCooldownOption.Get();
         public static float MimicDuration => Generate.MimicDurationOption.Get();
         public static float HackCooldown => Generate.HackCooldownOption.Get();

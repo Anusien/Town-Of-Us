@@ -36,7 +36,8 @@ namespace TownOfUs
                 return false;
 
 
-            if (player.Is(RoleEnum.Engineer))
+            //allow Jester Vent if the options are activated
+            if (player.Is(RoleEnum.Engineer) || (player.Is(RoleEnum.Engineer) && CustomGameOptions.JesterVent))
                 playerInfo.IsImpostor = true;
             
             return true;
