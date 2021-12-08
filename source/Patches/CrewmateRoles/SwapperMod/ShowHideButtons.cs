@@ -41,7 +41,8 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
         {
             public static bool Prefix(MeetingHud __instance)
             {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper)) return true;
+                // If the option is activated, we don't hide button on vote confirm
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) || CustomGameOptions.SGAfterVote) return true;
                 var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
                 foreach (var button in swapper.Buttons.Where(button => button != null))
                 {

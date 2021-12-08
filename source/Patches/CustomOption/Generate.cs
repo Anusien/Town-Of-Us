@@ -38,6 +38,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption JanitorOn;
         public static CustomNumberOption MorphlingOn;
         public static CustomNumberOption CamouflagerOn;
+        public static CustomToggleOption SGAfterVote;
         public static CustomNumberOption MinerOn;
         public static CustomNumberOption SwooperOn;
         public static CustomNumberOption UndertakerOn;
@@ -302,6 +303,7 @@ namespace TownOfUs.CustomOption
                 2.5f, CooldownFormat);
             ColourblindComms = new CustomToggleOption(num++, "Camouflaged Comms", false);
             MeetingColourblind = new CustomToggleOption(num++, "Camouflaged Meetings", false);
+            SGAfterVote = new CustomToggleOption(num++, "Swapper & Guesser Can Swap/Guess After Voting", false);
             ImpostorSeeRoles = new CustomToggleOption(num++, "Impostors can see the roles of their team", false);
             DeadSeeRoles =
                 new CustomToggleOption(num++, "Dead can see everyone's roles", false);

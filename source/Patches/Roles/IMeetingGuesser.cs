@@ -170,6 +170,8 @@ namespace TownOfUs.Roles
     {
         public static void HideButtons(IMeetingGuesser role)
         {
+            // if option is activated, we don't hide button on vote confirm
+            if (CustomGameOptions.SGAfterVote) return;
             foreach (var (_, (cycle, guess, guessText)) in role.Buttons)
             {
                 if (cycle == null) continue;
