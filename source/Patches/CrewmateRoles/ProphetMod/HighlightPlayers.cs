@@ -11,10 +11,16 @@ namespace TownOfUs.CrewmateRoles.ProphetMod
         [HarmonyPriority(Priority.Last)]
         private static void Postfix(HudManager __instance)
         {
-            if (PlayerControl.AllPlayerControls.Count <= 1) return;
-            if (PlayerControl.LocalPlayer == null) return;
-            if (PlayerControl.LocalPlayer.Data == null) return;
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Prophet)) return;
+            if (
+                PlayerControl.AllPlayerControls.Count <= 1
+                || PlayerControl.LocalPlayer == null
+                || PlayerControl.LocalPlayer.Data == null
+                || !PlayerControl.LocalPlayer.Is(RoleEnum.Prophet)
+                || (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            )
+            {
+                return;
+            }
 
             var prophet = Role.GetRole<Prophet>(PlayerControl.LocalPlayer);
 
@@ -49,7 +55,6 @@ namespace TownOfUs.CrewmateRoles.ProphetMod
 
         private static void ShowRevealsInGame(HudManager __instance, Prophet prophet)
         {
-
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (!prophet.Revealed.Contains(player.PlayerId))

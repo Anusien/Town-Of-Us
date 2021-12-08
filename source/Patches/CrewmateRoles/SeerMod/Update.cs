@@ -37,11 +37,6 @@ namespace TownOfUs.CrewmateRoles.SeerMod
         // Assumes the local player is the Seer
         private static void RevealSightsInMeeting(MeetingHud __instance, Seer seer)
         {
-            if (seer.Player.Data.IsDead && CustomGameOptions.DeadSeeRoles)
-            {
-                return;
-            }
-
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
@@ -79,11 +74,16 @@ namespace TownOfUs.CrewmateRoles.SeerMod
 
         [HarmonyPriority(Priority.Last)]
         private static void Postfix(HudManager __instance)
-
         {
-            if (PlayerControl.AllPlayerControls.Count <= 1) return;
-            if (PlayerControl.LocalPlayer == null) return;
-            if (PlayerControl.LocalPlayer.Data == null) return;
+            if (
+                PlayerControl.AllPlayerControls.Count <= 1
+                || PlayerControl.LocalPlayer == null
+                || PlayerControl.LocalPlayer.Data == null
+                || (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            )
+            {
+                return;
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Seer))
             {
                 var seerRole = (Seer) role;
