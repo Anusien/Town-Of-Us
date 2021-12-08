@@ -22,7 +22,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
         public float KillAge { get; set; }
 
         // move the colorType dictionnary out the function to use in other method and initialize once
-        private static Dictionary<int, string> ColorType = new Dictionary<int, string>
+        internal static Dictionary<int, string> ColorType = new Dictionary<int, string>
         {
             {0, "darker"},// red
             {1, "darker"},// blue
@@ -54,12 +54,6 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             {27, "darker"},// Panda
         };
 
-        //function to get the color type of a player
-        public static String GetColorType(PlayerControl player)
-        {
-            return ColorType[player.Data.ColorId];
-        }
-
         public static string ParseBodyReport(BodyReport br)
         {
             //System.Console.WriteLine(br.KillAge);
@@ -75,8 +69,8 @@ namespace TownOfUs.CrewmateRoles.MedicMod
                 return
                     $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 
-            //Call the GetColorType method
-            var typeOfColor = GetColorType(br.Killer);
+            //Get the colorType of the Killer
+            var typeOfColor = ColorType[br.Killer.Data.ColorId];
             return
                 $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
         }
@@ -101,7 +95,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
 
                 if (localPlayer != player && player != null && player.Data != null)
                 {
-                    if (BodyReport.GetColorType(player) == "darker")
+                    if (BodyReport.ColorType[player.Data.ColorId] == "darker")
                         playerState.NameText.color = Color.black;
                 }
             }
