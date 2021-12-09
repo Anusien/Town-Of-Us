@@ -19,7 +19,10 @@ namespace TownOfUs.Handshake
             public static void Postfix(AmongUsClient __instance)
             {
                 if (AmongUsClient.Instance.AmHost)
+                {
+                    HandshakedClients.Clear();
                     return;
+                }
 
                 // If I am client, send handshake
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"AmongUsClient.OnGameJoined.Postfix - Am client, sending handshake");
@@ -54,14 +57,15 @@ namespace TownOfUs.Handshake
                         var clientId = handshakeReader.ReadInt32();
                         var touVersion = handshakeReader.ReadString();
 
-                        // List<int> HandshakedClients - exists to disconnect legacy clients that don't send handshake
-                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with TOU version {touVersion} to List<int>HandshakedClients");
-                        HandshakedClients.Add(clientId);
-
                         if (!TownOfUs.GetVersion().Equals(touVersion))
                         {
                             PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched TOU version {touVersion}. (Ours is {TownOfUs.GetVersion()})");
                             __instance.SendCustomDisconnect(clientId);
+                        }
+                        else
+                        {
+                            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with TOU version {touVersion} to HandshakedClients");
+                            HandshakedClients.Add(clientId);
                         }
 
                         return false;
@@ -73,7 +77,7 @@ namespace TownOfUs.Handshake
         }
 
         // Handle legacy clients that don't send handshakes
-        private static HashSet<int> HandshakedClients = new HashSet<int>();
+        private static readonly HashSet<int> HandshakedClients = new HashSet<int>();
         private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
         {
             PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake(innerNetClient, clientId = {clientId})");
