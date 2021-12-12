@@ -13,15 +13,20 @@ namespace TownOfUs.Roles
         public DateTime LastMined;
 
 
-        public Miner(PlayerControl player) : base(player, RoleEnum.Miner)
+        public Miner(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "From the top, make it drop, that's a vent";
-            TaskText = () => "From the top, make it drop, that's a vent";
             LastMined = DateTime.UtcNow;
         }
 
         public bool CanPlace { get; set; }
         public Vector2 VentSize { get; private set; }
+
+        public override string Name => "Miner";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "From the top, make it drop, that's a vent";
+        protected override string TaskText => ImpostorText;
+        public override RoleEnum RoleType => RoleEnum.Miner;
 
         protected override void DoOnGameStart()
         {

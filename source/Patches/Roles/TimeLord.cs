@@ -6,14 +6,19 @@ namespace TownOfUs.Roles
 {
     public class TimeLord : Role
     {
-        public TimeLord(PlayerControl player) : base(player, RoleEnum.TimeLord)
+        public TimeLord(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Rewind Time";
-            TaskText = () => "Rewind Time!";
         }
 
         public DateTime StartRewind { get; set; }
         public DateTime FinishRewind { get; set; }
+
+        public override string Name => "Time Lord";
+        public override Color Color { get; } = new Color(0f, 0f, 1f, 1f);
+        public override Faction Faction => Faction.Crewmates;
+        protected override string ImpostorText => "Rewind Time!";
+        protected override string TaskText => "Rewind Time!";
+        public override RoleEnum RoleType => RoleEnum.TimeLord;
 
         protected override void DoOnGameStart()
         {

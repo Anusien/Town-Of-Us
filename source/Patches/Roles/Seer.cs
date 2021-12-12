@@ -9,15 +9,20 @@ namespace TownOfUs.Roles
     {
         public readonly Dictionary<byte, bool> Investigated = new Dictionary<byte, bool>();
 
-        public Seer(PlayerControl player) : base(player, RoleEnum.Seer)
+        public Seer(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Investigate roles";
-            TaskText = () => "Investigate roles and find the Impostor";
             LastInvestigated = DateTime.UtcNow;
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastInvestigated { get; set; }
+
+        public override string Name => "Seer";
+        public override Color Color { get; } = new Color(1f, 0.8f, 0.5f, 1f);
+        public override Faction Faction => Faction.Crewmates;
+        protected override string ImpostorText => "Investigate roles";
+        protected override string TaskText => "Investigate roles and find the Impostor";
+        public override RoleEnum RoleType => RoleEnum.Seer;
 
         protected override void DoOnGameStart()
         {

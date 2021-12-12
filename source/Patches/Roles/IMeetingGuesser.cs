@@ -91,7 +91,7 @@ namespace TownOfUs.Roles
 
             var clickEvent = button.OnClick = new Button.ButtonClickedEvent();
             clickEvent.AddListener(onClick);
-            clickEvent.AddListener((UnityAction)(() =>
+            clickEvent.AddListener((Action)(() =>
             {
                 voteArea.Buttons.SetActive(false);
             }));

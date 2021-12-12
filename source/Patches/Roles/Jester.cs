@@ -8,11 +8,16 @@ namespace TownOfUs.Roles
         public bool VotedOut;
 
 
-        public Jester(PlayerControl player) : base(player, RoleEnum.Jester)
+        public Jester(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Get voted out";
-            TaskText = () => "Get voted out!\nFake Tasks:";
         }
+
+        public override string Name => "Jester";
+        public override Color Color { get; } = new Color(1f, 0.75f, 0.8f, 1f);
+        public override Faction Faction => Faction.Neutral;
+        protected override string ImpostorText => "Get voted out";
+        protected override string TaskText => "Get voted out!\nFake Tasks:";
+        public override RoleEnum RoleType => RoleEnum.Jester;
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
         {

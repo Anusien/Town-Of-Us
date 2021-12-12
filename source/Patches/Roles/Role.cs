@@ -15,7 +15,7 @@ using Random = UnityEngine.Random;
 
 namespace TownOfUs.Roles
 {
-    public abstract class Role
+    public abstract class Role : IRoleDetails
     {
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
 
@@ -23,15 +23,10 @@ namespace TownOfUs.Roles
 
         public readonly List<KillButtonManager> ExtraButtons = new List<KillButtonManager>();
 
-        protected Func<string> ImpostorText;
-        protected Func<string> TaskText;
-
-        protected Role(PlayerControl player, RoleEnum roleEnum)
+        protected Role(PlayerControl player)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
-            RoleType = roleEnum;
-            RoleDetailsAttribute = RoleDetailsAttribute.GetRoleDetails(roleEnum);
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
@@ -50,14 +45,15 @@ namespace TownOfUs.Roles
             }
         }
 
-        public string Name => RoleDetailsAttribute.Name;
-        public Color Color => RoleDetailsAttribute.ColorObject;
-        protected internal RoleEnum RoleType { get; }
-        private RoleDetailsAttribute RoleDetailsAttribute { get; }
+        public abstract string Name { get; }
+        public abstract Color Color { get; }
+        public abstract RoleEnum RoleType { get; }
+        public abstract Faction Faction { get; }
 
-        protected internal bool Hidden { get; set; } = false;
+        protected abstract string ImpostorText { get; }
+        protected abstract string TaskText { get; }
 
-        protected internal Faction Faction => RoleDetailsAttribute.Faction;
+        protected virtual bool Hidden { get; set; }
 
         protected internal Color FactionColor
         {
@@ -230,13 +226,13 @@ namespace TownOfUs.Roles
             {
                 var task = new GameObject(Name + "Task").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(Player.transform, false);
-                task.Text = $"{ColorString}Role: {Name}\n{TaskText()}</color>";
+                task.Text = $"{ColorString}Role: {Name}\n{TaskText}</color>";
                 Player.myTasks.Insert(0, task);
                 return;
             }
 
             Player.myTasks.ToArray()[0].Cast<ImportantTextTask>().Text =
-                $"{ColorString}Role: {Name}\n{TaskText()}</color>";
+                $"{ColorString}Role: {Name}\n{TaskText}</color>";
         }
 
         public static T Gen<T>(Type type, PlayerControl player, CustomRPC rpc)
@@ -339,7 +335,7 @@ namespace TownOfUs.Roles
                     {
                         __instance.__4__this.Title.text = role.Name;
                         __instance.__4__this.Title.color = role.Color;
-                        __instance.__4__this.ImpostorText.text = role.ImpostorText();
+                        __instance.__4__this.ImpostorText.text = role.ImpostorText;
                         __instance.__4__this.ImpostorText.gameObject.SetActive(true);
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
                     }
@@ -398,7 +394,7 @@ namespace TownOfUs.Roles
                 if (role.RoleType == RoleEnum.Shifter && role.Player != PlayerControl.LocalPlayer) return;
                 var task = new GameObject(role.Name + "Task").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(player.transform, false);
-                task.Text = $"{role.ColorString}Role: {role.Name}\n{role.TaskText()}</color>";
+                task.Text = $"{role.ColorString}Role: {role.Name}\n{role.TaskText}</color>";
                 player.myTasks.Insert(0, task);
             }
         }

@@ -10,11 +10,16 @@ namespace TownOfUs.Roles
         public float CovertTimeRemaining;
         public bool IsCovert { get; private set; }
 
-        public Covert(PlayerControl player) : base(player, RoleEnum.Covert)
+        public Covert(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Do your tasks. Covertly.";
-            TaskText = () => "Do your tasks. Covertly.";
         }
+
+        public override string Name => "Covert";
+        public override Color Color { get; } = new Color(123f / 255f, 127f / 255f, 26f / 255f);
+        public override Faction Faction => Faction.Crewmates;
+        protected override string ImpostorText => "Do your tasks. Covertly.";
+        protected override string TaskText => ImpostorText;
+        public override RoleEnum RoleType => RoleEnum.Covert;
 
         protected override void DoOnGameStart()
         {

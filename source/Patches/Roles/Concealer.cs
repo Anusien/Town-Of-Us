@@ -13,11 +13,16 @@ namespace TownOfUs.Roles
         public PlayerControl Target;
         public PlayerControl Concealed { get; private set; }
 
-        public Concealer(PlayerControl player) : base(player, RoleEnum.Concealer)
+        public Concealer(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Conceal crewmates from each other for a sneaky kill";
-            TaskText = () => "Conceal crewmates from each other for a sneaky kill";
         }
+
+        public override string Name => "Concealer";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "Conceal crewmates from each other for a sneaky kill";
+        protected override string TaskText => "Conceal crewmates from each other for a sneaky kill";
+        public override RoleEnum RoleType => RoleEnum.Concealer;
 
         protected override void DoOnGameStart()
         {

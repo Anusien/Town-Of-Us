@@ -16,10 +16,8 @@ namespace TownOfUs.Roles
         public PlayerControl SampledPlayer;
         public float TimeRemaining;
 
-        public Morphling(PlayerControl player) : base(player, RoleEnum.Morphling)
+        public Morphling(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Transform into crewmates";
-            TaskText = () => "Morph into crewmates to be disguised";
         }
 
         public KillButtonManager MorphButton
@@ -32,6 +30,13 @@ namespace TownOfUs.Roles
                 ExtraButtons.Add(value);
             }
         }
+
+        public override string Name => "Transform into crewmates";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "Transform into crewmates";
+        protected override string TaskText => "Morph into crewmates to be disguised";
+        public override RoleEnum RoleType => RoleEnum.Morphling;
 
         protected override void DoOnGameStart()
         {

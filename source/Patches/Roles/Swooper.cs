@@ -11,11 +11,16 @@ namespace TownOfUs.Roles
         public DateTime LastSwooped;
         public float TimeRemaining;
 
-        public Swooper(PlayerControl player) : base(player, RoleEnum.Swooper)
+        public Swooper(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Turn invisible temporarily";
-            TaskText = () => "Turn invisible and sneakily kill";
         }
+
+        public override string Name => "Swooper";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "Turn invisible temporarily";
+        protected override string TaskText => "Turn invisible and sneakily kill";
+        public override RoleEnum RoleType => RoleEnum.Swooper;
 
         protected override void DoOnGameStart()
         {

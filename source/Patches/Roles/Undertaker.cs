@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {
@@ -6,15 +7,20 @@ namespace TownOfUs.Roles
     {
         public KillButtonManager _dragDropButton;
 
-        public Undertaker(PlayerControl player) : base(player, RoleEnum.Undertaker)
+        public Undertaker(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Drag bodies and hide them";
-            TaskText = () => "Drag bodies around to hide them from being reported";
         }
 
         public DateTime LastDragged { get; set; }
         public DeadBody CurrentTarget { get; set; }
         public DeadBody CurrentlyDragging { get; set; }
+
+        public override string Name => "Undertaker";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "Drag bodies and hide them";
+        protected override string TaskText => "Drag bodies around to hide them from being reported";
+        public override RoleEnum RoleType => RoleEnum.Undertaker;
 
         protected override void DoOnGameStart()
         {

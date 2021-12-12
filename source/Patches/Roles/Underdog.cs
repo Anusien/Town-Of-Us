@@ -1,14 +1,20 @@
 ﻿using TownOfUs.ImpostorRoles.UnderdogMod;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Underdog : Role
     {
-        public Underdog(PlayerControl player) : base(player, RoleEnum.Underdog)
+        public Underdog(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Use your comeback power to win";
-            TaskText = () => "long kill cooldown when 2 imps, short when 1 imp";
         }
+
+        public override string Name => "Underdog";
+        public override Color Color { get; } = Palette.ImpostorRed;
+        public override Faction Faction => Faction.Impostors;
+        protected override string ImpostorText => "Use your comeback power to win";
+        protected override string TaskText => "You have kill cooldown based on the number of impostors left";
+        public override RoleEnum RoleType => RoleEnum.Underdog;
 
         protected override void DoOnMeetingEnd()
         {

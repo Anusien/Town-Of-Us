@@ -5,10 +5,8 @@ namespace TownOfUs.Roles
 {
     public class Sheriff : Role
     {
-        public Sheriff(PlayerControl player) : base(player, RoleEnum.Sheriff)
+        public Sheriff(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Shoot the <color=#FF0000FF>Impostor</color>";
-            TaskText = () => "Kill off the impostor but don't kill crewmates.";
         }
 
         public PlayerControl ClosestPlayer;
@@ -33,6 +31,13 @@ namespace TownOfUs.Roles
             if (flag2) return 0;
             return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
         }
+
+        public override string Name => "Sheriff";
+        public override Color Color { get; } = Color.yellow;
+        public override Faction Faction => Faction.Crewmates;
+        protected override string ImpostorText => "Shoot the <color=#FF0000FF>Impostor</color>";
+        protected override string TaskText => "Kill off the impostor but don't kill crewmates.";
+        public override RoleEnum RoleType => RoleEnum.Sheriff;
 
         internal override bool Criteria()
         {

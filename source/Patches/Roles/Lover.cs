@@ -8,14 +8,13 @@ namespace TownOfUs.Roles
 {
     public class Lover : Role
     {
-        public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player, impostor ? RoleEnum.LoverImpostor : RoleEnum.Lover)
+        public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player)
         {
-            ImpostorText = () =>
-                "You are in " + ColorString + "Love</color> with " + ColorString + OtherLover.Player.name;
-            TaskText = () => $"Stay alive with your love {OtherLover.Player.name} \n and win together";
+            this.impostor = impostor;
             LoverImpostor = eitherLoverImpostor;
         }
 
+        private readonly bool impostor;
         public Lover OtherLover { get; set; }
         public bool LoveCoupleWins { get; set; }
 
@@ -29,6 +28,13 @@ namespace TownOfUs.Roles
             loverTeam.Add(OtherLover.Player);
             __instance.yourTeam = loverTeam;
         }
+
+        public override string Name => impostor ? "Loving Impostor" : "Lover";
+        public override Color Color { get; } = new Color(1f, 0.4f, 0.8f, 1f);
+        public override Faction Faction => impostor ? Faction.Impostors : Faction.Crewmates;
+        protected override string ImpostorText => "You are in " + ColorString + "Love</color> with " + ColorString + OtherLover.Player.name;
+        protected override string TaskText => $"Stay alive with your love {OtherLover.Player.name} \n and win together";
+        public override RoleEnum RoleType => impostor ? RoleEnum.LoverImpostor : RoleEnum.Lover;
 
         internal override bool Criteria()
         {

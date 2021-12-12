@@ -14,19 +14,25 @@ namespace TownOfUs.Roles
 
         public int TasksLeft = int.MaxValue;
 
-        public Snitch(PlayerControl player) : base(player, RoleEnum.Snitch)
+        public Snitch(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Complete all your tasks to discover the Impostors";
-            TaskText = () =>
-                TasksDone
-                    ? "Find the arrows pointing to the Impostors!"
-                    : "Complete all your tasks to discover the Impostors!";
             Hidden = !CustomGameOptions.SnitchOnLaunch;
         }
 
         public bool OneTaskLeft => TasksLeft <= 1;
         public bool TasksDone => TasksLeft <= 0;
 
+
+        public override string Name => "Snitch";
+        public override Color Color { get; } = new Color(0.83f, 0.69f, 0.22f, 1f);
+        public override Faction Faction => Faction.Crewmates;
+        protected override string ImpostorText => "Complete all your tasks to discover the Impostors";
+
+        protected override string TaskText => TasksDone
+            ? "Find the arrows pointing to the Impostors!"
+            : "Complete all your tasks to discover the Impostors!";
+
+        public override RoleEnum RoleType => RoleEnum.Snitch;
 
         internal override bool Criteria()
         {

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles
 {
@@ -8,10 +10,8 @@ namespace TownOfUs.Roles
         public bool CompletedTasks;
         public bool Faded;
 
-        public Phantom(PlayerControl player) : base(player, RoleEnum.Phantom)
+        public Phantom(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "";
-            TaskText = () => "Complete all your tasks without being caught!";
         }
 
         public void Loses()
@@ -54,5 +54,12 @@ namespace TownOfUs.Roles
             Player.CurrentPet.Source = Player;
             Player.CurrentPet.Visible = Player.Visible;
         }
+
+        public override string Name => "Phantom";
+        public override Color Color { get; } = new Color(0.4f, 0.16f, 0.38f, 1f);
+        public override Faction Faction => Faction.Neutral;
+        protected override string ImpostorText => string.Empty;
+        protected override string TaskText => "Complete all your tasks without being caught!";
+        public override RoleEnum RoleType => RoleEnum.Phantom;
     }
 }
