@@ -34,6 +34,11 @@ namespace TownOfUs.Roles
             }
         }
 
+        public static Role GetRoleSingleton(RoleEnum role)
+        {
+            return RoleSingleton.Single(x => x.RoleType == role);
+        }
+
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
 
         public static bool NobodyWins;
