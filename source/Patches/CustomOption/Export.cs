@@ -121,7 +121,7 @@ namespace TownOfUs.CustomOption
             foreach (var option in AllOptions)
             {
                 if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
-                builder.AppendLine(option.Name);
+                builder.AppendLine(option.Name.StripHtmlTag());
                 builder.AppendLine(option.Value.ToString());
             }
 

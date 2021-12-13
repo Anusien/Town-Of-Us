@@ -132,9 +132,9 @@ namespace TownOfUs.CustomOption
 
             while (splitText.Count > 0)
             {
-                var name = splitText[0].Trim();
+                var name = splitText[0].Trim().StripHtmlTag();
                 splitText.RemoveAt(0);
-                var option = AllOptions.FirstOrDefault(o => o.Name.Equals(name, StringComparison.Ordinal));
+                var option = AllOptions.FirstOrDefault(o => o.Name.StripHtmlTag().Equals(name, StringComparison.Ordinal));
                 if (splitText.Count == 0)
                 {
                     break;
