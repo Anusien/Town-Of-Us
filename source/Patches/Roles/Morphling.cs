@@ -32,7 +32,7 @@ namespace TownOfUs.Roles
             }
         }
 
-        public override string Name => "Transform into crewmates";
+        public override string Name => "Morphling";
         public override Color Color { get; } = Palette.ImpostorRed;
         public override Faction Faction => Faction.Impostors;
         protected override string ImpostorText => "Transform into crewmates";
