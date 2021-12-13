@@ -12,7 +12,6 @@ namespace TownOfUs.Roles.Modifiers
     public abstract class Modifier
     {
         public static readonly Dictionary<byte, Modifier> ModifierDictionary = new Dictionary<byte, Modifier>();
-        protected internal Func<string> TaskText;
 
         protected Modifier(PlayerControl player)
         {
@@ -21,10 +20,12 @@ namespace TownOfUs.Roles.Modifiers
         }
 
         public static IEnumerable<Modifier> AllModifiers => ModifierDictionary.Values.ToList();
-        protected internal string Name { get; set; }
+        protected internal abstract string Name { get; }
+        protected internal abstract Color Color { get; }
+        protected internal abstract ModifierEnum ModifierType { get; }
+        protected internal abstract string TaskText { get; }
+        
         public PlayerControl Player { get; set; }
-        protected internal Color Color { get; set; }
-        protected internal ModifierEnum ModifierType { get; set; }
         public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
 
         private bool Equals(Modifier other)
@@ -61,7 +62,9 @@ namespace TownOfUs.Roles.Modifiers
 
         public static Modifier GetModifier(PlayerControl player)
         {
-            return (from entry in ModifierDictionary where entry.Key == player.PlayerId select entry.Value)
+            return ModifierDictionary
+                .Where(entry => entry.Key == player.PlayerId)
+                .Select(entry => entry.Value)
                 .FirstOrDefault();
         }
 

@@ -6,10 +6,11 @@ namespace TownOfUs.Roles.Modifiers
     {
         public Diseased(PlayerControl player) : base(player)
         {
-            Name = "Diseased";
-            TaskText = () => "Killing you gives Impostors a high cooldown";
-            Color = Color.grey;
-            ModifierType = ModifierEnum.Diseased;
         }
+
+        protected internal override string Name => "Diseased";
+        protected internal override Color Color { get; } = Color.grey;
+        protected internal override ModifierEnum ModifierType => ModifierEnum.Diseased;
+        protected internal override string TaskText => "Killing you gives Impostors a high cooldown";
     }
 }

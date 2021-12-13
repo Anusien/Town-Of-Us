@@ -9,10 +9,6 @@ namespace TownOfUs.Roles.Modifiers
         
         public BigBoiModifier(PlayerControl player) : base(player)
         {
-            Name = "Giant";
-            TaskText = () => "Super slow!";
-            Color = new Color(1f, 0.5f, 0.5f, 1f);
-            ModifierType = ModifierEnum.BigBoi;
         }
 
         public bool TryGetModifiedAppearance(out VisualAppearance appearance)
@@ -22,5 +18,10 @@ namespace TownOfUs.Roles.Modifiers
             appearance.SizeFactor = new Vector3(1.0f, 1.0f, 1.0f);
             return true;
         }
+
+        protected internal override string Name => "Giant";
+        protected internal override Color Color { get; } = new Color(1f, 0.5f, 0.5f, 1f);
+        protected internal override ModifierEnum ModifierType => ModifierEnum.BigBoi;
+        protected internal override string TaskText => "Super slow!";
     }
 }

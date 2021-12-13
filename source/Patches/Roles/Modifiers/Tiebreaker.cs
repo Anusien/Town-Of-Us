@@ -6,10 +6,11 @@ namespace TownOfUs.Roles.Modifiers
     {
         public Tiebreaker(PlayerControl player) : base(player)
         {
-            Name = "Tiebreaker";
-            TaskText = () => "Your vote breaks ties";
-            Color = new Color(0.6f, 0.9f, 0.6f);
-            ModifierType = ModifierEnum.Tiebreaker;
         }
+
+        protected internal override string Name => "Tiebreaker";
+        protected internal override Color Color { get; } = new Color(0.6f, 0.9f, 0.6f);
+        protected internal override ModifierEnum ModifierType => ModifierEnum.Tiebreaker;
+        protected internal override string TaskText => "Your vote breaks ties";
     }
 }
