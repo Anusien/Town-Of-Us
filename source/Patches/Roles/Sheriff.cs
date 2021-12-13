@@ -5,6 +5,7 @@ namespace TownOfUs.Roles
 {
     public class Sheriff : Role
     {
+        public Sheriff() { }
         public Sheriff(PlayerControl player) : base(player)
         {
         }

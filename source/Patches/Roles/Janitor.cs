@@ -4,6 +4,7 @@ namespace TownOfUs.Roles
 {
     public class Janitor : Role
     {
+        public Janitor() { }
         public KillButtonManager _cleanButton;
 
         public Janitor(PlayerControl player) : base(player)

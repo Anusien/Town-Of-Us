@@ -15,7 +15,8 @@ namespace TownOfUs.Roles
 
         public PlayerControl SampledPlayer;
         public float TimeRemaining;
-
+        
+        public Morphling() { }
         public Morphling(PlayerControl player) : base(player)
         {
         }

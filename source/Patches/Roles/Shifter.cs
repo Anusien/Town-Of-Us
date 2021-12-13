@@ -5,6 +5,7 @@ namespace TownOfUs.Roles
 {
     public class Shifter : Role
     {
+        public Shifter() { }
         public Shifter(PlayerControl player) : base(player)
         {
         }

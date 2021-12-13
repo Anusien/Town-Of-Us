@@ -8,8 +8,8 @@ namespace TownOfUs.Roles
         public readonly List<GameObject> Buttons = new List<GameObject>();
 
         public readonly List<bool> ListOfActives = new List<bool>();
-
-
+        
+        public Swapper() { }
         public Swapper(PlayerControl player) : base(player)
         {
         }

@@ -14,7 +14,8 @@ namespace TownOfUs.Roles
     {
         private KillButtonManager _teleportButton;
         private DateTime _lastTeleported;
-
+        
+        public Teleporter() { }
         public Teleporter(PlayerControl player) : base(player)
         {
         }

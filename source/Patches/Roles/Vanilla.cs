@@ -4,9 +4,8 @@ namespace TownOfUs.Roles
 {
     public class Impostor : Role
     {
-        public Impostor(PlayerControl player) : base(player)
-        {
-        }
+        public Impostor() { }
+        public Impostor(PlayerControl player) : base(player) { }
 
         public override string Name => "Impostor";
         public override Color Color { get; } = Palette.ImpostorRed;
@@ -19,6 +18,7 @@ namespace TownOfUs.Roles
 
     public class Crewmate : Role
     {
+        public Crewmate() { }
         public Crewmate(PlayerControl player) : base(player)
         {
         }

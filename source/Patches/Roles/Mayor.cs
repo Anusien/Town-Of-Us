@@ -6,7 +6,8 @@ namespace TownOfUs.Roles
     public class Mayor : Role
     {
         public List<byte> ExtraVotes = new List<byte>();
-
+        
+        public Mayor() { }
         public Mayor(PlayerControl player) : base(player)
         {
             VoteBank = CustomGameOptions.MayorVoteBank;

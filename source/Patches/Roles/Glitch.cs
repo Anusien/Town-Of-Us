@@ -23,7 +23,8 @@ namespace TownOfUs.Roles
         public static Sprite LockSprite = bundle.LoadAsset<Sprite>("Lock").DontUnload();
 
         public bool lastMouse;
-
+        
+        public Glitch() { }
         public Glitch(PlayerControl owner) : base(owner)
         {
             LastHack = DateTime.UtcNow;

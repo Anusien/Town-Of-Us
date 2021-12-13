@@ -10,7 +10,8 @@ namespace TownOfUs.Roles
         public bool Enabled;
         public DateTime LastCamouflaged;
         public float TimeRemaining;
-
+        
+        public Camouflager() { }
         public Camouflager(PlayerControl player) : base(player)
         { }
 

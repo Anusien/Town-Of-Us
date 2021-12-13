@@ -2,7 +2,9 @@
 using Hazel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Reactor;
 using Reactor.Extensions;
 using TMPro;
 using TownOfUs.ImpostorRoles.CamouflageMod;
@@ -17,12 +19,28 @@ namespace TownOfUs.Roles
 {
     public abstract class Role : IRoleDetails
     {
+        private static List<Role> _roleSingletons { get; } = new List<Role>();
+        public static ReadOnlyCollection<Role> RoleSingleton => _roleSingletons.AsReadOnly();
+
+        public static void AddSingleton(Role role)
+        {
+            if (_roleSingletons.All(x => x.GetType() != role.GetType()))
+            {
+                _roleSingletons.Add(role);
+            }
+            else
+            {
+                Logger<TownOfUs>.Error("The same type was already in the list");
+            }
+        }
+
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
 
         public static bool NobodyWins;
 
         public readonly List<KillButtonManager> ExtraButtons = new List<KillButtonManager>();
-
+        
+        protected Role() { }
         protected Role(PlayerControl player)
         {
             Player = player;

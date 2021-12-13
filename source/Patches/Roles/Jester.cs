@@ -6,8 +6,8 @@ namespace TownOfUs.Roles
     public class Jester : Role
     {
         public bool VotedOut;
-
-
+        
+        public Jester() { }
         public Jester(PlayerControl player) : base(player)
         {
         }

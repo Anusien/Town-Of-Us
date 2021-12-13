@@ -4,6 +4,7 @@ namespace TownOfUs.Roles
 {
     public class Medic : Role
     {
+        public Medic() { }
         public Medic(PlayerControl player) : base(player)
         {
             ShieldedPlayer = null;

@@ -7,7 +7,8 @@ namespace TownOfUs.Roles
     {
         public PlayerControl target;
         public bool TargetVotedOut;
-
+        
+        public Executioner() { }
         public Executioner(PlayerControl player) : base(player)
         {
         }

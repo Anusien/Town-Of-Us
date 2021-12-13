@@ -12,7 +12,8 @@ namespace TownOfUs.Roles
         public readonly ISet<byte> Revealed = new HashSet<byte>();
 
         public DateTime LastRevealed { get; set; }
-
+        
+        public Prophet() { }
         public Prophet(PlayerControl player) : base(player)
         {
             LastRevealed = DateTime.UtcNow; // We shouldn't have to do this, but the revelation is firing before the DoOnGameStart() hits

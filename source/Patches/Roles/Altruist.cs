@@ -8,7 +8,8 @@ namespace TownOfUs.Roles
         public DeadBody CurrentTarget;
 
         public bool ReviveUsed;
-
+        
+        public Altruist() { }
         public Altruist(PlayerControl player) : base(player)
         {
         }

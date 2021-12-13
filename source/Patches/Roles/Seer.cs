@@ -8,7 +8,8 @@ namespace TownOfUs.Roles
     public class Seer : Role
     {
         public readonly Dictionary<byte, bool> Investigated = new Dictionary<byte, bool>();
-
+        
+        public Seer() { }
         public Seer(PlayerControl player) : base(player)
         {
             LastInvestigated = DateTime.UtcNow;

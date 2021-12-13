@@ -10,6 +10,8 @@ namespace TownOfUs.Roles
         public Dictionary<byte, (GameObject, GameObject, TMP_Text)> Buttons { get; } = new Dictionary<byte, (GameObject, GameObject, TMP_Text)>();
         public Dictionary<byte, int> Guesses { get; } = new Dictionary<byte, int>();
         public List<RoleEnum> PossibleGuesses { get; }
+        
+        public Assassin() { }
         public Assassin(PlayerControl player) : base(player)
         {
             RemainingKills = CustomGameOptions.AssassinKills;

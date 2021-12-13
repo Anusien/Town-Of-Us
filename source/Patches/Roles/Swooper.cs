@@ -10,7 +10,8 @@ namespace TownOfUs.Roles
         public bool Enabled;
         public DateTime LastSwooped;
         public float TimeRemaining;
-
+        
+        public Swooper() { }
         public Swooper(PlayerControl player) : base(player)
         {
         }

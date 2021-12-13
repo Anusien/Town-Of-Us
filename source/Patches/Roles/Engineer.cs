@@ -4,6 +4,7 @@ namespace TownOfUs.Roles
 {
     public class Engineer : Role
     {
+        public Engineer() { }
         public Engineer(PlayerControl player) : base(player)
         {
         }

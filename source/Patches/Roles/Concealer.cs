@@ -13,6 +13,7 @@ namespace TownOfUs.Roles
         public PlayerControl Target;
         public PlayerControl Concealed { get; private set; }
 
+        public Concealer() { }
         public Concealer(PlayerControl player) : base(player)
         {
         }

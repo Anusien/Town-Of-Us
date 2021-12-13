@@ -10,6 +10,7 @@ namespace TownOfUs.Roles
         public float CovertTimeRemaining;
         public bool IsCovert { get; private set; }
 
+        public Covert() { }
         public Covert(PlayerControl player) : base(player)
         {
         }

@@ -14,8 +14,8 @@ namespace TownOfUs.Roles
         public readonly List<byte> DousedPlayers = new List<byte>();
         public bool IgniteUsed;
         public DateTime LastDoused;
-
-
+        
+        public Arsonist() { }
         public Arsonist(PlayerControl player) : base(player)
         {
         }

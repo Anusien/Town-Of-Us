@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using TownOfUs.ImpostorRoles.CamouflageMod;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TownOfUs.Roles
 {
     public class Lover : Role
     {
+        public Lover() { }
+        
         public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player)
         {
             this.impostor = impostor;

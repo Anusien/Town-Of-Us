@@ -6,6 +6,7 @@ namespace TownOfUs.Roles
 {
     public class TimeLord : Role
     {
+        public TimeLord() { }
         public TimeLord(PlayerControl player) : base(player)
         {
         }

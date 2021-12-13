@@ -11,8 +11,8 @@ namespace TownOfUs.Roles
 
         public KillButtonManager _mineButton;
         public DateTime LastMined;
-
-
+        
+        public Miner() { }
         public Miner(PlayerControl player) : base(player)
         {
             LastMined = DateTime.UtcNow;

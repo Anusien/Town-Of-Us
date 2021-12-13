@@ -9,7 +9,8 @@ namespace TownOfUs.Roles
         public bool Caught;
         public bool CompletedTasks;
         public bool Faded;
-
+        
+        public Phantom() { }
         public Phantom(PlayerControl player) : base(player)
         {
         }

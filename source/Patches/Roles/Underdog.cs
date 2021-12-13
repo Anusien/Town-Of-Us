@@ -5,6 +5,7 @@ namespace TownOfUs.Roles
 {
     public class Underdog : Role
     {
+        public Underdog() { }
         public Underdog(PlayerControl player) : base(player)
         {
         }

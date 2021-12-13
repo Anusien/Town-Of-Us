@@ -6,7 +6,8 @@ namespace TownOfUs.Roles
     public class Undertaker : Role
     {
         public KillButtonManager _dragDropButton;
-
+        
+        public Undertaker() { }
         public Undertaker(PlayerControl player) : base(player)
         {
         }

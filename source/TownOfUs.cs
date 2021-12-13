@@ -11,6 +11,7 @@ using Reactor;
 using Reactor.Extensions;
 using TownOfUs.CustomOption;
 using TownOfUs.RainbowMod;
+using TownOfUs.Roles;
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
@@ -63,7 +64,6 @@ namespace TownOfUs
         private Harmony _harmony;
 
         public ConfigEntry<string> Ip { get; set; }
-
         public ConfigEntry<ushort> Port { get; set; }
 
 
@@ -72,7 +72,8 @@ namespace TownOfUs
             System.Console.WriteLine("000.000.000.000/000000000000000000");
 
             _harmony = new Harmony("com.slushiegoose.townofus");
-
+            
+            RoleSingleton<Role>.LoadSingletons();
             Generate.GenerateAll();
 
             JanitorClean = CreateSprite("TownOfUs.Resources.Janitor.png");

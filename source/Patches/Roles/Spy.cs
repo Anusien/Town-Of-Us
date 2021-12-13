@@ -4,6 +4,7 @@ namespace TownOfUs.Roles
 {
     public class Spy : Role
     {
+        public Spy() { }
         public Spy(PlayerControl player) : base(player)
         {
         }
