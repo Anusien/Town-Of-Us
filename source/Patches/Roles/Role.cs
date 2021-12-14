@@ -30,13 +30,13 @@ namespace TownOfUs.Roles
             }
             else
             {
-                Logger<TownOfUs>.Error("The same type was already in the list");
+                Logger<TownOfUs>.Error($"Unable to register {role.Name} singleton: The same type was already registered");
             }
         }
 
         public static Role GetRoleSingleton(RoleEnum role)
         {
-            return RoleSingleton.Single(x => x.RoleType == role);
+            return RoleSingleton.First(x => x.RoleType == role);
         }
 
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
