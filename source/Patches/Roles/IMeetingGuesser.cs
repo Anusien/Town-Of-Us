@@ -47,8 +47,8 @@ namespace TownOfUs.Roles
             nameText.transform.localPosition = new Vector3(0.55f, -0.12f, -0.1f);
             nameText.text = "Guess";
 
-            var cycle = CreateButton(voteArea, CycleSprite, -0.15f, Cycle(role, voteArea, nameText));
-            var guess = CreateButton(voteArea, GuessSprite, 0.15f, Guess(role, voteArea, doOnCorrectGuess));
+            var cycle = CreateButton(voteArea, CycleSprite, -0.115f, Cycle(role, voteArea, nameText));
+            var guess = CreateButton(voteArea, GuessSprite, 0.115f, Guess(role, voteArea, doOnCorrectGuess));
 
             role.Guesses.Add(targetId, -1);
             role.Buttons[targetId] = (cycle, guess, nameText);
@@ -82,7 +82,7 @@ namespace TownOfUs.Roles
             var gameObject = Object.Instantiate(confirmButton, voteArea.transform);
             var renderer = gameObject.GetComponent<SpriteRenderer>();
             renderer.sprite = sprite;
-            gameObject.transform.position = confirmButton.transform.position - new Vector3(0.7f, yOffset, 0f);
+            gameObject.transform.position = confirmButton.transform.position - new Vector3(0.5f, yOffset, 0f);
             gameObject.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             gameObject.layer = 5;
             gameObject.transform.parent = parent;
