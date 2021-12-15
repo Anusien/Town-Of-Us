@@ -33,6 +33,8 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption ExecutionerOn;
         public static CustomNumberOption ArsonistOn;
         public static CustomNumberOption PhantomOn;
+        public static CustomNumberOption AnalystOn;
+
 
         private static CustomHeaderOption ImpostorRoles;
         public static CustomNumberOption JanitorOn;
@@ -84,6 +86,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SheriffKillsGlitch;
         public static CustomToggleOption SheriffKillsExecutioner;
         public static CustomToggleOption SheriffKillsArsonist;
+        public static CustomToggleOption SheriffKillsAnalyst;
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
 
@@ -247,8 +250,9 @@ namespace TownOfUs.CustomOption
                 10f, PercentFormat);
             ArsonistOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Arsonist).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            PhantomOn = new CustomNumberOption(true, num++,
-                $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Phantom).GetColoredName()}", 0f, 0f, 100f, 10f,
+            PhantomOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Phantom).GetColoredName()}", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            AnalystOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Analyst).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
 
@@ -344,6 +348,8 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, "Sheriff Kills Executioner", false);
             SheriffKillsArsonist =
                 new CustomToggleOption(num++, "Sheriff Kills Arsonist", false);
+            SheriffKillsAnalyst =
+                new CustomToggleOption(num++, "Sheriff Kills Analyst", false);
             SheriffKillCd =
                 new CustomNumberOption(num++, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, "Sheriff can report who they've killed");

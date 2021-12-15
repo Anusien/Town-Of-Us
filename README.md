@@ -30,6 +30,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 - [Executioner](#executioner)
 - [Arsonist](#arsonist)
 - [Phantom](#phantom)
+- [Analyst](#analyst)
 
 **Impostor Roles**
 - [Janitor](#janitor)
@@ -946,6 +947,18 @@ They become half-invisible when they die and has to complete all their tasks wit
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Phantom | The percentage probability of the Phantom appearing | Percentage | 0% |
+
+-----------------------
+## Analyst
+### **Team: Neutral**
+
+The Analyst is a Neutral role with its own win condition.\
+During meetings, they can guess the roles of other players. If they guess enough correctly (2) in the same meeting, they win.
+If they guess wrong, they die.\
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Analyst | The percentage probability of the Analyst appearing | Percentage | 0% |
 
 -----------------------
 # Impostor Roles
