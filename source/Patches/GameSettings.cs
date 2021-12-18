@@ -111,7 +111,7 @@ namespace TownOfUs
             public static void Postfix(ref GameOptionsMenu __instance)
             {
                 /*
-                2 options need 1 = / 2
+                2 options need 1 = / 2.0f (2.0f for float result else isn't good with even number)
                 __instance.Children.Length = number of options
                 don't calculate the first 7 options = -7
                 bottom margin = 0.2
@@ -120,7 +120,7 @@ namespace TownOfUs
                 don't calculate the first 8.5 options = -8.5
                 = (__instance.Children.Length - 8.5) / 2;
                 */
-                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2 + 0.2f;
+                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2.0f + 0.2f;
             }
         }
     }
