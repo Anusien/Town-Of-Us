@@ -172,7 +172,16 @@ namespace TownOfUs
                     Role.Gen<Role>(typeof(Crewmate), executioner, CustomRPC.SetExecutioner);
             }
 
-            var canHaveModifier = PlayerControl.AllPlayerControls.ToArray().ToList();
+            List<PlayerControl> canHaveModifier = PlayerControl.AllPlayerControls.ToArray().ToList().FindAll(player => player.Is(Faction.Impostors));
+            canHaveModifier.Shuffle();
+            
+            while (canHaveModifier.Count > 0 && ImpostorModifiers.Count > 0)
+            {
+                var (type, rpc, _) = ImpostorModifiers.TakeFirst();
+                Role.Gen<Modifier>(type, canHaveModifier.TakeFirst(), rpc);
+            }
+            
+            canHaveModifier.AddRange(PlayerControl.AllPlayerControls.ToArray().ToList().FindAll(player => !player.Is(Faction.Impostors)));
             canHaveModifier.Shuffle();
 
             foreach (var (type, rpc, _) in GlobalModifiers)
@@ -180,11 +189,7 @@ namespace TownOfUs
 
             List<PlayerControl> impostorsCanBeModified = canHaveModifier.FindAll(player => player.Is(Faction.Impostors));
             impostorsCanBeModified.Shuffle();
-            while (impostorsCanBeModified.Count > 0 && ImpostorModifiers.Count > 0)
-            {
-                var (type, rpc, _) = ImpostorModifiers.TakeFirst();
-                Role.Gen<Modifier>(type, impostorsCanBeModified.TakeFirst(), rpc);
-            }
+            
 
             canHaveModifier.RemoveAll(player => player.Is(Faction.Neutral) || player.Is(Faction.Impostors));
             canHaveModifier.Shuffle();
@@ -892,6 +897,15 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.GrenadierOn))
                     ImpostorRoles.Add((typeof(Grenadier), CustomRPC.SetGrenadier, CustomGameOptions.GrenadierOn));
+                #endregion               
+                #region Impostor Modifiers //just for better organization
+                if (Check(CustomGameOptions.AnthropomancerOn))
+                    GlobalModifiers.Add(
+                        (typeof(Anthropomancer), CustomRPC.SetAnthropomancer, CustomGameOptions.AnthropomancerOn));
+
+                if (Check(CustomGameOptions.CarnivoreOn))
+                    ImpostorModifiers.Add(
+                        (typeof(Carnivore), CustomRPC.SetCarnivore, CustomGameOptions.CarnivoreOn));
                 #endregion
                 #region Crewmate Modifiers
                 if (Check(CustomGameOptions.TorchOn))
@@ -916,14 +930,6 @@ namespace TownOfUs
                 if (Check(CustomGameOptions.ButtonBarryOn))
                     GlobalModifiers.Add(
                         (typeof(ButtonBarry), CustomRPC.SetButtonBarry, CustomGameOptions.ButtonBarryOn));
-
-                if (Check(CustomGameOptions.AnthropomancerOn))
-                    GlobalModifiers.Add(
-                        (typeof(Anthropomancer), CustomRPC.SetAnthropomancer, CustomGameOptions.AnthropomancerOn));
-
-                if (Check(CustomGameOptions.CarnivoreOn))
-                    ImpostorModifiers.Add(
-                        (typeof(Carnivore), CustomRPC.SetCarnivore, CustomGameOptions.CarnivoreOn));
                 #endregion
                 GenEachRole(infected.ToList());
             }
