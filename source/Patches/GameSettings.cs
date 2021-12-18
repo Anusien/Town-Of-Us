@@ -120,7 +120,7 @@ namespace TownOfUs
                 don't calculate the first 8.5 options = -8.5
                 = (__instance.Children.Length - 8.5) / 2;
                 */
-                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2 + 0.2f;
+                __instance.GetComponentInParent<Scroller>().YBounds.max = (__instance.Children.Length - 7) / 2.0f + 0.2f;
             }
         }
     }
