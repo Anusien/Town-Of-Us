@@ -85,7 +85,7 @@ namespace TownOfUs.Patches.Handshake
                         else if (!playerVersions.ContainsKey(client.Id))
                                 {
                                     blockStart = true;
-                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a different or no version of The Other Roles\n</color>";
+                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a different or no version of Town Of Us\n</color>";
                         }
                         else
                         {
