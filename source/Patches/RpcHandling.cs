@@ -771,6 +771,26 @@ namespace TownOfUs
                     case CustomRPC.AddMayorVoteBank:
                         Role.GetRole<Mayor>(Utils.PlayerById(reader.ReadByte())).VoteBank += reader.ReadInt32();
                         break;
+                    case CustomRPC.VersionHandshake:
+                        byte major = reader.ReadByte();
+                        byte minor = reader.ReadByte();
+                        byte patch = reader.ReadByte();
+                        int versionOwnerId = reader.ReadPackedInt32();
+                        byte revision = 0xFF;
+                        Guid guid;
+                        if (reader.Length - reader.Position >= 17)
+                        { // enough bytes left to read
+                            revision = reader.ReadByte();
+                            // GUID
+                            byte[] gbytes = reader.ReadBytes(16);
+                            guid = new Guid(gbytes);
+                        }
+                        else
+                        {
+                            guid = new Guid(new byte[16]);
+                        }
+                        Patches.Handshake.ClientHandshake.versionHandshake(major, minor, patch, revision == 0xFF ? -1 : revision, guid, versionOwnerId);
+                        break;
                 }
             }
         }

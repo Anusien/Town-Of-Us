@@ -1,122 +1,267 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Hazel;
 using InnerNet;
-using Reactor;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using UnityEngine;
 
-namespace TownOfUs.Handshake
+namespace TownOfUs.Patches.Handshake
 {
     public static class ClientHandshake
     {
-        private const byte TOU_ROOT_HANDSHAKE_TAG = 69;
+        //forkname
+        public static string forkName = "Anusien";
+        public static Dictionary<int, PlayerVersion> playerVersions = new Dictionary<int, PlayerVersion>();
+        public static System.Version touVersion = System.Version.Parse(TownOfUs.GetVersion());
+        private static float timer = 600f;
+        private static float kickingTimer = 0f;
+        private static bool versionSent = false;
+        //private static string lobbyCodeText = "";
 
-        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
-        public static class AmongUsClient_OnGameJoined
+        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
+        public class AmongUsClientOnPlayerJoinedPatch
         {
-            public static void Postfix(AmongUsClient __instance)
+            public static void Postfix()
             {
-                if (AmongUsClient.Instance.AmHost)
-                    return;
-
-                // If I am client, send handshake
-                PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"AmongUsClient.OnGameJoined.Postfix - Am client, sending handshake");
-                var messageWriter = MessageWriter.Get(SendOption.Reliable);
-                messageWriter.StartMessage(6);
-                messageWriter.Write(__instance.GameId);
-                messageWriter.WritePacked(__instance.HostId);
-                messageWriter.StartMessage(TOU_ROOT_HANDSHAKE_TAG);
-                messageWriter.Write(AmongUsClient.Instance.ClientId);
-                messageWriter.Write(TownOfUs.GetVersion());
-                messageWriter.EndMessage();
-                messageWriter.EndMessage();
-                __instance.SendOrDisconnect(messageWriter);
-                messageWriter.Recycle();
+                if (PlayerControl.LocalPlayer != null)
+                {
+                    shareGameVersion();
+                }
             }
         }
 
-        [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.HandleGameData))]
-        public static class InnerNetClient_HandleGameData
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+        public class GameStartManagerStartPatch
         {
-            public static bool Prefix(InnerNetClient __instance,
-                [HarmonyArgument(0)] MessageReader reader)
+            public static void Postfix(GameStartManager __instance)
             {
-                // If i am host, respond to handshake
-                if (__instance.AmHost && reader.BytesRemaining > 3)
+                // Trigger version refresh
+                versionSent = false;
+                // Reset lobby countdown timer
+                timer = 600f;
+                // Reset kicking timer
+                kickingTimer = 0f;
+                // Copy lobby code
+                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+                GUIUtility.systemCopyBuffer = code;
+                //lobbyCodeText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + code;
+            }
+        }
+
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
+        public class GameStartManagerUpdatePatch
+        {
+            private static bool update = false;
+            private static string currentText = "";
+
+            public static void Prefix(GameStartManager __instance)
+            {
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return; // Not host or no instance
+                update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
+            }
+
+            public static void Postfix(GameStartManager __instance)
+            {
+                // Send version as soon as PlayerControl.LocalPlayer exists
+                if (PlayerControl.LocalPlayer != null && !versionSent)
                 {
-                    var handshakeReader = MessageReader.Get(reader).ReadMessageAsNewBuffer();
-                    if (handshakeReader.Tag == TOU_ROOT_HANDSHAKE_TAG)
+                    versionSent = true;
+                    shareGameVersion();
+                }
+
+                // Host update with version handshake infos
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    bool blockStart = false;
+                    string message = "";
+                    foreach (InnerNet.ClientData client in AmongUsClient.Instance.allClients.ToArray())
                     {
-                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Host recieved TOU handshake");
-
-                        var clientId = handshakeReader.ReadInt32();
-                        var touVersion = handshakeReader.ReadString();
-
-                        // List<int> HandshakedClients - exists to disconnect legacy clients that don't send handshake
-                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with TOU version {touVersion} to List<int>HandshakedClients");
-                        HandshakedClients.Add(clientId);
-
-                        if (!TownOfUs.GetVersion().Equals(touVersion))
-                        {
-                            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched TOU version {touVersion}. (Ours is {TownOfUs.GetVersion()})");
-                            __instance.SendCustomDisconnect(clientId);
+                        if (client.Character == null) continue;
+                        var dummyComponent = client.Character.GetComponent<DummyBehaviour>();
+                        if (dummyComponent != null && dummyComponent.enabled)
+                            continue;
+                        else if (!playerVersions.ContainsKey(client.Id))
+                                {
+                                    blockStart = true;
+                            message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a different or no version of The Other Roles\n</color>";
                         }
-
-                        return false;
+                        else
+                        {
+                            PlayerVersion PV = playerVersions[client.Id];
+                            int diff = touVersion.CompareTo(PV.version); //may need to fix this.
+                            if (diff > 0)
+                            {
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has an older version of Town Of Us (v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                blockStart = true;
+                            }
+                            else if (diff < 0)
+                            {
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a newer version of Town Of Us (v{playerVersions[client.Id].version.ToString()})\n</color>";
+                                blockStart = true;
+                            }
+                            else if (!PV.GuidMatches())
+                            { // version presumably matches, check if Guid matches, different fork same version??
+                                message += $"<color=#FF0000FF>{client.Character.Data.PlayerName} has a modified version of TOU v{playerVersions[client.Id].version.ToString()} <size=50%>[{forkName}]({PV.guid.ToString()})</size>\n</color>";
+                                blockStart = true;
+                            }
+                        }
+                    }
+                    if (blockStart)
+                    {
+                        __instance.StartButton.color = __instance.startLabelText.color = Palette.DisabledClear;
+                        __instance.GameStartText.text = message;
+                        __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
+                    }
+                    else
+                    {
+                        __instance.StartButton.color = __instance.startLabelText.color = ((__instance.LastPlayerCount >= __instance.MinPlayers) ? Palette.EnabledColor : Palette.DisabledClear);
+                        __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
                     }
                 }
 
-                return true;
-            }
-        }
-
-        // Handle legacy clients that don't send handshakes
-        private static HashSet<int> HandshakedClients = new HashSet<int>();
-        private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
-        {
-            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake(innerNetClient, clientId = {clientId})");
-
-            yield return new WaitForSeconds(5f);
-            PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - Waited 5 seconds");
-            if (!HandshakedClients.Contains(clientId))
-            {
-                PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients did not contain clientId {clientId}");
-                if (innerNetClient.allClients.ToArray().Any(x => x.Id == clientId))
-                    innerNetClient.SendCustomDisconnect(clientId);
-            }
-            else
-            {
-                PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients contained clientId {clientId}");
-            }
-        }
-
-        [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-        public static class AmongUsClient_OnPlayerJoined
-        {
-            public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data)
-            {
-                if (AmongUsClient.Instance.AmHost && __instance.GameState == InnerNetClient.GameStates.Started)
+                // Client update with handshake infos
+                if (!AmongUsClient.Instance.AmHost)
                 {
-                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"Am host and clientId {data.Id} sent JoinGameResponse");
-                    Coroutines.Start(WaitForHandshake(__instance, data.Id));
+                    /*
+                    Reactor.PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"##TOUVEERCHECK##:-{touVersion}");
+                    Reactor.PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"##TOUHOSTVERCHECK##:-{playerVersions[AmongUsClient.Instance.HostId].version}");
+                    foreach (var vers in playerVersions)
+                    {
+                        Reactor.PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"##vers##:-{vers.Key}//{vers.Value.guid}//{vers.Value.version.ToString()}");
+                    }
+                    */
+                    if (!playerVersions.ContainsKey(AmongUsClient.Instance.HostId) || touVersion.CompareTo(playerVersions[AmongUsClient.Instance.HostId].version) != 0) //may need to check this.
+                    {
+                        kickingTimer += Time.deltaTime;
+                        if (kickingTimer > 10)
+                        {
+                            kickingTimer = 0;
+                            AmongUsClient.Instance.ExitGame(DisconnectReasons.ExitGame);
+                            SceneChanger.ChangeScene("MainMenu");
+                        }
+                        /*Reactor.PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"##TOUVEERCHECK##:-{touVersion}");
+                        Reactor.PluginSingleton<TownOfUs>.Instance.Log.LogMessage($"##TOUHOSTVERCHECK##:-{playerVersions[AmongUsClient.Instance.HostId].version}");*/
+                        __instance.GameStartText.text = $"<color=#FF0000FF>The host has no or a different version of Town Of Us\nYou will be kicked in {Math.Round(10 - kickingTimer)}s</color>";
+                        __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition + Vector3.up * 2;
+                    }
+                    else
+                    {
+                        __instance.GameStartText.transform.localPosition = __instance.StartButton.transform.localPosition;
+                        if (__instance.startState != GameStartManager.StartingStates.Countdown)
+                        {
+                            __instance.GameStartText.text = String.Empty;
+                        }
+                    }
                 }
+
+                // Lobby code replacement -- not required
+                //__instance.GameRoomName.text = TheOtherRolesPlugin.StreamerMode.Value ? $"<color={TheOtherRolesPlugin.StreamerModeReplacementColor.Value}>{TheOtherRolesPlugin.StreamerModeReplacementText.Value}</color>" : lobbyCodeText;
+
+                // Lobby timer
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return; // Not host or no instance
+
+                if (update) currentText = __instance.PlayerCounter.text;
+
+                timer = Mathf.Max(0f, timer -= Time.deltaTime);
+                int minutes = (int)timer / 60;
+                int seconds = (int)timer % 60;
+                string suffix = $" ({minutes:00}:{seconds:00})";
+
+                __instance.PlayerCounter.text = currentText + suffix;
+                __instance.PlayerCounter.autoSizeTextContainer = true;
+
             }
         }
 
-        private static void SendCustomDisconnect(this InnerNetClient innerNetClient, int clientId)
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+        public class GameStartManagerBeginGame
         {
-            var messageWriter = MessageWriter.Get(SendOption.Reliable);
-            messageWriter.StartMessage(11);
-            messageWriter.Write(innerNetClient.GameId);
-            messageWriter.WritePacked(clientId);
-            messageWriter.Write(false);
-            messageWriter.Write(8);
-            messageWriter.Write($"The host has a different version of Town Of Us ({TownOfUs.GetVersion()})");
-            messageWriter.EndMessage();
-            innerNetClient.SendOrDisconnect(messageWriter);
-            messageWriter.Recycle();
+            public static bool Prefix(GameStartManager __instance)
+            {
+                // Block game start if not everyone has the same mod version
+                bool continueStart = true;
+
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    foreach (InnerNet.ClientData client in AmongUsClient.Instance.allClients)
+                    {
+                        if (client.Character == null) continue;
+                        var dummyComponent = client.Character.GetComponent<DummyBehaviour>();
+                        if (dummyComponent != null && dummyComponent.enabled)
+                            continue;
+                        
+                        if (!playerVersions.ContainsKey(client.Id))
+                        {
+                            continueStart = false;
+                            break;
+                        }
+
+                        PlayerVersion PV = playerVersions[client.Id];
+                        int diff = touVersion.CompareTo(PV.version); //may need to fix this
+                        if (diff != 0 || !PV.GuidMatches())
+                        {
+                            continueStart = false;
+                            break;
+                        }
+                    }
+                }
+
+                //not required
+                /*if (CustomOptionHolder.dynamicMap.getBool())
+                {
+                    // 0 = Skeld
+                    // 1 = Mira HQ
+                    // 2 = Polus
+                    // 3 = Dleks - deactivated
+                    // 4 = Airship
+                    List<byte> possibleMaps = new List<byte>() { 0, 1, 2, 4 };
+                    PlayerControl.GameOptions.MapId = possibleMaps[TheOtherRoles.rnd.Next(possibleMaps.Count)];
+                }*/
+
+                return continueStart;
+            }
+        }
+
+        public class PlayerVersion
+        {
+            public readonly Version version;
+            public readonly Guid guid;
+
+            public PlayerVersion(Version version, Guid guid)
+            {
+                this.version = version;
+                this.guid = guid;
+            }
+
+            public bool GuidMatches()
+            {
+                return Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId.Equals(this.guid);
+            }
+        }
+
+        public static void shareGameVersion()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionHandshake, Hazel.SendOption.Reliable, -1);
+            writer.Write((byte)touVersion.Major);
+            writer.Write((byte)touVersion.Minor);
+            writer.Write((byte)touVersion.Build);
+            writer.WritePacked(AmongUsClient.Instance.ClientId);
+            writer.Write((byte)(touVersion.Revision < 0 ? 0xFF : touVersion.Revision));
+            writer.Write(Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId.ToByteArray());
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            versionHandshake(touVersion.Major, touVersion.Minor, touVersion.Build, touVersion.Revision, Assembly.GetExecutingAssembly().ManifestModule.ModuleVersionId, AmongUsClient.Instance.ClientId);
+        }
+
+        public static void versionHandshake(int major, int minor, int build, int revision, Guid guid, int clientId)
+        {
+            System.Version ver;
+            if (revision < 0)
+                ver = new System.Version(major, minor, build);
+            else
+                ver = new System.Version(major, minor, build, revision);
+            playerVersions[clientId] = new PlayerVersion(ver, guid);
         }
     }
 }

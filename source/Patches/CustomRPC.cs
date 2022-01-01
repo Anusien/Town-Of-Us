@@ -104,5 +104,6 @@ namespace TownOfUs
         FixAnimation,
 
         AddMayorVoteBank,
+        VersionHandshake,
     }
 }
