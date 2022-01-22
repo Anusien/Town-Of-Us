@@ -69,11 +69,8 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 
 | Game Version | Supported? |
 | :-----------------: | :------------: |
-|  [Steam](#installation-guide-steam) (v2021.11.9.5s) | ❌ |
-|  [Epic Games](#installation-guide-epic-games) (v2021.11.9.5e) | ❌ |
-|  [Steam](#installation-guide-steam) (v2021.6.30s) | ✔️ |
-|  [Epic Games](#installation-guide-epic-games) (v2021.7.20e) | ✔️ |
-|  [Epic Games](#installation-guide-epic-games) (v2021.6.30e) | ✔️ |
+|  [Steam](#installation-guide-steam) (v2021.12.15s) | ✔ |
+|  [Epic Games](#installation-guide-epic-games) (v2021.12.15e) | ✔ |
 |  itch.io | ❌ |
 |  Microsoft Store | ❌ |
 |  Android | ❌ |
@@ -1323,7 +1320,8 @@ If you have any bugs or any need to contact me, join the [Discord server](https:
 [TorchMod](https://github.com/tomozbot/TorchMod) - For the inspiration of the Torch Mod.\
 [XtraCube](https://github.com/XtraCube) - For the RainbowMod.\
 [PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Button Art.\
-[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Child and Spy roles.
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For several roles.\
+[Guus](https://github.com/OhMyGuus) for support and help with the 2021.12.15 upgrade.
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
 v1.0.3 uses [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) directly.\

@@ -517,7 +517,7 @@ namespace TownOfUs.Roles
                 __gInstance.HackButton.gameObject.SetActive(__instance.UseButton.isActiveAndEnabled &&
                                                             !__gInstance.Player.Data.IsDead);
                 __gInstance.HackButton.transform.position = new Vector3(__gInstance.MimicButton.transform.position.x,
-                    __instance.ReportButton.transform.position.y, __instance.ReportButton.transform.position.z);
+                    __gInstance.HackButton.transform.position.y, __instance.ReportButton.transform.position.z);
                 __gInstance.HackButton.SetCoolDown(
                     CustomGameOptions.HackCooldown - (float)(DateTime.UtcNow - __gInstance.LastHack).TotalSeconds,
                     CustomGameOptions.HackCooldown);
