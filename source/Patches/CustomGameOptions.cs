@@ -35,6 +35,7 @@ namespace TownOfUs
         public static int AltruistOn => (int) Generate.AltruistOn.Get();
         public static int ProphetOn => (int) Generate.ProphetOn.Get();
         public static int CovertOn => (int) Generate.CovertOn.Get();
+        public static int LighterOn => (int) Generate.LighterOn.Get();
         public static int PhantomOn => (int) Generate.PhantomOn.Get();
         public static int UndertakerOn => (int) Generate.UndertakerOn.Get();
         public static int UnderdogOn => (int) Generate.UnderdogOn.Get();
@@ -94,6 +95,8 @@ namespace TownOfUs
         public static bool ProphetInitialReveal => Generate.ProphetInitialReveal.Get();
         public static float CovertCooldown => Generate.CovertCooldown.Get();
         public static float CovertDuration => Generate.CovertDuration.Get();
+        public static float LighterCooldown => Generate.LighterCooldown.Get();
+        public static float LighterDuration => Generate.LighterDuration.Get();
         public static bool NeutralRed => Generate.NeutralRed.Get();
         public static float MimicCooldown => Generate.MimicCooldownOption.Get();
         public static float MimicDuration => Generate.MimicDurationOption.Get();

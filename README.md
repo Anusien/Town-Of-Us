@@ -22,6 +22,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 - [Altruist](#altruist)
 - [Prophet](#prophet)
 - [Covert](#covert)
+- [Lighter](#lighter)
 
 **Neutral Roles**
 - [Jester](#jester)
@@ -910,7 +911,21 @@ The Covert is a Crewmate that can temporarily turn invisible. Their vision is ha
 |----------|:-------------:|:------:|:------:|
 | Covert | The percentage probability of the Covert appearing | Percentage | 0% |
 | Covert Cooldown | The cooldown of the Covert's invisibility button | Time | 30s |
-| Covert Cooldown | How long the Covert is invisible | Time | 15s |
+| Covert Duration | How long the Covert is invisible | Time | 15s |
+
+
+----------------------
+## Lighter
+### **Team: Crewmates**
+
+The Lighter is a Crewmate that can temporarily increase their vision. While their ability is active, they will
+get normal crewmate vision is lights are off and normal impostor vision if lights are on.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Lighter | The percentage probability of the Lighter appearing | Percentage | 0% |
+| Lighter Cooldown | The cooldown of the Lighter's visibility | Time | 20s |
+| Lighter Duration | How long the Lighter gets improved visibility invisible | Time | 5s |
 
 
 -----------------------

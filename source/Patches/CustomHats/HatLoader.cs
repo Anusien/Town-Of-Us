@@ -15,7 +15,6 @@ namespace TownOfUs.Patches.CustomHats
     {
         private const string HAT_RESOURCE_NAMESPACE = "TownOfUs.Resources.Hats";
         private const string HAT_METADATA_JSON = "metadata.json";
-        private const int HAT_ORDER_BASELINE = 99;
 
         private static ManualLogSource Log => PluginSingleton<TownOfUs>.Instance.Log;
         private static Assembly Assembly => typeof(TownOfUs).Assembly;
