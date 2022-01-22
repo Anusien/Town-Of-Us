@@ -447,8 +447,8 @@ namespace TownOfUs.CustomOption
             CovertDuration = new CustomNumberOption(num++, "Covert Duration", 15f, 5f, 30f, 2.5f, CooldownFormat);
 
             Lighter = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Lighter).GetColoredName()}");
-            CovertCooldown = new CustomNumberOption(num++, "Lighter Cooldown", 20f, 5f, 60f, 2.5f, CooldownFormat);
-            CovertDuration = new CustomNumberOption(num++, "Lighter Duration", 5f, 1f, 10f, 2.5f, CooldownFormat);
+            LighterCooldown = new CustomNumberOption(num++, "Lighter Cooldown", 20f, 5f, 60f, 2.5f, CooldownFormat);
+            LighterDuration = new CustomNumberOption(num++, "Lighter Duration", 5f, 1f, 10f, 2.5f, CooldownFormat);
             #endregion
 
 
