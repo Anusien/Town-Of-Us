@@ -27,6 +27,7 @@ namespace TownOfUs
         SetProphet,
         SetCovert,
         SetLighter,
+        SetAuspex,
         SetUndertaker,
         SetUnderdog,
         SetTeleporter,

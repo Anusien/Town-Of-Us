@@ -36,6 +36,8 @@ namespace TownOfUs
         Covert,
         [RoleDetails("Lighter", "#FFCCCB", Faction.Crewmates)]
         Lighter,
+        [RoleDetails("Auspex", "#4B9CD3", Faction.Crewmates)]
+        Auspex,
 
         [RoleDetails("Jester", "#FFBFCCFF", Faction.Neutral)]
         Jester,
