@@ -930,14 +930,13 @@ get normal crewmate vision is lights are off and normal impostor vision if light
 ## Auspex
 ### **Team: Crewmates**
 
-The Auspex is a Crewmate that can read and interpret omens.
-get normal crewmate vision is lights are off and normal impostor vision if lights are on.
+The Auspex is a Crewmate that can read and interpret omens. Their screen will flash their color
+when another player is killed.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Lighter | The percentage probability of the Lighter appearing | Percentage | 0% |
-| Lighter Cooldown | The cooldown of the Lighter's visibility | Time | 20s |
-| Lighter Duration | How long the Lighter gets improved visibility invisible | Time | 5s |
+| Auspex | The percentage probability of the Auspex appearing | Percentage | 0% |
+
 
 -----------------------
 # Neutral Roles
