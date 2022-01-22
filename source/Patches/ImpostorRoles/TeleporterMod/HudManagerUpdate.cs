@@ -24,15 +24,16 @@ namespace TownOfUs.ImpostorRoles.TeleporterMod
 
             if (role.TeleportButton == null)
             {
-                role.TeleportButton = Object.Instantiate(__instance.KillButton, HudManager.Instance.transform);
+                role.TeleportButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
                 role.TeleportButton.graphic.enabled = true;
+                role.TeleportButton.GetComponent<AspectPosition>().DistanceFromEdge = TownOfUs.ButtonPosition;
+                role.TeleportButton.gameObject.SetActive(false);
             }
 
+            role.TeleportButton.GetComponent<AspectPosition>().Update();
             role.TeleportButton.graphic.sprite = TownOfUs.TeleportSprite;
             role.TeleportButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            var position = __instance.KillButton.transform.localPosition;
-            role.TeleportButton.transform.localPosition = new Vector3(position.x,
-                __instance.ReportButton.transform.localPosition.y, position.z);
+
             role.TeleportButton.SetCoolDown(role.CooldownTimer(), CustomGameOptions.TeleporterCooldown);
 
             if (
