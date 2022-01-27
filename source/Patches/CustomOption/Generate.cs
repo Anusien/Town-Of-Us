@@ -45,6 +45,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption TeleporterOn;
         public static CustomNumberOption ConcealerOn;
         public static CustomNumberOption GrenadierOn;
+        public static CustomNumberOption BomberOn;
 
         private static CustomHeaderOption Modifiers;
         public static CustomNumberOption TorchOn;
@@ -200,6 +201,11 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption GrenadeCooldown;
         public static CustomNumberOption GrenadeDuration;
 
+        private static CustomHeaderOption Bomber;
+        public static CustomNumberOption BomberCooldown;
+        public static CustomNumberOption TimeToBomb;
+        public static CustomNumberOption BombFuseTime;
+
         private static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
 
@@ -282,6 +288,8 @@ namespace TownOfUs.CustomOption
             ConcealerOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Concealer).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
             GrenadierOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Grenadier).GetColoredName()}", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            BomberOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Bomber).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
 
@@ -526,6 +534,11 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, "Flash Grenade Cooldown", 25, 10, 40, 2.5f, CooldownFormat);
             GrenadeDuration =
                 new CustomNumberOption(num++, "Flash Grenade Duration", 10, 5, 15, 1f, CooldownFormat);
+
+            Bomber = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Bomber).GetColoredName()}");
+            BomberCooldown = new CustomNumberOption(num++, "Bomb Cooldown", 30, 10, 60, 2.5f, CooldownFormat);
+            TimeToBomb = new CustomNumberOption(num++, "Delay Before Bomb is Armed", 5, 2.5f, 15, 2.5f, CooldownFormat);
+            BombFuseTime = new CustomNumberOption(num++, "Time Before Bomb Goes Off", 20, 5, 40, 2.5f, CooldownFormat);
             #endregion
         }
     }
