@@ -94,7 +94,7 @@ namespace TownOfUs
         GoCovert,
         LighterOn,
         FlashGrenade,
-        SetBomb,
+        PlantBomb,
 
         SetGlitch,
         BypassKill,

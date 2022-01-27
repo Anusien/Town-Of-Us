@@ -3,28 +3,28 @@ using Hazel;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 
-namespace TownOfUs.Patches.ImpostorRoles.ConcealerMod
+namespace TownOfUs.Patches.ImpostorRoles.BomberMod
 {
     [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
-    public class PerformKill
+    public class PlantBomb
     {
         public static bool Prefix(KillButton __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Concealer))
-            {
-                return true;
-            }
-
             if (
                 !PlayerControl.LocalPlayer.CanMove
                 || PlayerControl.LocalPlayer.Data.IsDead
-                )
+            )
             {
                 return false;
             }
 
-            Concealer role = Role.GetRole<Concealer>(PlayerControl.LocalPlayer);
-            if (__instance != role.ConcealButton)
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Bomber))
+            {
+                return true;
+            }
+
+            Bomber bomber = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
+            if (__instance != bomber.PlantBombButton)
             {
                 return true;
             }
@@ -32,35 +32,34 @@ namespace TownOfUs.Patches.ImpostorRoles.ConcealerMod
             if (
                 __instance.isCoolingDown
                 || !__instance.isActiveAndEnabled
-                || role.CooldownTimer() != 0
-                || role.Target == null
-                || role.Target.Data.IsImpostor()
+                || bomber.CooldownTimer() != 0
+                || bomber.Target == null
+                || bomber.Target.Data.IsImpostor()
             )
             {
                 return false;
             }
 
-            if (role.Target.isShielded())
+            if (bomber.Target.isShielded())
             {
-                Utils.BreakShield(role.Target);
+                Utils.BreakShield(bomber.Target);
 
                 if (CustomGameOptions.ShieldBreaks)
                 {
-                    role.ResetCooldownTimer();
+                    bomber.ResetCooldownTimer();
                 }
 
                 return false;
             }
 
-            // Sets concealed player
-            role.StartConceal(role.Target);
-
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.Conceal,
+                (byte) CustomRPC.PlantBomb,
                 SendOption.Reliable, -1);
             writer.Write(PlayerControl.LocalPlayer.PlayerId);
-            writer.Write(role.Concealed.PlayerId);
+            writer.Write(bomber.Target.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            bomber.PlantBomb(bomber.Target);
 
             return false;
         }

@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Rewired;
 using TownOfUs.Roles;
 using UnityEngine;
 

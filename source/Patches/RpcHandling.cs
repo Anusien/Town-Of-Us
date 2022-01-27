@@ -17,7 +17,6 @@ using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.PhantomMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
-using UnhollowerBaseLib;
 using UnityEngine;
 using AddButton = TownOfUs.ImpostorRoles.AssassinMod.AddButton;
 using Coroutine = TownOfUs.ImpostorRoles.JanitorMod.Coroutine;
@@ -600,6 +599,12 @@ namespace TownOfUs
                         Grenadier grenadierRole = Role.GetRole<Grenadier>(grenadier);
                         grenadierRole.TimeRemaining = CustomGameOptions.GrenadeDuration;
                         grenadierRole.Flash();
+                        break;
+                    case CustomRPC.PlantBomb:
+                        PlayerControl bomber = Utils.PlayerById(reader.ReadByte());
+                        Bomber bomberRole = Role.GetRole<Bomber>(bomber);
+                        PlayerControl bombVictim = Utils.PlayerById(reader.ReadByte());
+                        bomberRole.PlantBomb(bombVictim);
                         break;
                     case CustomRPC.SetTiebreaker:
                         new Tiebreaker(Utils.PlayerById(reader.ReadByte()));
