@@ -592,6 +592,9 @@ namespace TownOfUs
                     case CustomRPC.SetGrenadier:
                         new Grenadier(Utils.PlayerById(reader.ReadByte()));
                         break;
+                    case CustomRPC.SetBomber:
+                        new Bomber(Utils.PlayerById(reader.ReadByte()));
+                        break;
                     case CustomRPC.FlashGrenade:
                         PlayerControl grenadier = Utils.PlayerById(reader.ReadByte());
                         Grenadier grenadierRole = Role.GetRole<Grenadier>(grenadier);
@@ -913,6 +916,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.GrenadierOn))
                     ImpostorRoles.Add((typeof(Grenadier), CustomRPC.SetGrenadier, CustomGameOptions.GrenadierOn));
+
+                if (Check(CustomGameOptions.BomberOn))
+                    ImpostorRoles.Add((typeof(Bomber), CustomRPC.SetBomber, CustomGameOptions.BomberOn));
                 #endregion
                 #region Crewmate Modifiers
                 if (Check(CustomGameOptions.TorchOn))
