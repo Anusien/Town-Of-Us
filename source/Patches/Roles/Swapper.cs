@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
         public Swapper(PlayerControl player) : base(player, RoleEnum.Swapper)
         {
             ImpostorText = () => "Swap the votes of two people";
-            TaskText = () => "Swap two people's votes and wreak havoc!";
+            TaskText = () => "Swap the votes of two people";
         }
     }
 }

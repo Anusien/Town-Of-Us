@@ -46,7 +46,7 @@ namespace TownOfUs.Roles
             if (!CustomGameOptions.RoleUnderName && player == null) return Player.name;
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.DefaultOutfit.HatId == "hat_NoHat" ? 1.5f : 2f,
+                Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2f,
                 -0.5f
             );
             if (PlayerControl.LocalPlayer.Data.IsImpostor() && RoleType == RoleEnum.LoverImpostor)

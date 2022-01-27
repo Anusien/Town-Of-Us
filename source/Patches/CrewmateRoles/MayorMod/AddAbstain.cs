@@ -15,7 +15,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             role.Abstain.gameObject.SetActive(skip.gameObject.active && !role.VotedOnce);
             role.Abstain.voteComplete = skip.voteComplete;
             role.Abstain.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
-            //role.Abstain.skipVoteText.text = "Abstain";
+            role.Abstain.GetComponentsInChildren<TextMeshPro>()[0].text = "Abstain";
         }
 
 

@@ -197,10 +197,10 @@ namespace TownOfUs.Roles
 
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.DefaultOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
+                Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
-            return Player.name + "\n" + Name;
+            return Player.GetDefaultOutfit()._playerName + "\n" + Name;
         }
 
         public static bool operator ==(Role a, Role b)
@@ -255,12 +255,12 @@ namespace TownOfUs.Roles
         public static T Gen<T>(Type type, List<PlayerControl> players, CustomRPC rpc)
         {
             var player = players[Random.RandomRangeInt(0, players.Count)];
-            
+
             var role = Gen<T>(type, player, rpc);
             players.Remove(player);
             return role;
         }
-        
+
         public static Role GetRole(PlayerControl player)
         {
             if (player == null) return null;

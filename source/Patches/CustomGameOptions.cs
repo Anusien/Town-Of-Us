@@ -165,6 +165,7 @@ namespace TownOfUs
                     if (On(AltruistOn)) enabledRoles.Add(RoleEnum.Altruist);
                     if (On(ProphetOn)) enabledRoles.Add(RoleEnum.Prophet);
                     if (On(CovertOn)) enabledRoles.Add(RoleEnum.Covert);
+                    if (On(LighterOn)) enabledRoles.Add(RoleEnum.Lighter);
                 }
                 else if (faction == Faction.Neutral)
                 {

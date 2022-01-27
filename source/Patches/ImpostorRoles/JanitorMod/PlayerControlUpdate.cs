@@ -24,6 +24,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
             }
 
             role.CleanButton.GetComponent<AspectPosition>().Update();
+            role.CleanButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
             role.CleanButton.graphic.sprite = TownOfUs.JanitorClean;
 
 
