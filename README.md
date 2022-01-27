@@ -1219,7 +1219,8 @@ The Giant is a gigantic Crewmate, that has a decreased walk speed.
 ### **Applied to: All**
 Button Barry has the ability to call a meeting from anywhere on the map, even during sabotages.
 They have the same amount of meetings as a regular player.\
-After the first time they use this ability, their vision is halved for the rest of the game.
+After the first time they use this ability, their vision is halved for the rest of the game.\
+Glitch and Swapper can be assigned Button Barry, but it will have no effect.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|

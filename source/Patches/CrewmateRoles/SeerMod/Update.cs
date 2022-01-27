@@ -1,5 +1,6 @@
 using System.Linq;
 using HarmonyLib;
+using TownOfUs.Extensions;
 using TownOfUs.ImpostorRoles.CamouflageMod;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                 return "";
             }
 
-            return player.name + str;
+            return player.GetDefaultOutfit()._playerName + str;
         }
 
         private static void RevealSeerInMeeting(MeetingHud __instance)

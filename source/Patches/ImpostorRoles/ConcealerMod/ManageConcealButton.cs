@@ -31,12 +31,12 @@ namespace TownOfUs.Patches.ImpostorRoles.ConcealerMod
             }
 
             role.ConcealButton.GetComponent<AspectPosition>().Update();
+            role.ConcealButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
             // TODO: Make our own button for this
             role.ConcealButton.graphic.sprite = TownOfUs.SwoopSprite;
 
             if (role.Concealed != null)
             {
-                // TODO: This will kind of lie to them about how long the conceal lasts, can we change the experience?
                 role.ConcealButton.SetCoolDown(role.TimeBeforeConcealed + role.ConcealTimeRemaining, CustomGameOptions.ConcealDuration);
                 return;
             }

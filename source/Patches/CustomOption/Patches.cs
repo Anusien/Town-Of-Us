@@ -61,15 +61,6 @@ namespace TownOfUs.CustomOption
             DefaultOptions = __instance.Children.ToList();
             foreach (var defaultOption in __instance.Children) options.Add(defaultOption);
 
-            // TODO: Is there a better place to do this?
-            Object
-                .FindObjectsOfType<NumberOption>().First(o => "CrewmateVision".Equals(o.name))
-                .Increment = 0.125f;
-
-            Object
-                .FindObjectsOfType<NumberOption>().First(o => "ImpostorVision".Equals(o.name))
-                .Increment = 0.125f;
-
             List<OptionBehaviour> defaultOptions = __instance.Children.ToList();
             options.AddRange(defaultOptions);
 
@@ -220,7 +211,19 @@ namespace TownOfUs.CustomOption
             {
 
                 if (__instance.name != "TouGameOptionsMenu")
+                {
+                    // TODO: Is there a better place to do this?
+                    Object
+                        .FindObjectsOfType<NumberOption>().First(o => "CrewmateVision".Equals(o.name))
+                        .Increment = 0.125f;
+
+                    Object
+                        .FindObjectsOfType<NumberOption>().First(o => "ImpostorVision".Equals(o.name))
+                        .Increment = 0.125f;
+
                     return true;
+                }
+
                 __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(new OptionBehaviour[0]);
                 var childeren = new Transform[__instance.gameObject.transform.childCount];
                 for (int k = 0; k < childeren.Length; k++)
