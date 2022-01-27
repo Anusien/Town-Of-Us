@@ -121,7 +121,7 @@ namespace TownOfUs.Roles
             target.RemainingEmergencies = 0; // TODO: Is there a better way to do this?
             BombedPlayer = target;
             Target = null;
-            _timeUntilBombArmed = CustomGameOptions.BombFuseTime;
+            _timeUntilBombArmed = CustomGameOptions.TimeToBomb;
             _bombArmed = false;
         }
     }
