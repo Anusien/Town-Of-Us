@@ -23,6 +23,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 - [Prophet](#prophet)
 - [Covert](#covert)
 - [Lighter](#lighter)
+- [Auspex](#auspex)
 
 **Neutral Roles**
 - [Jester](#jester)
@@ -923,6 +924,18 @@ get normal crewmate vision is lights are off and normal impostor vision if light
 | Lighter | The percentage probability of the Lighter appearing | Percentage | 0% |
 | Lighter Cooldown | The cooldown of the Lighter's visibility | Time | 20s |
 | Lighter Duration | How long the Lighter gets improved visibility invisible | Time | 5s |
+
+
+----------------------
+## Auspex
+### **Team: Crewmates**
+
+The Auspex is a Crewmate that can read and interpret omens. Their screen will flash their color
+when another player is killed.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Auspex | The percentage probability of the Auspex appearing | Percentage | 0% |
 
 
 -----------------------

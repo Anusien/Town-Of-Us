@@ -650,6 +650,9 @@ namespace TownOfUs
                     case CustomRPC.SetLighter:
                         new Lighter(Utils.PlayerById(reader.ReadByte()));
                         break;
+                    case CustomRPC.SetAuspex:
+                        new Auspex(Utils.PlayerById(reader.ReadByte()));
+                        break;
                     case CustomRPC.SetBigBoi:
                         new BigBoiModifier(Utils.PlayerById(reader.ReadByte()));
                         break;
@@ -860,6 +863,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.LighterOn))
                     CrewmateRoles.Add((typeof(Lighter), CustomRPC.SetLighter, CustomGameOptions.LighterOn));
+
+                if (Check(CustomGameOptions.AuspexOn))
+                    CrewmateRoles.Add((typeof(Auspex), CustomRPC.SetAuspex, CustomGameOptions.AuspexOn));
                 #endregion
                 #region Neutral Roles
                 if (Check(CustomGameOptions.ArsonistOn))

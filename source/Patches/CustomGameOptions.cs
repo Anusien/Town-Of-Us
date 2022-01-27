@@ -36,6 +36,7 @@ namespace TownOfUs
         public static int ProphetOn => (int) Generate.ProphetOn.Get();
         public static int CovertOn => (int) Generate.CovertOn.Get();
         public static int LighterOn => (int) Generate.LighterOn.Get();
+        public static int AuspexOn => (int) Generate.AuspexOn.Get();
         public static int PhantomOn => (int) Generate.PhantomOn.Get();
         public static int UndertakerOn => (int) Generate.UndertakerOn.Get();
         public static int UnderdogOn => (int) Generate.UnderdogOn.Get();
@@ -168,6 +169,8 @@ namespace TownOfUs
                     if (On(AltruistOn)) enabledRoles.Add(RoleEnum.Altruist);
                     if (On(ProphetOn)) enabledRoles.Add(RoleEnum.Prophet);
                     if (On(CovertOn)) enabledRoles.Add(RoleEnum.Covert);
+                    if (On(LighterOn)) enabledRoles.Add(RoleEnum.Lighter);
+                    if (On(AuspexOn)) enabledRoles.Add(RoleEnum.Auspex);
                 }
                 else if (faction == Faction.Neutral)
                 {

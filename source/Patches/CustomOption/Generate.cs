@@ -25,6 +25,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption ProphetOn;
         public static CustomNumberOption CovertOn;
         public static CustomNumberOption LighterOn;
+        public static CustomNumberOption AuspexOn;
 
         private static CustomHeaderOption NeutralRoles;
         public static CustomNumberOption JesterOn;
@@ -249,6 +250,8 @@ namespace TownOfUs.CustomOption
             CovertOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Covert).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
             LighterOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Lighter).GetColoredName()}", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            AuspexOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Auspex).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
 
