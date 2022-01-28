@@ -1174,7 +1174,8 @@ The Bomber can plant a bomb on a nearby player. After a certain amount of time, 
 button and informed they have been set to explode. If the bombed player doesn't use that kill button to kill another
 player within a certain amount of time, they will die.\
 If the bombed player attempts to use this ability to kill the Bomber, they will kill themselves instead. They can
-kill any other impostors though.
+kill any other impostors though.\
+The bombed player will lose all their emergency meetings, even if they successfull kill someone else with the bomb.
 
 ### Game Options
 | Name | Description | Type | Default |
