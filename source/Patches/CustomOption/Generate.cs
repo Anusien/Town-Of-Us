@@ -204,7 +204,7 @@ namespace TownOfUs.CustomOption
 
         private static CustomHeaderOption Bomber;
         public static CustomNumberOption BomberCooldown;
-        public static CustomNumberOption TimeToBomb;
+        public static CustomNumberOption BombArmTime;
         public static CustomNumberOption BombFuseTime;
 
         private static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
@@ -539,9 +539,9 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, "Flash Grenade Duration", 10, 5, 15, 1f, CooldownFormat);
 
             Bomber = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Bomber).GetColoredName()}");
-            BomberCooldown = new CustomNumberOption(num++, "Bomb Cooldown", 30, 10, 60, 2.5f, CooldownFormat);
-            TimeToBomb = new CustomNumberOption(num++, "Delay Before Bomb is Armed", 5, 2.5f, 15, 2.5f, CooldownFormat);
-            BombFuseTime = new CustomNumberOption(num++, "Time Before Bomb Goes Off", 20, 5, 40, 2.5f, CooldownFormat);
+            BomberCooldown = new CustomNumberOption(num++, "Bomb Cooldown", 40, 35, 60, 2.5f, CooldownFormat);
+            BombArmTime = new CustomNumberOption(num++, "Time Before Bomb is Armed", 5, 2.5f, 15, 2.5f, CooldownFormat);
+            BombFuseTime = new CustomNumberOption(num++, "Time Before Bomb Explodes", 20, 10, 30, 2.5f, CooldownFormat);
             #endregion
         }
     }

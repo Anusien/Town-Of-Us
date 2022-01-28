@@ -40,7 +40,8 @@ namespace TownOfUs.Patches.ImpostorRoles.BomberMod
                     && bomber.ShouldShowKillWithBombButton(PlayerControl.LocalPlayer)
                 );
 
-                bomber.KillWithBombButton.SetCoolDown(0, 0); // TODO
+                bomber.KillWithBombButton.SetCoolDown(0, 0); // TODO: Is this right?
+                Utils.SetTarget(ref bomber.BombedPlayerTarget, bomber.KillWithBombButton);
             }
         }
     }

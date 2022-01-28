@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -35,7 +36,30 @@ namespace TownOfUs.Patches.ImpostorRoles.BomberMod
             role.PlantBombButton.graphic.sprite = BombSprite;
             role.PlantBombButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
 
-            // TODO
+            if (role.IsReadyToPlant())
+            {
+                Utils.SetTarget(ref role.Target, role.PlantBombButton);
+                role.PlantBombButton.SetCoolDown(role.CooldownTimer(), CustomGameOptions.BomberCooldown);
+                if (
+                    role.Target != null
+                    && !role.Target.Data.IsImpostor()
+                )
+                {
+                    role.PlantBombButton.graphic.color = Palette.DisabledClear;
+                    role.PlantBombButton.graphic.material.SetFloat("_Desat", 1f);
+                }
+                else
+                {
+                    role.PlantBombButton.graphic.color = Palette.EnabledColor;
+                    role.PlantBombButton.graphic.material.SetFloat("_Desat", 0f);
+                }
+            }
+            else
+            {
+                role.PlantBombButton.SetCoolDown(role.TimeUntilBombArmed, CustomGameOptions.BombArmTime);
+                role.PlantBombButton.graphic.color = Palette.EnabledColor;
+                role.PlantBombButton.graphic.material.SetFloat("_Desat", 0f);
+            }
         }
     }
 }

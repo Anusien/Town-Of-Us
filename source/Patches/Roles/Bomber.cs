@@ -4,18 +4,15 @@ using UnityEngine;
 
 namespace TownOfUs.Roles
 {
-    // TODO: Set target for the bomber
-    // TODO: Set target for the bombed player
-    // TODO: Set cooldowns for the bomber
     // TODO: Set a cooldown for the bombed player?
     public class Bomber : RoleWithCooldown
     {
         private KillButton _plantBombButton;
         private KillButton _killWithBombButton;
         public PlayerControl Target;
-        public PlayerControl BombedPlayer;
+        public PlayerControl BombedPlayer { get; private set; }
         public PlayerControl BombedPlayerTarget;
-        private float _timeUntilBombArmed;
+        public float TimeUntilBombArmed { get; private set; }
         private bool _bombArmed;
         private float _timeUntilExplosion;
 
@@ -92,12 +89,15 @@ namespace TownOfUs.Roles
                         BombedPlayer.MurderPlayer(BombedPlayer);
                         BombedPlayer.Data.SetImpostor(false);
                     }
+                    ClearBomb();
                 }
-            } else if (_timeUntilBombArmed <= 0)
+            } else if (TimeUntilBombArmed <= 0)
             {
                 _bombArmed = true;
+                TimeUntilBombArmed = 0;
                 _timeUntilExplosion = CustomGameOptions.BombFuseTime;
                 Coroutines.Start(Utils.FlashCoroutine(Palette.ImpostorRed));
+                ResetCooldownTimer();
             }
         }
 
@@ -111,17 +111,19 @@ namespace TownOfUs.Roles
         {
             BombedPlayer = null;
             _bombArmed = false;
-            _timeUntilBombArmed = 0;
+            TimeUntilBombArmed = 0;
             _timeUntilExplosion = 0;
-            ResetCooldownTimer();
         }
+
+        public bool IsReadyToPlant() => _bombArmed;
 
         public void PlantBomb(PlayerControl target)
         {
             target.RemainingEmergencies = 0; // TODO: Is there a better way to do this?
             BombedPlayer = target;
             Target = null;
-            _timeUntilBombArmed = CustomGameOptions.TimeToBomb;
+            TimeUntilBombArmed = CustomGameOptions.BombArmTime;
+            _timeUntilExplosion = 0;
             _bombArmed = false;
         }
     }

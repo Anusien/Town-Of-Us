@@ -144,7 +144,7 @@ namespace TownOfUs
         public static float GrenadeCooldown => Generate.GrenadeCooldown.Get();
         public static float GrenadeDuration => Generate.GrenadeDuration.Get();
         public static float BomberCooldown => Generate.BomberCooldown.Get();
-        public static float TimeToBomb => Generate.TimeToBomb.Get();
+        public static float BombArmTime => Generate.BombArmTime.Get();
         public static float BombFuseTime => Generate.BombFuseTime.Get();
 
         public static List<RoleEnum> GetEnabledRoles(params Faction[] factions)
