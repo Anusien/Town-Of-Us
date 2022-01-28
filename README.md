@@ -899,7 +899,6 @@ These revelations can be about players who are living or dead.
 | Prophet Cooldown | The cooldown of how long it takes for the Prophet to be given a revelation | Time | 40s |
 | Prophet Initial Reveal | Whether the Prophet starts the game with a player already revealed to them | Toggle | False |
 
-
 ----------------------
 ## Covert
 ### **Team: Crewmates**
@@ -911,7 +910,6 @@ The Covert is a Crewmate that can temporarily turn invisible. Their vision is ha
 | Covert | The percentage probability of the Covert appearing | Percentage | 0% |
 | Covert Cooldown | The cooldown of the Covert's invisibility button | Time | 30s |
 | Covert Duration | How long the Covert is invisible | Time | 15s |
-
 
 ----------------------
 ## Lighter
@@ -926,7 +924,6 @@ get normal crewmate vision is lights are off and normal impostor vision if light
 | Lighter Cooldown | The cooldown of the Lighter's visibility | Time | 20s |
 | Lighter Duration | How long the Lighter gets improved visibility invisible | Time | 5s |
 
-
 ----------------------
 ## Auspex
 ### **Team: Crewmates**
@@ -937,7 +934,6 @@ when another player is killed.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Auspex | The percentage probability of the Auspex appearing | Percentage | 0% |
-
 
 -----------------------
 # Neutral Roles
