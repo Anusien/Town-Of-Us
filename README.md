@@ -44,6 +44,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 - [Teleporter](#teleporter)
 - [Concealer](#concealer)
 - [Grenadier](#grenadier)
+- [Bomber](#bomber)
 
 **Modifiers**
 - [Torch](#torch)
@@ -1167,6 +1168,25 @@ However, a sabotage and a smoke grenade can not be active at the same time.
 | Grenadier | The percentage probability of the Grenadier appearing | Percentage | 0% |
 | Flash Grenade Cooldown | The cooldown of the Grenadier's Flash button | Time | 25s |
 | Flash Grenade Duration | How long the Flash Grenade lasts for | Time | 10s |
+
+-----------------------
+## Bomber
+### **Team: Impostors**
+
+The Bomber is an Impostor that can make others murder for them.\
+The Bomber can plant a bomb on a nearby player. After a certain amount of time, that player will be given a new kill
+button and informed they have been set to explode. If the bombed player doesn't use that kill button to kill another
+player within a certain amount of time, they will die.\
+If the bombed player attempts to use this ability to kill the Bomber, they will kill themselves instead. They can
+kill any other impostors though.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Bomber | The percentage probability of the Bomber appearing | Percentage | 0% |
+| Bomb Cooldown | The cooldown of the Grenadier's Bomb Plant button | Time | 40s |
+| Time Before Bomb is Armed | How long after the Bomber plants the bomb to inform the bombed player | Time | 5s |
+| Time Before Bomb Explodes | How long after the Bomb is armed will the bombed player die | Time | 20s |
 
 -----------------------
 
