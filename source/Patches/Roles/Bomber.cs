@@ -5,6 +5,7 @@ using UnityEngine;
 namespace TownOfUs.Roles
 {
     // TODO: Set a cooldown for the bombed player?
+    // TODO: Instead of preventing them from buttoning, maybe just kill them if a meeting happens?
     public class Bomber : RoleWithCooldown
     {
         private KillButton _plantBombButton;
