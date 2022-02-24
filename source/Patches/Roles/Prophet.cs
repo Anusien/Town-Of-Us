@@ -11,35 +11,14 @@ namespace TownOfUs.Roles
     {
         public readonly ISet<byte> Revealed = new HashSet<byte>();
 
-        public DateTime LastRevealed { get; set; }
-
         public Prophet(PlayerControl player) : base(player, RoleEnum.Prophet)
         {
-            ImpostorText = () => "Survive and find crewmates";
-            TaskText = () => "Survive to find all the crewmates";
-            LastRevealed = DateTime.UtcNow; // We shouldn't have to do this, but the revelation is firing before the DoOnGameStart() hits
-        }
-
-        protected override void DoOnGameStart()
-        {
-            LastRevealed = DateTime.UtcNow;
-
-            // I think this will trigger a revelation as soon as the HUD hits
-            if (CustomGameOptions.ProphetInitialReveal && Revealed.Count == 0)
-            {
-                LastRevealed = LastRevealed.AddSeconds(CustomGameOptions.ProphetCooldown * -1).AddSeconds(3);
-            }
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
-            LastRevealed = DateTime.UtcNow;
+            ImpostorText = () => "Finish tasks to find crewmates";
+            TaskText = () => "Finish tasks to find crewmates";
         }
 
         public void Revelation()
         {
-            LastRevealed = DateTime.UtcNow;
-
             List<PlayerControl> allPlayers = PlayerControl.AllPlayerControls.ToArray().ToList();
 
             PlayerControl target = allPlayers

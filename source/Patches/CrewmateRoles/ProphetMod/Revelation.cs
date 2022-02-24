@@ -1,44 +1,35 @@
-using System;
+using System.Linq;
 using HarmonyLib;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.ProphetMod
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
     public class Revelation
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (
-                PlayerControl.AllPlayerControls.Count <= 1
-                || PlayerControl.LocalPlayer == null
-                || PlayerControl.LocalPlayer.Data == null
-                || MeetingHud.Instance
-                || !PlayerControl.LocalPlayer.CanMove
-                || !PlayerControl.LocalPlayer.Is(RoleEnum.Prophet)
-                || PlayerControl.LocalPlayer.Data.IsDead
-                )
+            if (!PlayerControl.LocalPlayer.Data.IsDead
+                && PlayerControl.LocalPlayer.Is(RoleEnum.Prophet)
+                && ShouldReveal(__instance))
             {
-                return;
+                Role.GetRole<Prophet>(PlayerControl.LocalPlayer).Revelation();
             }
-
-            if (!IsTimeForRevelation())
-            {
-                return;
-            }
-
-            Role.GetRole<Prophet>(PlayerControl.LocalPlayer).Revelation();
         }
 
-        private static bool IsTimeForRevelation()
+        private static bool ShouldReveal(PlayerControl __instance)
         {
-            var now = DateTime.UtcNow;
+            var taskInfos = __instance.Data.Tasks.ToArray();
+            var allTasksCount = taskInfos.Count;
+            var maxRevealsCount = 
+                CustomGameOptions.ProphetTotalReveals < 1 ? 1 : CustomGameOptions.ProphetTotalReveals;
+            var currentRevealsCount = Role.GetRole<Prophet>(PlayerControl.LocalPlayer).Revealed.Count;
 
-            var role = Role.GetRole<Prophet>(PlayerControl.LocalPlayer);
-            var timeSpan = now - role.LastRevealed;
-            var cooldown = CustomGameOptions.ProphetCooldown * 1000f;
+            var requiredTasksForNextReveal = (currentRevealsCount + 1)
+                                             * ((float) allTasksCount / maxRevealsCount);
 
-            return cooldown <= timeSpan.TotalMilliseconds;
+            var completedTasksCount = taskInfos.Count(x => x.Complete);
+            return completedTasksCount >= requiredTasksForNextReveal;
         }
     }
 }
