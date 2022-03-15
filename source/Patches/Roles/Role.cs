@@ -364,7 +364,7 @@ namespace TownOfUs.Roles
                         ModifierText.color = modifier.Color;
 
                         ModifierText.transform.position =
-                            __instance.__4__this.transform.position - new Vector3(0f, 2.0f, 0f);
+                            __instance.__4__this.transform.position - new Vector3(0f, 1.4f, 0f);
                         ModifierText.gameObject.SetActive(true);
                     }
 
