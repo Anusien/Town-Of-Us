@@ -359,7 +359,7 @@ namespace TownOfUs.CustomOption
             SheriffKillsShifter =
                 new CustomToggleOption(num++, "Sheriff Kills Shifter", false);
             SheriffKillsGlitch =
-                new CustomToggleOption(num++, "Sheriff Kills The Glitch", false);
+                new CustomToggleOption(num++, "Sheriff Kills The Glitch", true);
             SheriffKillsExecutioner =
                 new CustomToggleOption(num++, "Sheriff Kills Executioner", false);
             SheriffKillsArsonist =
