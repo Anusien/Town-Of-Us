@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
             if (
                 MeetingHud.Instance
                 || PlayerControl.LocalPlayer.Data.IsDead
-                || !PlayerControl.LocalPlayer.Is(RoleEnum.Altruist)
+                || !PlayerControl.LocalPlayer.Is(RoleEnum.Auspex)
                 || target.PlayerId == PlayerControl.LocalPlayer.PlayerId // Not sure if this is actually needed
             )
             {
