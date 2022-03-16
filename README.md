@@ -84,6 +84,15 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 
 <li>
  <details>
+  <summary> v3.1.1 </summary>
+  <ul>
+     <li> If the Lover dies because the other Lover is voted out, they will not leave a body behind. Thanks <a href="https://github.com/ItsTheNumberH/">ItsTheNumberH</a>. </li>
+  </ul>
+ </details>
+</li>
+
+<li>
+ <details>
   <summary> v3.1.0 </summary>
   <ul>
      <li> Added new role: Lighter. </li>
