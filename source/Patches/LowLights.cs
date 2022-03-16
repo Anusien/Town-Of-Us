@@ -18,7 +18,13 @@ namespace TownOfUs
                 return false;
             }
 
-            if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch))
+            SwitchSystem switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+
+            if (
+                player.IsImpostor()
+                || player._object.Is(RoleEnum.Glitch)
+                || (IsLighterAndLit(player) && !switchSystem.IsActive)
+                )
             {
                 __result = __instance.MaxLightRadius * PlayerControl.GameOptions.ImpostorLightMod;
                 if (player.Object.Is(ModifierEnum.ButtonBarry))
@@ -27,9 +33,11 @@ namespace TownOfUs
                 return false;
             }
 
-            SwitchSystem switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
             float lightPercentage = switchSystem.Value / 255f;
-            if (player._object.Is(ModifierEnum.Torch)) lightPercentage = 1;
+            if (player._object.Is(ModifierEnum.Torch) || IsLighterAndLit(player))
+            {
+                lightPercentage = 1;
+            }
             __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, lightPercentage) *
                        PlayerControl.GameOptions.CrewLightMod;
 
@@ -42,6 +50,17 @@ namespace TownOfUs
                 __result *= 0.5f;
             }
             return false;
+        }
+
+        private static bool IsLighterAndLit(GameData.PlayerInfo player)
+        {
+            if (!player._object.Is(RoleEnum.Lighter))
+            {
+                return false;
+            }
+
+            Lighter lighter = Role.GetRole<Lighter>(player._object);
+            return lighter.IsLighting;
         }
     }
 }
