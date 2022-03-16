@@ -487,6 +487,13 @@ namespace TownOfUs
                         role.GoCovert();
                         break;
                     }
+                    case CustomRPC.LighterOn:
+                    {
+                        PlayerControl lighter = Utils.PlayerById(reader.ReadByte());
+                        Lighter role = Role.GetRole<Lighter>(lighter);
+                        role.LightOn();
+                        break;
+                    }
                     case CustomRPC.SetMimic:
                         var glitchPlayer = Utils.PlayerById(reader.ReadByte());
                         var mimicPlayer = Utils.PlayerById(reader.ReadByte());
@@ -639,6 +646,9 @@ namespace TownOfUs
                         break;
                     case CustomRPC.SetCovert:
                         new Covert(Utils.PlayerById(reader.ReadByte()));
+                        break;
+                    case CustomRPC.SetLighter:
+                        new Lighter(Utils.PlayerById(reader.ReadByte()));
                         break;
                     case CustomRPC.SetBigBoi:
                         new BigBoiModifier(Utils.PlayerById(reader.ReadByte()));
@@ -847,6 +857,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.CovertOn))
                     CrewmateRoles.Add((typeof(Covert), CustomRPC.SetCovert, CustomGameOptions.CovertOn));
+
+                if (Check(CustomGameOptions.LighterOn))
+                    CrewmateRoles.Add((typeof(Lighter), CustomRPC.SetLighter, CustomGameOptions.LighterOn));
                 #endregion
                 #region Neutral Roles
                 if (Check(CustomGameOptions.ArsonistOn))

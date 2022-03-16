@@ -17,9 +17,10 @@ namespace TownOfUs.CrewmateRoles.LoversMod
             var otherLover = Role.GetRole<Lover>(__instance).OtherLover.Player;
             if (otherLover.Data.IsDead) return true;
 
-            if (reason == DeathReason.Exile) KillButtonTarget.DontRevive = __instance.PlayerId;
-
-            if (AmongUsClient.Instance.AmHost) Utils.RpcMurderPlayer(otherLover, otherLover);
+            if (reason == DeathReason.Exile) {
+                KillButtonTarget.DontRevive = __instance.PlayerId;
+                otherLover.Exiled();
+            } else if (AmongUsClient.Instance.AmHost) Utils.RpcMurderPlayer(otherLover, otherLover);
 
             return true;
         }

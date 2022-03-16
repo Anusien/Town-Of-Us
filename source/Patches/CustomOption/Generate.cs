@@ -24,6 +24,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption AltruistOn;
         public static CustomNumberOption ProphetOn;
         public static CustomNumberOption CovertOn;
+        public static CustomNumberOption LighterOn;
 
         private static CustomHeaderOption NeutralRoles;
         public static CustomNumberOption JesterOn;
@@ -147,6 +148,10 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption CovertCooldown;
         public static CustomNumberOption CovertDuration;
 
+        private static CustomHeaderOption Lighter;
+        public static CustomNumberOption LighterCooldown;
+        public static CustomNumberOption LighterDuration;
+
         private static CustomHeaderOption TheGlitch;
         public static CustomNumberOption MimicCooldownOption;
         public static CustomNumberOption MimicDurationOption;
@@ -235,6 +240,8 @@ namespace TownOfUs.CustomOption
             ProphetOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Prophet).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
             CovertOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Covert).GetColoredName()}", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            LighterOn = new CustomNumberOption(true, num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Lighter).GetColoredName()}", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
 
@@ -435,6 +442,10 @@ namespace TownOfUs.CustomOption
             Covert = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Covert).GetColoredName()}");
             CovertCooldown = new CustomNumberOption(num++, "Covert Cooldown", 30f, 10f, 120f, 2.5f, CooldownFormat);
             CovertDuration = new CustomNumberOption(num++, "Covert Duration", 15f, 5f, 30f, 2.5f, CooldownFormat);
+
+            Lighter = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Lighter).GetColoredName()}");
+            LighterCooldown = new CustomNumberOption(num++, "Lighter Cooldown", 20f, 5f, 60f, 2.5f, CooldownFormat);
+            LighterDuration = new CustomNumberOption(num++, "Lighter Duration", 5f, 1f, 10f, 2.5f, CooldownFormat);
             #endregion
 
 
