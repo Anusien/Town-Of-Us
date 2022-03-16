@@ -1,16 +1,15 @@
 using HarmonyLib;
 using Hazel;
-using Rewired;
 using TownOfUs.Roles;
 
-namespace TownOfUs.CrewmateRoles.CovertMod
+namespace TownOfUs.Patches.CrewmateRoles.LighterMod
 {
     [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKill
     {
         public static bool Prefix(KillButton __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Covert))
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Lighter))
             {
                 return true;
             }
@@ -23,8 +22,8 @@ namespace TownOfUs.CrewmateRoles.CovertMod
                 return false;
             }
 
-            Covert role = Role.GetRole<Covert>(PlayerControl.LocalPlayer);
-            if (__instance != role.CovertButton)
+            Lighter role = Role.GetRole<Lighter>(PlayerControl.LocalPlayer);
+            if (__instance != role.LighterButton)
             {
                 return true;
             }
@@ -39,11 +38,11 @@ namespace TownOfUs.CrewmateRoles.CovertMod
             }
 
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.GoCovert, SendOption.Reliable, -1);
+                (byte) CustomRPC.LighterOn, SendOption.Reliable, -1);
             writer.Write(PlayerControl.LocalPlayer.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            role.GoCovert();
+            role.LightOn();
             return false;
         }
     }
