@@ -121,6 +121,7 @@ namespace TownOfUs
         public static bool DeadSeeRoles => Generate.DeadSeeRoles.Get();
         public static float DouseCd => Generate.DouseCooldown.Get();
         public static bool ArsonistGameEnd => Generate.ArsonistGameEnd.Get();
+        public static int PhantomTaskWin => (int)Generate.PhantomTaskWin.Get();
         public static int MaxImpostorRoles => (int) Generate.MaxImpostorRoles.Get();
         public static int MaxNeutralRoles => (int) Generate.MaxNeutralRoles.Get();
         public static bool RoleUnderName => Generate.RoleUnderName.Get();

@@ -14,6 +14,7 @@ using TownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 using PerformKill = TownOfUs.ImpostorRoles.UnderdogMod.PerformKill;
 
 namespace TownOfUs
@@ -222,6 +223,266 @@ namespace TownOfUs
             }
 
             return result;
+        }
+
+        public static Tuple<List<string>,List<string>,List<string>> GatherMapTasks()
+        {
+            //basically looping through all task types to collect 3 lists of tasks from the map,
+            //this may also include the added tasks for roles/modifiers, so be careful with the special tasks
+            List<string> shorts = new List<string>();
+            List<string> longs = new List<string>();
+            List<string> commons = new List<string>();
+
+            foreach (var shorttask in ShipStatus.Instance.NormalTasks)
+            {
+                shorts.Add(shorttask.name);
+            }
+            foreach (var longtask in ShipStatus.Instance.LongTasks)
+            {
+                longs.Add(longtask.name);
+            }
+            foreach (var specialtask in ShipStatus.Instance.SpecialTasks)
+            {
+                commons.Add(specialtask.name);
+            }
+            
+            Tuple<List<string>, List<string>, List<string>> listOfTasks = new Tuple<List<string>, List<string>, List<string>>(shorts, longs, commons);
+            
+            return listOfTasks;
+        }
+
+        public static bool SearchAndRemoveTaskByList(PlayerControl player,PlayerTask task,List<string> taskList)
+        {
+            //taskList will be a list of tasks pulled from the map tuple of tasks..
+            //so you either pull shorts(T1/item1), longs(T2/item2) or commons(t3/item3)
+            foreach (var listedTask in taskList)
+            {
+                if (task.name.Contains(listedTask))
+                {
+                    Reactor.Logger<TownOfUs>.Instance.LogMessage($"{player.name} -> TaskRemoved:- {task.name} aka {listedTask}");
+                    player.myTasks.Remove(task);
+                    //task successfully removed
+                    return true;
+                }
+            }
+            //no task removed
+            return false;
+        }
+
+        public static void ModifyTaskCount(PlayerControl player, int taskPercentage)
+        {
+            //should this really be limited to only phantom? this could have other purposes.
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Phantom))
+            {
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"taskpercentagechange=" + taskPercentage);
+
+                int CT = PlayerControl.GameOptions.NumCommonTasks;
+                int LT = PlayerControl.GameOptions.NumLongTasks;
+                int ST = PlayerControl.GameOptions.NumShortTasks;
+
+                #region weighting calcuation
+                //this whole region is all weighting calculation.. the calculation works, but no clue how to add/remove individual task types so this is currently pointless.
+                int ctWeight = 6; // should be 1 of these for 2 LT for 3 ST
+                int ltWeight = 3;
+                int stWeight = 1;
+
+
+                //must be floats for WeightedTasksValue and NewWeightedTasksValue otherwise rounding is incorrect
+                float weightedTasksValue = (CT * ctWeight) + (LT * ltWeight) +
+                     (ST * stWeight);
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"weightedtaskvalue=" + weightedTasksValue.ToString());
+
+                float newWeightedTasksValue = (weightedTasksValue * taskPercentage) / 100;
+
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"newweightedtaskvalue=" + newWeightedTasksValue.ToString());
+
+
+                int newWTV = (int)Math.Ceiling(newWeightedTasksValue);
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"newWTV=" + newWTV.ToString());
+                int newCT = 0;
+                int newLT = 0;
+                int newST = 0;
+
+                bool CTB = true, LTB = true, STB = false;
+                for (int w = 0; w <= newWTV; w++)
+                {
+
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"w=" + w.ToString());
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"CTB=" + CTB.ToString());
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"LTB=" + LTB.ToString());
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"STB=" + STB.ToString());
+
+                    //if the weighting of each task type is changed, the higher task weight should be the first if in these if/else statments and the true/false's will need modifying
+                    if (w + ctWeight <= newWTV && newCT < CT && CTB == false)
+                    {
+                        newCT += 1;
+                        Reactor.Logger<TownOfUs>.Instance.LogDebug($"NewCT=" + newCT.ToString());
+                        w += ctWeight - 1;
+                        CTB = true;
+                        LTB = true;
+                        STB = false;
+                    }
+                    else if (w + ltWeight <= newWTV && newLT < LT && LTB == false)
+                    {
+                        newLT += 1;
+                        Reactor.Logger<TownOfUs>.Instance.LogDebug($"NewLT=" + newLT.ToString());
+                        w += ltWeight - 1;
+                        CTB = true;
+                        LTB = true;
+                        STB = false;
+                    }
+                    else if (w + stWeight <= newWTV && newST < ST && STB == false)
+                    {
+                        newST += 1;
+                        Reactor.Logger<TownOfUs>.Instance.LogDebug($"NewST=" + newST.ToString());
+                        w += stWeight - 1;
+                        CTB = false;
+                        LTB = false;
+                        STB = true;
+                    }
+                    else
+                    {
+                        Reactor.Logger<TownOfUs>.Instance.LogDebug($"None Added");
+                        CTB = false;
+                        LTB = false;
+                        STB = false;
+                    }
+                }
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"OLD Tasks Count (ST/LT/CT)=" + ST + "/" + LT + "/" + CT);
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"NEW Tasks Count (ST/LT/CT)=" + newST + "/" + newLT + "/" + newCT);
+
+                #endregion weighting calculation
+
+                //new task removal, seems to be working 100% correct.
+                int STdiff = ST - newST;
+                int LTdiff = LT - newLT;
+                int CTdiff = CT - newCT;
+                int totaldiff = STdiff + LTdiff + CTdiff;
+                int tasksremoved = 0;
+
+                List<Tuple<string, string>> allTasks = new List<Tuple<string, string>>();
+                Tuple<List<string>, List<string>, List<string>> mapTasks = GatherMapTasks();
+
+                foreach (var task in mapTasks.Item1)
+                {
+                    allTasks.Add(new Tuple<string, string>("Short", task));
+                }
+                foreach (var task in mapTasks.Item2)
+                {
+                    allTasks.Add(new Tuple<string, string>("Long", task));
+                }
+                foreach (var task in mapTasks.Item3)
+                {
+                    allTasks.Add(new Tuple<string, string>("Special", task));
+                }
+                foreach(var task in player.myTasks)
+                {
+                    allTasks.Add(new Tuple<string, string>("MyTasks", task.name));
+                }
+
+                for (int i = 1; i <= totaldiff; i++)
+                {
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"i={i}");
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"STdiff={STdiff}");
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"LTdiff={LTdiff}");
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"CTdiff={CTdiff}");
+                    if (STdiff > 0)
+                    {
+                        foreach (var task in player.myTasks)
+                        {
+                            Reactor.Logger<TownOfUs>.Instance.LogDebug($"ST Task.Name={task.name}");
+                            if (SearchAndRemoveTaskByList(player, task, mapTasks.Item1))
+                            {
+                                Reactor.Logger<TownOfUs>.Instance.LogDebug($"ST Task Removed:- {task.name}");
+                                tasksremoved++;
+                                break;
+                            }
+                        }
+                        //this is only attempts at removing a task, so should tick down to 0 whether it removes a task or not
+                        //otherwise risk a possible infinite loop
+                        STdiff--;
+                    }
+                    else if (LTdiff > 0)
+                    {
+                        foreach (var task in player.myTasks)
+                        {
+                            Reactor.Logger<TownOfUs>.Instance.LogDebug($"LT Task.Name={task.name}");
+                            if (SearchAndRemoveTaskByList(player, task, mapTasks.Item2))
+                            {
+                                Reactor.Logger<TownOfUs>.Instance.LogDebug($"LT Task Removed:- {task.name}");
+                                tasksremoved++;
+                                break;
+                            }
+                        }
+                        //this is only attemps at removing a task, so should tick down to 0 whether it removes a task or not
+                        //otherwise risk a possible infinite loop
+                        LTdiff--;
+                    }
+                    else if (CTdiff > 0)
+                    {
+                        foreach (var task in player.myTasks)
+                        {
+                            Reactor.Logger<TownOfUs>.Instance.LogDebug($"CT Task.Name={task.name}");
+                            if (SearchAndRemoveTaskByList(player, task, mapTasks.Item3))
+                            {
+                                Reactor.Logger<TownOfUs>.Instance.LogDebug($"CT Task Removed:- {task.name}");
+                                tasksremoved++;
+                                break;
+                            }
+                        }
+                        //this is only attemps at removing a task, so should tick down to 0 whether it removes a task or not
+                        //otherwise risk a possible infinite loop
+                        CTdiff--;
+                    }
+                }
+
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"Remaining Tasks Diff (ST/LT/CT=tasksremoved)=" + STdiff + "/" + LTdiff + "/" + CTdiff+ "="+ tasksremoved);
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"Task Removal Ended!");
+
+                //strictly a list of all tasks (phantom and all map tasks)
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($" ----- ");
+                Reactor.Logger<TownOfUs>.Instance.LogDebug($"List of All Tasks (player(MyTasks) + map(Short/Long/Special).. special is Common Tasks + role/modifier added tasks");
+                foreach (var t in allTasks)
+                {
+                    Reactor.Logger<TownOfUs>.Instance.LogDebug($"AllTasks:- {t.Item1}/{t.Item2}");
+                }
+
+                //TODO: old code, this is not weighted properly yet so tasks removed will be random. do not use unless new task removal proves to be not working.
+                /*int TaskDifference = NewST + NewLT + NewCT - ST - LT - CT;
+
+                Logger<TownOfUs>.Instance.LogDebug($"TaskDifference=" + TaskDifference);
+                if (TaskDifference == 0)
+                {
+                    //do nothing
+                }
+                else if (TaskDifference < 0)
+                {
+                    int TasksToMod = TaskDifference * -1;
+
+                    Logger<TownOfUs>.Instance.LogDebug($"TaskToMod=" + TasksToMod);
+                    List<int> ptaskcount = new List<int>();
+
+                    for (int i = 1; i <= TasksToMod; i++)
+                    {
+                        ptaskcount.Add(Random.Range(i, (ST + LT + CT) - ptaskcount.Count));
+                    }
+
+                    //sorting list descending
+                    ptaskcount.Sort((a, b) => b.CompareTo(a));
+
+                    foreach (int tasknum in ptaskcount)
+                    {
+                        Logger<TownOfUs>.Instance.LogDebug($"RemoveRandomTaskNum=" + tasknum);
+                        //TODO:- removeing specific task types rather than random like we do here, this is lazy, but works.
+                        player.myTasks.RemoveAt(tasknum);
+
+                    }
+                }
+                else if (TaskDifference > 0)
+                {
+                    //TODO: dont know yet how this would be handled so percentages higher than 100% should be disabled for now
+                }*/
+            }
         }
 
         public static bool IsSabotageActive()

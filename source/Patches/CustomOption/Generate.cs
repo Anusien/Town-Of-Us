@@ -164,6 +164,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption DouseCooldown;
         public static CustomToggleOption ArsonistGameEnd;
 
+        private static CustomHeaderOption Phantom;
+        public static CustomNumberOption PhantomTaskWin;
+
         private static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
 
@@ -478,6 +481,9 @@ namespace TownOfUs.CustomOption
             DouseCooldown =
                 new CustomNumberOption(num++, "Douse Cooldown", 25, 10, 40, 2.5f, CooldownFormat);
             ArsonistGameEnd = new CustomToggleOption(num++, "Game keeps going so long as Arsonist is alive", false);
+            Phantom = new CustomHeaderOption(num++, "<color=#662962>Phantom</color>");
+            PhantomTaskWin =
+                new CustomNumberOption(num++, "Tasks To Win", 75, 50, 100, 5f, PercentFormat);
             #endregion
 
 

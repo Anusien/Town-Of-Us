@@ -82,6 +82,8 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                     var taskInfo = player.Data.FindTaskById(task.Id);
                     taskInfo.Complete = false;
                 }
+            //TODO: this works here, but should also work if placed at the start of this method.
+            Utils.ModifyTaskCount(player, CustomGameOptions.PhantomTaskWin);
         }
 
         /*public static void ResetTowels(NormalPlayerTask task)
