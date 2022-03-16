@@ -84,6 +84,16 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 
 <li>
  <details>
+  <summary> v3.1.0 </summary>
+  <ul>
+     <li> Added new role: Lighter. </li>
+     <li> Modifiers now more visible on role assignment screen. </li>
+  </ul>
+ </details>
+</li>
+
+<li>
+ <details>
   <summary> v3.0.0 </summary>
   <ul>
      <li> Support for Among Us 2021.12.15. </li>
