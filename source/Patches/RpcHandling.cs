@@ -785,6 +785,9 @@ namespace TownOfUs
                     case CustomRPC.AddMayorVoteBank:
                         Role.GetRole<Mayor>(Utils.PlayerById(reader.ReadByte())).VoteBank += reader.ReadInt32();
                         break;
+                    case CustomRPC.HostToClientHandshake:
+                        Handshake.ClientHandshake.readHandshakeViaRPC(reader);
+                        break;
                 }
             }
         }
