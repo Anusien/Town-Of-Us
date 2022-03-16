@@ -142,8 +142,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption AltruistTargetBody;
 
         private static CustomHeaderOption Prophet;
-        public static CustomNumberOption ProphetCooldown;
-        public static CustomToggleOption ProphetInitialReveal;
+        public static CustomNumberOption ProphetTotalReveals;
 
         private static CustomHeaderOption Covert;
         public static CustomNumberOption CovertCooldown;
@@ -438,9 +437,7 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, "Target's body disappears on beginning of revive", false);
 
             Prophet = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Prophet).GetColoredName()}");
-            ProphetCooldown = new CustomNumberOption(num++, "Prophet Cooldown", 40f, 10f, 120f, 2.5f, CooldownFormat);
-            ProphetInitialReveal =
-                new CustomToggleOption(num++, "Prophet starts the game with a player revealed", false);
+            ProphetTotalReveals = new CustomNumberOption(num++, "Total number of reveals", 3, 1, 10, 1);
 
             Covert = new CustomHeaderOption(num++, $"{RoleDetailsAttribute.GetRoleDetails(RoleEnum.Covert).GetColoredName()}");
             CovertCooldown = new CustomNumberOption(num++, "Covert Cooldown", 30f, 10f, 120f, 2.5f, CooldownFormat);

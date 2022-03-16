@@ -91,8 +91,7 @@ namespace TownOfUs
         public static float SeerCrewmateChance => Generate.SeerCrewmateChance.Get();
         public static float SeerNeutralChance => Generate.SeerNeutralChance.Get();
         public static float SeerImpostorChance => Generate.SeerImpostorChance.Get();
-        public static float ProphetCooldown => Generate.ProphetCooldown.Get();
-        public static bool ProphetInitialReveal => Generate.ProphetInitialReveal.Get();
+        public static int ProphetTotalReveals => (int) Generate.ProphetTotalReveals.Get();
         public static float CovertCooldown => Generate.CovertCooldown.Get();
         public static float CovertDuration => Generate.CovertDuration.Get();
         public static float LighterCooldown => Generate.LighterCooldown.Get();

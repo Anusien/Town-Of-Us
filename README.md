@@ -920,17 +920,15 @@ After a set period of time, the player will be resurrected, if the revival isn't
 ## Prophet
 ### **Team: Crewmates**
 
-The Prophet is a Crewmate that receives revelations informing them of players who are not evil.\
-The Prophet periodically during the game (not in meetings) receives information that a player is a Crewmate role.\
-When this happens, they will receive a green flash. Afterward, the player will show up with a green name to them in-game and in meetings.\
+The Prophet is a Crewmate that receives revelations on completing tasks informing them of players who are not evil.\
+The Prophet on completing the requisite number of tasks (rounded up) receives information that a player is a Crewmate role.\
+When this happens, they will receive a purple flash. Afterward, the player will show up with a green name to them in-game and in meetings.\
 These revelations can be about players who are living or dead.
 ### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Prophet | The percentage probability of the Prophet appearing | Percentage | 0% |
-| Prophet Cooldown | The cooldown of how long it takes for the Prophet to be given a revelation | Time | 40s |
-| Prophet Initial Reveal | Whether the Prophet starts the game with a player already revealed to them | Toggle | False |
-
+| Name                   |                                                   Description                                                   |    Type    | Default |
+|------------------------|:---------------------------------------------------------------------------------------------------------------:|:----------:|:-------:|
+| Prophet                |                               The percentage probability of the Prophet appearing                               | Percentage |   0%    |
+| Prophet Total Reveals  | The total number of revelations. If this number exceeds tasks, there will only be as many revelations as tasks. |   Number   |    3    |
 
 ----------------------
 ## Covert
