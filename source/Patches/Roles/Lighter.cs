@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
         public float LighterTimeRemaining;
         public bool IsLighting { get; private set; }
 
-        public Lighter(PlayerControl player) : base(player, RoleEnum.Covert, CustomGameOptions.CovertCooldown)
+        public Lighter(PlayerControl player) : base(player, RoleEnum.Lighter, CustomGameOptions.LighterCooldown)
         {
             ImpostorText = () => "Need a light?";
             TaskText = () => "Use your lighter for extra visibility.";

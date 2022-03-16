@@ -15,7 +15,7 @@ namespace TownOfUs.Patches.CrewmateRoles.LighterMod
                 PlayerControl.AllPlayerControls.Count <= 1
                 || PlayerControl.LocalPlayer == null
                 || PlayerControl.LocalPlayer.Data == null
-                || !PlayerControl.LocalPlayer.Is(RoleEnum.Covert)
+                || !PlayerControl.LocalPlayer.Is(RoleEnum.Lighter)
             )
             {
                 return;
@@ -34,7 +34,7 @@ namespace TownOfUs.Patches.CrewmateRoles.LighterMod
 
             if (role.IsLighting)
             {
-                role.LighterButton.SetCoolDown(role.LighterTimeRemaining, CustomGameOptions.CovertDuration);
+                role.LighterButton.SetCoolDown(role.LighterTimeRemaining, CustomGameOptions.LighterDuration);
                 return;
             }
 
