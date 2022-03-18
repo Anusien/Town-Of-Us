@@ -34,6 +34,8 @@ namespace TownOfUs
         Prophet,
         [RoleDetails("Covert", "#7B7F1A", Faction.Crewmates)]
         Covert,
+        [RoleDetails("Lighter", "#DE876D", Faction.Crewmates)]
+        Lighter,
 
         [RoleDetails("Jester", "#FFBFCCFF", Faction.Neutral)]
         Jester,

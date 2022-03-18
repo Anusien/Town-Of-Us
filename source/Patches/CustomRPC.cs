@@ -26,6 +26,7 @@ namespace TownOfUs
         SetAltruist,
         SetProphet,
         SetCovert,
+        SetLighter,
         SetUndertaker,
         SetUnderdog,
         SetTeleporter,
@@ -89,6 +90,7 @@ namespace TownOfUs
         Teleport,
         Conceal,
         GoCovert,
+        LighterOn,
         FlashGrenade,
 
         SetGlitch,
