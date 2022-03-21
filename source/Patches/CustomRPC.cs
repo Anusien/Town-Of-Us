@@ -33,6 +33,7 @@ namespace TownOfUs
         SetTeleporter,
         SetConcealer,
         SetGrenadier,
+        SetBomber,
 
         SetTorch,
         SetDiseased,
@@ -93,6 +94,7 @@ namespace TownOfUs
         GoCovert,
         LighterOn,
         FlashGrenade,
+        PlantBomb,
 
         SetGlitch,
         BypassKill,

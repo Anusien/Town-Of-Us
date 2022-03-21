@@ -44,6 +44,7 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 - [Teleporter](#teleporter)
 - [Concealer](#concealer)
 - [Grenadier](#grenadier)
+- [Bomber](#bomber)
 
 **Modifiers**
 - [Torch](#torch)
@@ -898,7 +899,6 @@ These revelations can be about players who are living or dead.
 | Prophet Cooldown | The cooldown of how long it takes for the Prophet to be given a revelation | Time | 40s |
 | Prophet Initial Reveal | Whether the Prophet starts the game with a player already revealed to them | Toggle | False |
 
-
 ----------------------
 ## Covert
 ### **Team: Crewmates**
@@ -910,7 +910,6 @@ The Covert is a Crewmate that can temporarily turn invisible. Their vision is ha
 | Covert | The percentage probability of the Covert appearing | Percentage | 0% |
 | Covert Cooldown | The cooldown of the Covert's invisibility button | Time | 30s |
 | Covert Duration | How long the Covert is invisible | Time | 15s |
-
 
 ----------------------
 ## Lighter
@@ -925,7 +924,6 @@ get normal crewmate vision is lights are off and normal impostor vision if light
 | Lighter Cooldown | The cooldown of the Lighter's visibility | Time | 20s |
 | Lighter Duration | How long the Lighter gets improved visibility invisible | Time | 5s |
 
-
 ----------------------
 ## Auspex
 ### **Team: Crewmates**
@@ -936,7 +934,6 @@ when another player is killed.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Auspex | The percentage probability of the Auspex appearing | Percentage | 0% |
-
 
 -----------------------
 # Neutral Roles
@@ -1167,6 +1164,26 @@ However, a sabotage and a smoke grenade can not be active at the same time.
 | Grenadier | The percentage probability of the Grenadier appearing | Percentage | 0% |
 | Flash Grenade Cooldown | The cooldown of the Grenadier's Flash button | Time | 25s |
 | Flash Grenade Duration | How long the Flash Grenade lasts for | Time | 10s |
+
+-----------------------
+## Bomber
+### **Team: Impostors**
+
+The Bomber is an Impostor that can make others murder for them.\
+The Bomber can plant a bomb on a nearby player. After a certain amount of time, that player will be given a new kill
+button and informed they have been set to explode. If the bombed player doesn't use that kill button to kill another
+player within a certain amount of time, they will die.\
+If the bombed player attempts to use this ability to kill the Bomber, they will kill themselves instead. They can
+kill any other impostors though.\
+The bombed player will lose all their emergency meetings, even if they successfull kill someone else with the bomb.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Bomber | The percentage probability of the Bomber appearing | Percentage | 0% |
+| Bomb Cooldown | The cooldown of the Grenadier's Bomb Plant button | Time | 40s |
+| Time Before Bomb is Armed | How long after the Bomber plants the bomb to inform the bombed player | Time | 5s |
+| Time Before Bomb Explodes | How long after the Bomb is armed will the bombed player die | Time | 20s |
 
 -----------------------
 

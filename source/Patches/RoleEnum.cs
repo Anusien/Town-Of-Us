@@ -74,6 +74,8 @@ namespace TownOfUs
         Concealer,
         [RoleDetails("Grenadier", "#FF0000FF", Faction.Impostors)]
         Grenadier,
+        [RoleDetails("Bomber", "#FF0000FF", Faction.Impostors)]
+        Bomber,
 
 
         [RoleDetails("Crewmate", "#FFFFFFFF", Faction.Crewmates)]
