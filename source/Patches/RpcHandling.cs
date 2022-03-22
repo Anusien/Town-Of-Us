@@ -368,6 +368,8 @@ namespace TownOfUs
                         Role.NobodyWins = false;
                         RecordRewind.points.Clear();
                         KillButtonTarget.DontRevive = byte.MaxValue;
+                        Patches.EndGameSummary.AdditionalGameData.clear();
+                        Patches.EndGameSummary.AdditionalGameData.updateFlag = true;
                         break;
 
                     case CustomRPC.JanitorClean:
@@ -794,6 +796,8 @@ namespace TownOfUs
         {
             public static void Postfix()
             {
+                //for the record, this isnt an rpc.. the below clears and the rpc clears in the "start" rpc should be grouped into one method,
+                // with a call to the method both here, and in the RPC, the coding below is only run on the host client.
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage("RPC SET ROLE");
                 var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
 
@@ -805,6 +809,8 @@ namespace TownOfUs
                 CrewmateModifiers.Clear();
                 ImpostorModifiers.Clear();
                 GlobalModifiers.Clear();
+                Patches.EndGameSummary.AdditionalGameData.clear();
+                Patches.EndGameSummary.AdditionalGameData.updateFlag = true;
 
                 RecordRewind.points.Clear();
                 Murder.KilledPlayers.Clear();
