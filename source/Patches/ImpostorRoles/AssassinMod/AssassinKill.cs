@@ -114,38 +114,7 @@ namespace TownOfUs.ImpostorRoles.AssassinMod
             voteArea.XMark.transform.localScale = Vector3.one;
 
             voteArea.Buttons.SetActive(false);
-            var amHost = AmongUsClient.Instance.AmHost;
-            foreach (var playerVoteArea in meetingHud.playerStates)
-            {
-                if (playerVoteArea.VotedFor != player.PlayerId) continue;
-                playerVoteArea.UnsetVote();
-                var voteAreaPlayer = Utils.PlayerById(playerVoteArea.TargetPlayerId);
-                if (!voteAreaPlayer.AmOwner) continue;
-                meetingHud.ClearVote();
-            }
-
-            if (!amHost) return;
-            foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-            {
-                var mayor = (Mayor)role;
-                if (role.Player.PlayerId == player.PlayerId)
-                {
-                    mayor.ExtraVotes.Clear();
-                }
-                else
-                {
-                    var votesRegained = mayor.ExtraVotes.RemoveAll(x => x == player.PlayerId);
-
-                    if (mayor.Player == PlayerControl.LocalPlayer)
-                        mayor.VoteBank += votesRegained;
-
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
-                    writer.Write(mayor.Player.PlayerId);
-                    writer.Write(votesRegained);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                }
-            }
+            if (!AmongUsClient.Instance.AmHost) return;
             meetingHud.CheckForEndVoting();
         }
     }
